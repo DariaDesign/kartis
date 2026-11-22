@@ -76,9 +76,11 @@ const attrVal = (s, ctx) => { const m = WHOLE.exec(s); return m ? lookup(ctx, m[
 function toTree(node) {
   if (node.nodeType === 3) return { t: 'x', v: node.nodeValue };
   if (node.nodeType !== 1) return null;
-  const tag = node.tagName.toLowerCase();
+  const svg = node.namespaceURI === 'http://www.w3.org/2000/svg';
+  // SVG tags are case-sensitive (linearGradient, clipPath, feGaussianBlur...)
+  const tag = svg ? node.localName : node.tagName.toLowerCase();
   const kids = node.tagName === 'TEMPLATE' ? node.content.childNodes : node.childNodes;
-  return { t: 'e', tag, svg: node.namespaceURI === 'http://www.w3.org/2000/svg', a: Array.from(node.attributes).map((x) => [x.name, x.value]), c: Array.from(kids).map(toTree).filter(Boolean) };
+  return { t: 'e', tag, svg, a: Array.from(node.attributes).map((x) => [x.name, x.value]), c: Array.from(kids).map(toTree).filter(Boolean) };
 }
 
 function renderNodes(nodes, ctx, keyBase) {

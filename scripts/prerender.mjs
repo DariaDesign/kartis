@@ -5,9 +5,13 @@ import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import { JSDOM } from 'jsdom';
+import crypto from 'crypto';
 
 const DIST = 'dist';
-const template = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
+// /assets is cached for a year, so the font CSS link carries a content hash
+const fontCss = fs.readFileSync('public/assets/fonts-intl.css');
+const fontVer = crypto.createHash('sha1').update(fontCss).digest('hex').slice(0, 8);
+const template = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8').replace('/assets/fonts-intl.css', '/assets/fonts-intl.css?v=' + fontVer);
 const server = pathToFileURL(path.resolve('dist-ssr/entry-server.js')).href;
 
 // Binary files kept as base64 text in the repo (share image, PNG icons)

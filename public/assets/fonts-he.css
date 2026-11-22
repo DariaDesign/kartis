@@ -1,13 +1,25 @@
-/* Hebrew letters for the Latin display fonts: Frank Ruhl Libre (serif) and Heebo (sans) */
-@font-face{font-family:"Gloock";font-style:normal;font-weight:100 900;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Gloock";font-style:italic;font-weight:100 900;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:100 900;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:100 900;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Bodoni Moda";font-style:normal;font-weight:100 900;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Bodoni Moda";font-style:italic;font-weight:100 900;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Fraunces";font-style:normal;font-weight:100 900;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Fraunces";font-style:italic;font-weight:100 900;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:100 900;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Geist";font-style:normal;font-weight:100 900;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Jost";font-style:normal;font-weight:100 900;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Manrope";font-style:normal;font-weight:100 900;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+/* Hebrew letters for the Latin fonts of the site and the card templates.
+ * Classic Hebrew faces chosen to match each Latin design (see the Kartis fonts doc):
+ *   Gloock -> Frank Ruhl Libre 800
+ *   Mrs Saint Delafield -> Noto Rashi Hebrew 300
+ *   Bodoni Moda -> Frank Ruhl Libre
+ *   Instrument Serif -> David Libre
+ *   Fraunces -> Noto Serif Hebrew
+ *   Instrument Sans -> Heebo
+ *   Geist -> IBM Plex Sans Hebrew
+ *   Jost -> Rubik
+ *   Manrope -> Heebo
+ * Only Hebrew code points use these files (unicode-range); Latin text keeps the original font. */
+@font-face{font-family:"Gloock";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-frl-800.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Gloock";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-frl-800.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Mrs Saint Delafield";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-rashi.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Bodoni Moda";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Bodoni Moda";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-david.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-david.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-notoserif.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Fraunces";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-notoserif.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Geist";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-plex.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Jost";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-rubik.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"Manrope";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}

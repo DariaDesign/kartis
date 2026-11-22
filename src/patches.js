@@ -33,6 +33,15 @@ export const PATCHES = {
       to: "  componentDidUpdate() {\n    try {\n      const s = Object.assign({}, this.state || {});\n      ['pdf', 'pdfErr', 'copied', 'tried'].forEach((k) => delete s[k]);\n      localStorage.setItem('kartis-draft', JSON.stringify(s));\n    } catch (e) {}\n  }\n  componentDidMount() {\n    try { const d = JSON.parse(localStorage.getItem('kartis-draft') || 'null'); if (d && typeof d === 'object') this.setState(Object.assign(d, { step: d.step === 3 ? 2 : (d.step || 1) })); } catch (e) {}\n    try { this.applyPick("
     }
   ],
+  // Card: Hebrew letters in the downloaded PDF use the same classic Hebrew fonts as the screen (public/assets/fonts-he.css)
+  Card: [
+    {
+      from: "  ['Jost', 'normal', '100 900', 'fbfd3cf4f9bdc3bfaa6bd57e34d75d13']\n];",
+      to: "  ['Jost', 'normal', '100 900', 'fbfd3cf4f9bdc3bfaa6bd57e34d75d13'],\n  [\'Gloock\', \'normal\', \'100 900\', \'../assets/he-frl-800.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Gloock\', \'italic\', \'100 900\', \'../assets/he-frl-800.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Mrs Saint Delafield\', \'normal\', \'100 900\', \'../assets/he-rashi.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Bodoni Moda\', \'normal\', \'100 900\', \'../assets/he-frl.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Bodoni Moda\', \'italic\', \'100 900\', \'../assets/he-frl.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Instrument Serif\', \'normal\', \'100 900\', \'../assets/he-david.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Instrument Serif\', \'italic\', \'100 900\', \'../assets/he-david.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Fraunces\', \'normal\', \'100 900\', \'../assets/he-notoserif.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Fraunces\', \'italic\', \'100 900\', \'../assets/he-notoserif.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Instrument Sans\', \'normal\', \'100 900\', \'../assets/he-heebo.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Geist\', \'normal\', \'100 900\', \'../assets/he-plex.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Jost\', \'normal\', \'100 900\', \'../assets/he-rubik.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\'],\n  [\'Manrope\', \'normal\', \'100 900\', \'../assets/he-heebo.woff2\', \'U+0590-05FF,U+FB1D-FB4F,U+20AA\']\n];"
+    },
+    { from: 'KT_FONT_FILES.map(async ([fam, style, weight, id]) => {', to: 'KT_FONT_FILES.map(async ([fam, style, weight, id, range]) => {' },
+    { from: "';font-weight:' + weight + ';src:url(data:font/woff2;base64,'", to: "';font-weight:' + weight + (range ? ';unicode-range:' + range : '') + ';src:url(data:font/woff2;base64,'" }
+  ],
   // Language switch: on the live site every language has its own URL, so a pick changes the address
   // (the canvas translates the page in place instead)
   LangSwitch: [

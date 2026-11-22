@@ -16,7 +16,7 @@ import mainSrc from './dc/Main.dc.html?raw';
 import editorSrc from './dc/EditorSimple.dc.html?raw';
 import shabbatSrc from './dc/ShabbatMode.dc.html?raw';
 
-defineDC('Card', cardSrc, { translate: false, dir: 'ltr' });
+defineDC('Card', applyPatches('Card', cardSrc), { translate: false, dir: 'ltr' });
 defineDC('MusicPill', pillSrc);
 defineDC('WhiteShip', shipSrc);
 // The canvas file carries its own copy of the strings; here they come from locales.js

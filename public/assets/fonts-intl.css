@@ -1,8 +1,10 @@
 /* Hebrew, Cyrillic and Arabic letters for the Latin fonts of the site and the card templates.
- * Free Google Fonts matched to each Latin design (see the Kartis fonts doc). Each file covers only its
- * script (unicode-range), so Latin text keeps the original font. Geist, Jost and Manrope have Cyrillic already.
+ * Each Latin family F gets a companion family "KT F" that holds only other scripts (unicode-range).
+ * The app adds "KT F" right after F in every font stack (src/fontStacks.js), so the browser falls back
+ * per letter. (Adding faces under the same name as Google Fonts does not work in Chrome: faces with
+ * different weight descriptors are not combined.)
  *   Gloock: he he-frl-800, ru ru-playfair-700, ar ar-amiri-700
- *   Mrs Saint Delafield: he he-rashi, ru ru-greatvibes, ar ar-arefruqaa
+ *   Mrs Saint Delafield: he he-frl, ru ru-greatvibes, ar ar-arefruqaa
  *   Bodoni Moda: he he-frl, ru ru-prata, ar ar-amiri
  *   Instrument Serif: he he-david, ru ru-spectral-300, ar ar-notonaskh
  *   Fraunces: he he-notoserif, ru ru-literata, ar ar-markazi
@@ -11,39 +13,39 @@
  *   Jost: he he-rubik, ru (own), ar ar-tajawal
  *   Manrope: he he-heebo, ru (own), ar ar-plex
  */
-@font-face{font-family:"Gloock";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-frl-800.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Gloock";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-frl-800.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Gloock";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-playfair-700.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Gloock";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ru-playfair-700.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Gloock";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-amiri-700.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Gloock";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ar-amiri-700.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Mrs Saint Delafield";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-rashi.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Mrs Saint Delafield";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-greatvibes.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Mrs Saint Delafield";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-arefruqaa.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Bodoni Moda";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Bodoni Moda";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Bodoni Moda";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-prata.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Bodoni Moda";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ru-prata.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Bodoni Moda";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-amiri.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Bodoni Moda";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ar-amiri.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-david.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-david.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-spectral-300.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ru-spectral-300.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-notonaskh.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ar-notonaskh.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-notoserif.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Fraunces";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-notoserif.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-literata.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Fraunces";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ru-literata.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-markazi.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Fraunces";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ar-markazi.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-onest.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-plex.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Geist";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-plex.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Geist";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-plex.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Jost";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-rubik.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Jost";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-tajawal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Manrope";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
-@font-face{font-family:"Manrope";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-plex.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Gloock";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-frl-800.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Gloock";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-frl-800.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Gloock";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-playfair-700.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Gloock";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ru-playfair-700.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Gloock";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-amiri-700.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Gloock";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ar-amiri-700.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Mrs Saint Delafield";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Mrs Saint Delafield";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-greatvibes.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Mrs Saint Delafield";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-arefruqaa.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Bodoni Moda";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Bodoni Moda";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-frl.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Bodoni Moda";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-prata.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Bodoni Moda";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ru-prata.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Bodoni Moda";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-amiri.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Bodoni Moda";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ar-amiri.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Instrument Serif";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-david.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Instrument Serif";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-david.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Instrument Serif";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-spectral-300.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Instrument Serif";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ru-spectral-300.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Instrument Serif";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-notonaskh.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Instrument Serif";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ar-notonaskh.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-notoserif.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Fraunces";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/he-notoserif.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-literata.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Fraunces";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ru-literata.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-markazi.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Fraunces";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/ar-markazi.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Instrument Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Instrument Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ru-onest.woff2) format("woff2");unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"KT Instrument Sans";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-plex.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Geist";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-plex.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Geist";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-plex.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Jost";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-rubik.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Jost";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-tajawal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:"KT Manrope";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/he-heebo.woff2) format("woff2");unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
+@font-face{font-family:"KT Manrope";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/ar-plex.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}

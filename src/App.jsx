@@ -8,6 +8,7 @@ import Legal from './Legal.jsx';
 import NotFound from './NotFound.jsx';
 import { applyPatches } from './patches.js';
 import LOCALES from './locales.js';
+import { withIntlFonts as X } from './fontStacks.js';
 import cardSrc from './dc/Card.dc.html?raw';
 import pillSrc from './dc/MusicPill.dc.html?raw';
 import shipSrc from './dc/WhiteShip.dc.html?raw';
@@ -16,16 +17,16 @@ import mainSrc from './dc/Main.dc.html?raw';
 import editorSrc from './dc/EditorSimple.dc.html?raw';
 import shabbatSrc from './dc/ShabbatMode.dc.html?raw';
 
-defineDC('Card', applyPatches('Card', cardSrc), { translate: false, dir: 'ltr' });
-defineDC('MusicPill', pillSrc);
-defineDC('WhiteShip', shipSrc);
+defineDC('Card', X(applyPatches('Card', cardSrc)), { translate: false, dir: 'ltr' });
+defineDC('MusicPill', X(pillSrc));
+defineDC('WhiteShip', X(shipSrc));
 // The canvas file carries its own copy of the strings; here they come from locales.js
 const KEYS = Object.keys(LOCALES.he);
 const DICT = JSON.stringify({ keys: KEYS, L: Object.fromEntries(Object.keys(LOCALES).map((l) => [l, KEYS.map((k) => LOCALES[l][k])])) });
-defineDC('LangSwitch', applyPatches('LangSwitch', langSrc.replace('__DICT__', DICT)), { translate: false });
-const Main = defineDC('Main', applyPatches('Main', mainSrc));
-const Editor = defineDC('EditorSimple', applyPatches('EditorSimple', editorSrc));
-const ShabbatMode = defineDC('ShabbatMode', applyPatches('ShabbatMode', shabbatSrc));
+defineDC('LangSwitch', X(applyPatches('LangSwitch', langSrc.replace('__DICT__', DICT))), { translate: false });
+const Main = defineDC('Main', X(applyPatches('Main', mainSrc)));
+const Editor = defineDC('EditorSimple', X(applyPatches('EditorSimple', editorSrc)));
+const ShabbatMode = defineDC('ShabbatMode', X(applyPatches('ShabbatMode', shabbatSrc)));
 
 // Shared with the canvas components (they run as plain scripts): language, link prefix, language switch
 function shareLang() {

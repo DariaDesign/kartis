@@ -62,6 +62,15 @@ for (const l of ['en', 'he', 'ru', 'fr', 'es', 'ar']) {
 }
 ok(meta('ru', '/privacy').index === false && meta('he', '/privacy').index === true, 'legal pages indexed only where translated');
 
+
+// 3c. Font stacks get the companion family for Hebrew, Cyrillic and Arabic letters
+const { withIntlFonts } = await import('../src/fontStacks.js');
+ok(withIntlFonts("font-family: 'Gloock', serif") === "font-family: 'Gloock', 'KT Gloock', serif", 'font stack gets KT family');
+ok(withIntlFonts("['Gloock', 'normal', '400', 'x']") === "['Gloock', 'normal', '400', 'x']", 'print font list untouched');
+ok(withIntlFonts('font-family: Gloock, serif') === "font-family: Gloock, 'KT Gloock', serif", 'bare family name');
+const intlCss = fs.readFileSync('public/assets/fonts-intl.css', 'utf8');
+for (const f of (intlCss.match(/url\(\/assets\/[^)]+\)/g) || [])) ok(fs.existsSync('public' + f.slice(4, -1)), 'font file exists: ' + f);
+
 // 4. Shabbat times (Tel Aviv): Friday night is Shabbat, Wednesday is not
 globalThis.Intl = Intl;
 const { shabbatNow } = await import('../src/shabbat.js');

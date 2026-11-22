@@ -43,6 +43,7 @@ body{margin:0}
 // English is the source copy. Translations swap text on the page this switch sits in (the element marked data-kt-page).
 // Cards (translate="no") keep what the user typed; template and paper names stay in English as product names.
 const KT_I18N = __DICT__;
+let KT_LS_N = 0;
 const KT_LANGS = [
   { code: 'en', label: 'English', short: 'EN' },
   { code: 'he', label: 'עברית', short: 'HE', rtl: true },
@@ -172,7 +173,7 @@ class Component extends DCLogic {
     this.setState({ lang: code, open: false });
   }
   renderVals() {
-    if (!this._uid) this._uid = 'kl' + Math.random().toString(36).slice(2, 9);
+    if (!this._uid) this._uid = 'kl' + (++KT_LS_N); // same sequence on the server and in the browser
     const s = this.state || {};
     const lang = s.lang || 'en';
     const meta = KT_LANGS.find((l) => l.code === lang) || KT_LANGS[0];

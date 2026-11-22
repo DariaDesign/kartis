@@ -1,7 +1,8 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App.jsx';
-// The build writes real HTML for every page (scripts/prerender.mjs); the app then takes over in the browser.
+// The build writes real HTML for every page (scripts/prerender.mjs). Hydrating keeps that HTML on screen
+// (no repaint, so the first text the visitor sees is also the largest paint); pages without it render fresh.
 const root = document.getElementById('root');
-root.removeAttribute('data-prerendered');
-createRoot(root).render(<App />);
+if (root.hasAttribute('data-prerendered') && root.firstElementChild) hydrateRoot(root, <App />);
+else createRoot(root).render(<App />);

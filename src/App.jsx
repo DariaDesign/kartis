@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { defineDC } from './dc/runtime.jsx';
 import { onRoute, currentPage, navigate } from './router.js';
 import { currentLang, RTL, LANGS, withLang } from './i18n.js';
-import { shabbatNow } from './shabbat.js';
 import { meta } from './seo.js';
 import Legal from './Legal.jsx';
 import NotFound from './NotFound.jsx';
@@ -45,9 +44,19 @@ function shareLang() {
 
 export default function App() {
   const [, tick] = useState(0);
-  const [shabbat, setShabbat] = useState(() => shabbatNow());
+  // Shabbat times need @hebcal/core (~60 KB), so it loads after the first paint; ?shabbat=1 still forces Shabbat mode
+  const [shabbat, setShabbat] = useState({ on: false }); // same as the prerendered HTML, so hydration matches
   useEffect(() => onRoute(() => tick((n) => n + 1)), []);
-  useEffect(() => { const id = setInterval(() => setShabbat(shabbatNow()), 60000); return () => clearInterval(id); }, []);
+  useEffect(() => {
+    let id = 0, live = true;
+    if (new URLSearchParams(location.search).get('shabbat') === '1') setShabbat({ on: true });
+    import('./shabbat.js').then(({ shabbatNow }) => {
+      if (!live) return;
+      setShabbat(shabbatNow());
+      id = setInterval(() => setShabbat(shabbatNow()), 60000);
+    });
+    return () => { live = false; clearInterval(id); };
+  }, []);
   const lang = shareLang();
   const page = currentPage();
   useEffect(() => {

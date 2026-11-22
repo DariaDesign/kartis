@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kartis — language switch</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.k-ls-wrap{position:relative;display:inline-flex;flex:0 0 auto}
+.k-ls{display:inline-flex;align-items:center;gap:6px;height:48px;padding:0 14px 0 12px;border:1px solid rgba(127,127,127,.32);border-radius:999px;cursor:pointer;color:inherit;background:transparent;font:600 13px/1 'Instrument Sans',system-ui,sans-serif;letter-spacing:.04em;transition:background .2s,border-color .2s}
+.k-ls:hover{background:rgba(127,127,127,.1)}
+.k-ls[aria-expanded="true"]{background:rgba(127,127,127,.14)}
+.k-ls-chev{transition:transform .2s}
+.k-ls[aria-expanded="true"] .k-ls-chev{transform:rotate(180deg)}
+.k-ls:focus-visible,.k-ls-item:focus-visible{outline:2px solid #6E7FD6;outline-offset:3px}
+.k-ls-menu{position:absolute;top:calc(100% + 8px);inset-inline-end:0;z-index:70;display:flex;flex-direction:column;min-width:200px;padding:6px;border-radius:16px;background:#FFFFFF;box-shadow:0 0 0 1px rgba(30,34,56,.1),0 18px 40px -16px rgba(30,34,56,.45);animation:k-ls-in .18s cubic-bezier(.2,.7,.2,1) both}
+.k-ls-item{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:#1E2238;cursor:pointer;font:500 15px/1.2 system-ui,sans-serif;text-align:start}
+.k-ls-item:hover{background:#F1F2FA}
+.k-ls-item[aria-checked="true"]{background:#E9ECFB;font-weight:600}
+.k-ls-code{font:600 11px/1 'Instrument Sans',system-ui,sans-serif;letter-spacing:.08em;color:#5A6380}
+@keyframes k-ls-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.k-ls-menu{animation:none}}
+</style>
+</helmet>
+<div data-kt-lang="{{uid}}" translate="no" class="k-ls-wrap" onKeyDown="{{menuKey}}">
+<button type="button" class="k-ls" onClick="{{toggle}}" aria-haspopup="menu" aria-expanded="{{expanded}}" aria-label="{{buttonLabel}}" title="{{buttonLabel}}"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"></circle><path d="M2.5 10h15"></path><path d="M10 2.5c2.2 2.1 3.2 4.6 3.2 7.5s-1 5.4-3.2 7.5c-2.2-2.1-3.2-4.6-3.2-7.5s1-5.4 3.2-7.5z"></path></svg><span>{{short}}</span><svg class="k-ls-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"></path></svg></button>
+<sc-if value="{{open}}" hint-placeholder-val="{{ false }}">
+<div class="k-ls-menu" role="menu" aria-label="{{label}}">
+<sc-for list="{{langs}}" as="l" hint-placeholder-count="6">
+<button type="button" class="k-ls-item" role="menuitemradio" aria-checked="{{l.checked}}" lang="{{l.code}}" onClick="{{l.pick}}"><span dir="{{l.dir}}">{{l.label}}</span><span class="k-ls-code">{{l.short}}</span></button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":240,"height":320}}'>
+// Language for the whole page. Picks the visitor's browser language (navigator.languages) the first time;
+// a choice made here is remembered (localStorage 'kartis-lang') and sent to the other pages (BroadcastChannel 'kartis-lang').
+// English is the source copy. Translations swap text on the page this switch sits in (the element marked data-kt-page).
+// Cards (translate="no") keep what the user typed; template and paper names stay in English as product names.
+const KT_I18N = __DICT__;
+const KT_LANGS = [
+  { code: 'en', label: 'English', short: 'EN' },
+  { code: 'he', label: 'עברית', short: 'HE', rtl: true },
+  { code: 'ru', label: 'Русский', short: 'RU' },
+  { code: 'fr', label: 'Français', short: 'FR' },
+  { code: 'es', label: 'Español', short: 'ES' },
+  { code: 'ar', label: 'العربية', short: 'AR', rtl: true }
+];
+const KT_IDX = {};
+KT_I18N.keys.forEach((k, i) => { KT_IDX[k] = i; });
+const KT_ESC = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const KT_PATTERNS = KT_I18N.keys.map((k, i) => [k, i]).filter((p) => /\{\d\}/.test(p[0]))
+  .map((p) => [new RegExp('^' + KT_ESC(p[0]).replace(/\\\{\d\\\}/g, '(.+?)') + '$'), p[1]]);
+const KT_SKIP = 'script,style,textarea,select,option,svg,[translate="no"],[contenteditable="true"],[contenteditable=""]';
+const KT_ATTRS = ['placeholder', 'aria-label', 'title', 'alt'];
+const ktKnown = (c) => KT_LANGS.some((l) => l.code === c);
+function ktDetectLang() {
+  try { const saved = localStorage.getItem('kartis-lang'); if (saved && ktKnown(saved)) return saved; } catch (e) {}
+  const list = (typeof navigator !== 'undefined' && navigator.languages && navigator.languages.length) ? navigator.languages : [(typeof navigator !== 'undefined' && navigator.language) || 'en'];
+  for (const tag of list) {
+    let c = String(tag || '').toLowerCase().split('-')[0];
+    if (c === 'iw') c = 'he';
+    if (ktKnown(c)) return c;
+  }
+  return 'en';
+}
+function ktLookup(lang, raw) {
+  if (lang === 'en' || !raw || !/[A-Za-z]/.test(raw)) return null;
+  const k = raw.replace(/\s+/g, ' ').trim();
+  const L = KT_I18N.L[lang];
+  if (!L) return null;
+  let v = KT_IDX[k] != null ? L[KT_IDX[k]] : null;
+  if (v == null) {
+    for (const [re, i] of KT_PATTERNS) {
+      const m = re.exec(k);
+      if (m) { v = L[i].replace(/\{(\d)\}/g, (x, n) => { const part = m[+n + 1]; const t = ktLookup(lang, part); return t != null ? t.trim() : part; }); break; }
+    }
+  }
+  if (v == null) return null;
+  return raw.match(/^\s*/)[0] + v + raw.match(/\s*$/)[0];
+}
+class KTTranslator {
+  constructor(root) { this.root = root; this.lang = 'en'; this.T = new WeakMap(); this.A = new WeakMap(); this.mo = null; this.raf = 0; }
+  rec(n) { let r = this.T.get(n); if (!r || n.data !== r.t) { r = { o: n.data, t: n.data }; this.T.set(n, r); } return r; }
+  put(n, r, out) { if (n.data !== out) n.data = out; r.t = out; }
+  el(e) {
+    if (e !== this.root && e.closest(KT_SKIP)) return;
+    const texts = []; let onlyText = true;
+    for (const n of e.childNodes) { if (n.nodeType === 3) texts.push(n); else if (n.nodeType === 1) onlyText = false; }
+    if (texts.length) {
+      const recs = texts.map((n) => this.rec(n));
+      let done = false;
+      if (onlyText && texts.length > 1) {
+        const joined = ktLookup(this.lang, recs.map((r) => r.o).join(''));
+        if (joined != null) { texts.forEach((n, i) => this.put(n, recs[i], i === 0 ? joined : '')); done = true; }
+      }
+      if (!done) texts.forEach((n, i) => { const t = ktLookup(this.lang, recs[i].o); this.put(n, recs[i], t != null ? t : recs[i].o); });
+    }
+    let am = this.A.get(e);
+    for (const a of KT_ATTRS) {
+      if (!e.hasAttribute(a)) continue;
+      const cur = e.getAttribute(a);
+      if (!am) { am = {}; this.A.set(e, am); }
+      let r = am[a];
+      if (!r || cur !== r.t) r = am[a] = { o: cur, t: cur };
+      const t = ktLookup(this.lang, r.o); const out = t != null ? t : r.o;
+      if (cur !== out) e.setAttribute(a, out);
+      r.t = out;
+    }
+  }
+  run() {
+    if (!this.root || !this.root.isConnected) return;
+    if (this.mo) this.mo.disconnect();
+    try { this.el(this.root); this.root.querySelectorAll('*').forEach((e) => this.el(e)); } catch (e) {}
+    if (this.mo) { this.mo.takeRecords(); this.watch(); }
+  }
+  watch() { this.mo.observe(this.root, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: KT_ATTRS }); }
+  set(lang) {
+    this.lang = lang;
+    const meta = KT_LANGS.find((l) => l.code === lang) || KT_LANGS[0];
+    this.root.setAttribute('lang', lang);
+    this.root.setAttribute('dir', meta.rtl ? 'rtl' : 'ltr');
+    if (!this.mo && typeof MutationObserver !== 'undefined') {
+      this.mo = new MutationObserver(() => { if (this.raf) return; this.raf = requestAnimationFrame(() => { this.raf = 0; this.run(); }); });
+      this.watch();
+    }
+    this.run();
+  }
+  stop() { if (this.mo) this.mo.disconnect(); this.mo = null; if (this.raf) cancelAnimationFrame(this.raf); }
+}
+class Component extends DCLogic {
+  componentDidMount() {
+    this.setState({ lang: ktDetectLang() });
+    try {
+      this._bc = new BroadcastChannel('kartis-lang');
+      this._bc.onmessage = (e) => { const d = (e && e.data) || {}; if (d.lang && ktKnown(d.lang)) this.setState({ lang: d.lang }); };
+    } catch (e) { this._bc = null; }
+    this._attachTry = 0;
+    this.attach();
+    this._outside = (e) => { if (!this.state || !this.state.open) return; const el = document.querySelector('[data-kt-lang="' + this._uid + '"]'); if (el && !el.contains(e.target)) this.setState({ open: false }); };
+    try { document.addEventListener('pointerdown', this._outside); } catch (e) {}
+  }
+  attach() {
+    const el = typeof document !== 'undefined' ? document.querySelector('[data-kt-lang="' + this._uid + '"]') : null;
+    if (!el) { if (this._attachTry++ < 20) this._attachT = setTimeout(() => this.attach(), 100); return; }
+    const root = el.closest('[data-kt-page]') || el.ownerDocument.body;
+    this._tr = new KTTranslator(root);
+    this._tr.set((this.state && this.state.lang) || 'en');
+  }
+  componentDidUpdate(pp, ps) {
+    const lang = (this.state && this.state.lang) || 'en';
+    if (this._tr && (!ps || ps.lang !== lang)) this._tr.set(lang);
+  }
+  componentWillUnmount() {
+    clearTimeout(this._attachT);
+    try { document.removeEventListener('pointerdown', this._outside); } catch (e) {}
+    if (this._tr) this._tr.stop();
+    try { if (this._bc) this._bc.close(); } catch (e) {}
+    this._bc = null;
+  }
+  pick(code) {
+    try { localStorage.setItem('kartis-lang', code); } catch (e) {}
+    try { if (this._bc) this._bc.postMessage({ lang: code }); } catch (e) {}
+    this.setState({ lang: code, open: false });
+  }
+  renderVals() {
+    if (!this._uid) this._uid = 'kl' + Math.random().toString(36).slice(2, 9);
+    const s = this.state || {};
+    const lang = s.lang || 'en';
+    const meta = KT_LANGS.find((l) => l.code === lang) || KT_LANGS[0];
+    const word = lang === 'en' ? 'Language' : (KT_I18N.L[lang][KT_IDX['Language']] || 'Language');
+    return {
+      uid: this._uid,
+      open: !!s.open,
+      expanded: s.open ? 'true' : 'false',
+      short: meta.short,
+      label: word,
+      buttonLabel: word + ': ' + meta.label,
+      toggle: () => this.setState({ open: !s.open }),
+      menuKey: (e) => { if (e && e.key === 'Escape') this.setState({ open: false }); },
+      langs: KT_LANGS.map((l) => ({ code: l.code, label: l.label, short: l.short, dir: l.rtl ? 'rtl' : 'ltr', checked: l.code === lang ? 'true' : 'false', pick: () => this.pick(l.code) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

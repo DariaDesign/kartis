@@ -33,20 +33,34 @@ for (const t of links) {
 let threw = false; try { KT_QR.encode('x'.repeat(300)); } catch (e) { threw = e.message === 'QR_TOO_LONG'; }
 ok(threw, 'very long link should be refused');
 
-// 3. Hebrew: every UI string on the canvas has a translation
-const HE = (await import('../src/he.js')).default;
+// 3. Every UI string on the canvas has a translation in every language
+const LOCALES = (await import('../src/locales.js')).default;
 const files = ['Main', 'EditorSimple', 'ShabbatMode'];
-const missing = [];
-for (const f of files) {
-  const s = fs.readFileSync(`src/dc/${f}.dc.html`, 'utf8');
-  const body = s.split('<x-dc>')[1].split('</x-dc>')[0].replace(/<helmet>[\s\S]*?<\/helmet>/, '').replace(/<svg[\s\S]*?<\/svg>/g, '');
-  for (const m of body.matchAll(/>([^<>]+)</g)) {
-    const t = m[1].replace(/\s+/g, ' ').trim();
-    if (!/[A-Za-z]{3}/.test(t) || t.includes('{{') || /^(Kartis|Instagram|Telegram|yourhandle|@yourhandle|your-link\.com|you@\S+|\+972.*|\[HAVDALAH TIME\] · \[CITY\])$/.test(t)) continue;
-    if (HE[t] == null) missing.push(f + ': ' + t);
+for (const lang of Object.keys(LOCALES)) {
+  const missing = [];
+  for (const f of files) {
+    const s = fs.readFileSync(`src/dc/${f}.dc.html`, 'utf8');
+    const body = s.split('<x-dc>')[1].split('</x-dc>')[0].replace(/<helmet>[\s\S]*?<\/helmet>/, '').replace(/<svg[\s\S]*?<\/svg>/g, '');
+    for (const m of body.matchAll(/>([^<>]+)</g)) {
+      const t = m[1].replace(/\s+/g, ' ').trim();
+      if (!/[A-Za-z]{3}/.test(t) || t.includes('{{') || /^(Kartis|Instagram|Telegram|yourhandle|@yourhandle|your-link\.com|you@\S+|\+972.*|\[HAVDALAH TIME\] · \[CITY\])$/.test(t)) continue;
+      if (LOCALES[lang][t] == null) missing.push(f + ': ' + t);
+    }
   }
+  ok(missing.length === 0, lang + ' missing for:\n  ' + missing.join('\n  '));
 }
-ok(missing.length === 0, 'Hebrew missing for:\n  ' + missing.join('\n  '));
+
+// 3b. Language URLs and page metadata
+const { withLang, langFromPath, stripLang } = await import('../src/i18n.js');
+ok(withLang('ru', '/editor') === '/ru/editor' && withLang('en', '/he/editor') === '/editor' && withLang('ar', '/') === '/ar', 'language URLs');
+ok(langFromPath('/ar/terms') === 'ar' && langFromPath('/editor') === 'en' && langFromPath('/hello') === 'en' && stripLang('/fr') === '/', 'language from URL');
+const { meta } = await import('../src/seo.js');
+for (const l of ['en', 'he', 'ru', 'fr', 'es', 'ar']) {
+  const m = meta(l, '/');
+  ok(m.index && m.alternates.length === 6 && m.xDefault === 'https://www.mykartis.com/', 'home hreflang ' + l);
+  ok(m.title.startsWith('Kartis — ') && m.title.length > 15, 'home title ' + l);
+}
+ok(meta('ru', '/privacy').index === false && meta('he', '/privacy').index === true, 'legal pages indexed only where translated');
 
 // 4. Shabbat times (Tel Aviv): Friday night is Shabbat, Wednesday is not
 globalThis.Intl = Intl;

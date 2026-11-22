@@ -112,9 +112,9 @@ function renderNode(n, ctx, key) {
   if (n.tag === 'dc-import') {
     const Comp = registry[get('name')];
     if (!Comp) return null;
-    const props = { key };
+    const props = {};
     n.a.forEach(([k, v]) => { if (k === 'name' || k.startsWith('hint-')) return; props[camel(k)] = attrVal(v, ctx); });
-    return <Comp {...props} />;
+    return <Comp key={key} {...props} />;
   }
   if (n.tag === 'helmet') return null;
   const props = { key };
@@ -144,6 +144,8 @@ function renderNode(n, ctx, key) {
 function injectHelmet(name, html) {
   if (helmetDone.has(name)) return;
   helmetDone.add(name);
+  // Already in the page when it was written at build time
+  if (document.head.querySelector('[data-dc="' + name + '"]')) return;
   const box = document.createElement('div');
   box.innerHTML = fixBlobs(html);
   Array.from(box.children).forEach((el) => {

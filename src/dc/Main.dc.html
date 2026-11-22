@@ -48,7 +48,7 @@ input::placeholder{color:inherit;opacity:.55}
 }
 </style>
 </helmet>
-<div style="min-height: 100vh; background: {{t.bg}}; color: {{t.ink}}; font-family: {{t.body}}; transition: background .4s, color .4s; overflow-x: hidden">
+<div data-kt-page="Main" style="min-height: 100vh; background: {{t.bg}}; color: {{t.ink}}; font-family: {{t.body}}; transition: background .4s, color .4s; overflow-x: hidden">
 
 
 <header style="padding: 16px 16px 0">
@@ -59,7 +59,10 @@ input::placeholder{color:inherit;opacity:.55}
 <a href="#templates" style="text-decoration: none">Templates</a>
 <a href="#ai" style="text-decoration: none">Draft with AI</a>
 </div>
+<div style="display: flex; align-items: center; gap: 8px">
+<dc-import name="LangSwitch" hint-size="84px,48px"></dc-import>
 <a href="EditorSimple.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border-radius: {{t.btnRadius}}; background: {{t.accent}}; color: {{t.accentInk}}; text-decoration: none; font-size: 15px; font-weight: 500">Create a card</a>
+</div>
 </nav>
 </header>
 
@@ -215,7 +218,7 @@ input::placeholder{color:inherit;opacity:.55}
 
 <footer style="max-width: 1174px; margin: 160px auto 0; padding: 32px 16px 48px; border-top: 1px solid {{t.line}}; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 20px">
 <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px">
-<span style="font-family: {{t.display}}; font-size: 22px; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}">Kartis<span style="color: {{t.accent}}">.</span></span>
+<span style="font-family: {{t.display}}; font-size: 22px; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}">Kartis</span>
 <span style="font-size: 14px; color: {{t.muted}}">Printed cards for a phone-free Shabbat.</span>
 </div>
 <span style="font-size: 14px; color: {{t.muted}}">Created by <a href="mailto:daria.dxns@gmail.com" style="color: {{t.ink}}; text-underline-offset: 3px">Daria</a></span>

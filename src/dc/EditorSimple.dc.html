@@ -31,18 +31,21 @@ input::placeholder{color:inherit;opacity:.5}
 }
 </style>
 </helmet>
-<div style="min-height: 100vh; background: {{t.bg}}; color: {{t.ink}}; font-family: {{t.body}}; transition: background .4s, color .4s; padding-bottom: 80px">
+<div data-kt-page="EditorSimple" style="min-height: 100vh; background: {{t.bg}}; color: {{t.ink}}; font-family: {{t.body}}; transition: background .4s, color .4s; padding-bottom: 80px">
 
 
 <header style="padding: 16px 16px 0">
 <nav aria-label="Main" style="max-width: 1174px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 8px 8px 28px; border-radius: 999px; background: {{t.navBg}}; border: 1px solid {{t.line}}">
-<a href="Main.dc.html" style="text-decoration: none; font-family: {{t.display}}; font-size: 26px; letter-spacing: {{t.headTrack}}; font-weight: {{t.headWeight}}">Kartis<span style="color: {{t.accent}}">.</span></a>
+<a href="Main.dc.html" style="text-decoration: none; font-family: {{t.display}}; font-size: 26px; letter-spacing: {{t.headTrack}}; font-weight: {{t.headWeight}}">Kartis</a>
 <div class="k-navlinks" style="display: flex; gap: 36px; font-size: 15px">
 <a href="Main.dc.html" style="text-decoration: none">How it works</a>
 <a href="Main.dc.html" style="text-decoration: none">Templates</a>
 <a href="Main.dc.html" style="text-decoration: none">Draft with AI</a>
 </div>
+<div style="display: flex; align-items: center; gap: 8px">
+<dc-import name="LangSwitch" hint-size="84px,48px"></dc-import>
 <span style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; font-size: 14px; color: {{t.muted}}">Draft saved</span>
+</div>
 </nav>
 </header>
 

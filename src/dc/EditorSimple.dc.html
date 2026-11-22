@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kartis — Customize card (simple)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&amp;family=Geist:wght@400;500;600&amp;family=Gloock&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600&amp;family=Mrs+Saint+Delafield&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{opacity:.78}
+input::placeholder{color:inherit;opacity:.5}
+.k-prev{position:relative}
+.k-tex{position:absolute;inset:0;pointer-events:none;border-radius:6px}
+.k-tex-cotton{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");mix-blend-mode:multiply}
+.k-tex-kraft{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25  0 0 0 0 .16  0 0 0 0 .08  0 0 0 .38 -.05'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");mix-blend-mode:multiply}
+.k-tex-pearl{background:linear-gradient(118deg,rgba(255,255,255,0) 18%,rgba(255,255,255,.55) 38%,rgba(236,226,255,.35) 48%,rgba(255,255,255,0) 62%,rgba(255,244,226,.4) 80%,rgba(255,255,255,0) 94%);mix-blend-mode:soft-light;animation:k-sheen 6s ease-in-out infinite alternate;background-size:220% 100%}
+.k-tex-smooth{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.02))}
+.k-tex-none{display:none}
+@keyframes k-sheen{from{background-position:0 0}to{background-position:100% 0}}
+.k-sw{transition:transform .15s}
+.k-sw:hover{transform:translateY(-2px)}
+
+@media (max-width:720px){
+.k-navlinks{display:none !important}
+.k-prevwrap{transform:scale(.62)}
+.k-stage{min-height:460px !important}
+}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: {{t.bg}}; color: {{t.ink}}; font-family: {{t.body}}; transition: background .4s, color .4s; padding-bottom: 80px">
+
+
+<header style="padding: 16px 16px 0">
+<nav aria-label="Main" style="max-width: 1174px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 8px 8px 28px; border-radius: 999px; background: {{t.navBg}}; border: 1px solid {{t.line}}">
+<a href="Main.dc.html" style="text-decoration: none; font-family: {{t.display}}; font-size: 26px; letter-spacing: {{t.headTrack}}; font-weight: {{t.headWeight}}">Kartis<span style="color: {{t.accent}}">.</span></a>
+<div class="k-navlinks" style="display: flex; gap: 36px; font-size: 15px">
+<a href="Main.dc.html" style="text-decoration: none">How it works</a>
+<a href="Main.dc.html" style="text-decoration: none">Templates</a>
+<a href="Main.dc.html" style="text-decoration: none">Draft with AI</a>
+</div>
+<span style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; font-size: 14px; color: {{t.muted}}">Draft saved</span>
+</nav>
+</header>
+
+<main style="max-width: 1240px; margin: 0 auto; padding: 48px 16px 0; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+
+<aside aria-label="Card settings" style="flex: 1 1 360px; max-width: 440px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<div>
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; text-decoration: none; font-size: 14px; color: {{t.muted}}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3L5 8l5 5"></path></svg>All templates</a>
+<h1 style="margin: 6px 0 0; font-family: {{t.display}}; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}; font-size: 40px; line-height: 1">Make it yours</h1>
+</div>
+
+<div role="tablist" aria-label="Steps" style="display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: {{t.surface}}">
+<sc-for list="{{steps}}" as="st" hint-placeholder-count="3">
+<button type="button" role="tab" onClick="{{st.pick}}" aria-selected="{{st.pressed}}" style="flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 999px; cursor: pointer; font: 500 14px/1 {{t.body}}; background: {{st.bg}}; color: {{st.fg}}"><span aria-hidden="true" style="display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font-size: 12px; background: {{st.numBg}}; color: {{st.numFg}}">{{st.n}}</span>{{st.label}}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{isStep1}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 28px">
+<div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 10px"><span style="font-size: 15px; font-weight: 600">Template</span><span style="font-size: 14px; color: {{t.muted}}">{{tplName}}</span></div>
+<div role="group" aria-label="Template" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 8px">
+<sc-for list="{{tplsShown}}" as="tp" hint-placeholder-count="6">
+<button type="button" onClick="{{tp.pick}}" aria-pressed="{{tp.pressed}}" style="display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; padding: 12px 4px 10px; border: 0; border-radius: 16px; background: {{tp.cellBg}}; color: {{t.ink}}; cursor: pointer; font: {{tp.nameWeight}} 13px/1.2 {{t.body}}">
+<span style="position: relative; display: block; width: {{thumbW}}; height: {{thumbH}}; border-radius: 3px; overflow: hidden; box-shadow: {{tp.ring}}">
+<span style="display: block; width: {{cardW}}; height: {{cardH}}; transform: scale({{thumbScale}}); transform-origin: 0 0; pointer-events: none">
+<dc-import name="Card" tpl="{{tp.obj}}" c="{{c}}" orient="{{orient}}" hint-size="{{hint}}"></dc-import>
+</span>
+<span class="k-tex {{paper.tex}}" aria-hidden="true" style="border-radius: 3px"></span>
+</span>
+<span>{{tp.name}}</span>
+</button>
+</sc-for>
+</div>
+<button type="button" onClick="{{toggleMoreTpl}}" style="margin-top: 8px; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: {{t.ink}}; cursor: pointer; font: 500 14px/1 {{t.body}}; text-decoration: underline; text-underline-offset: 3px">{{moreTplLabel}}</button>
+</div>
+
+<div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 10px"><span style="font-size: 15px; font-weight: 600">Paper</span><span style="font-size: 14px; color: {{t.muted}}">{{paper.name}}</span></div>
+<div role="group" aria-label="Paper" style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{papersShown}}" as="pp" hint-placeholder-count="8">
+<button type="button" class="k-sw" onClick="{{pp.pick}}" aria-pressed="{{pp.pressed}}" aria-label="{{pp.name}}" title="{{pp.name}}" style="position: relative; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: {{pp.swatch}}; box-shadow: {{pp.ring}}; cursor: pointer; overflow: hidden"><span class="k-tex {{pp.tex}}" style="border-radius: 50%"></span></button>
+</sc-for>
+</div>
+<button type="button" onClick="{{toggleMorePaper}}" style="margin-top: 8px; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: {{t.ink}}; cursor: pointer; font: 500 14px/1 {{t.body}}; text-decoration: underline; text-underline-offset: 3px">{{morePaperLabel}}</button>
+</div>
+<button type="button" onClick="{{goStep2}}" style="align-self: flex-start; min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0; background: {{t.accent}}; color: {{t.accentInk}}; cursor: pointer; font: 500 15px/1 {{t.body}}">Next: words →</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isStep2}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 18px">
+<div>
+<label for="s-name" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Your name</label>
+<input id="s-name" type="text" value="{{v.name}}" onChange="{{onName}}" placeholder="Your Name" aria-invalid="{{er.name}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.name}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<sc-if value="{{er.name}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">Add your name. It's the main line on the card.</p>
+</sc-if>
+</div>
+<div>
+<label for="s-greet" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Greeting</label>
+<input id="s-greet" type="text" value="{{c.greeting}}" onChange="{{onGreeting}}" placeholder="Shabbat Shalom" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+</div>
+<div>
+<label for="s-line" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">A line for them</label>
+<input id="s-line" type="text" value="{{c.line}}" onChange="{{onLine}}" placeholder="So glad we shared a table tonight." style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+</div>
+<button type="button" role="switch" aria-checked="{{showQr}}" onClick="{{toggleQr}}" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; padding: 0 2px; border: 0; background: transparent; color: {{t.ink}}; cursor: pointer; font: 400 15px/1.3 {{t.body}}; text-align: left">
+<span>QR code to scan after Shabbat</span>
+<span aria-hidden="true" style="position: relative; flex: 0 0 auto; width: 44px; height: 26px; border-radius: 999px; background: {{qrTrack}}"><span style="position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #FFFFFF; transform: translateX({{qrKnobS}}); transition: transform .2s"></span></span>
+</button>
+<sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
+<div>
+<label for="s-qr" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">The QR opens</label>
+<input id="s-qr" type="url" value="{{v.qr}}" onChange="{{onQr}}" placeholder="your-link.com" aria-invalid="{{er.qr}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.qr}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<sc-if value="{{er.qr}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">{{qrMsg}}</p>
+</sc-if>
+<sc-if value="{{qrHint}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: {{t.muted}}">{{qrHint}}</p>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{showPhone}}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="s-phone" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Phone number <span style="opacity: .7">· optional</span></label>
+<div style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.phone}}; background: {{t.navBg}}">
+<input id="s-phone" type="tel" value="{{v.phone}}" onChange="{{onPhone}}" placeholder="+972 5X XXX XXXX" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 14px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<button type="button" onClick="{{removePhone}}" aria-label="Remove phone number" style="flex: none; width: 44px; height: 46px; border: 0; background: transparent; color: {{t.muted}}; cursor: pointer; font: 400 20px/1 {{t.body}}">×</button>
+</div>
+<sc-if value="{{er.phone}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">Add a phone number, or remove this field.</p>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{showEmail}}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="s-email" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Email <span style="opacity: .7">· optional</span></label>
+<div style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.email}}; background: {{t.navBg}}">
+<input id="s-email" type="email" value="{{v.email}}" onChange="{{onEmail}}" placeholder="you@email.com" autocomplete="email" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 14px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<button type="button" onClick="{{removeEmail}}" aria-label="Remove email" style="flex: none; width: 44px; height: 46px; border: 0; background: transparent; color: {{t.muted}}; cursor: pointer; font: 400 20px/1 {{t.body}}">×</button>
+</div>
+<sc-if value="{{er.email}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">Add your email, or remove this field.</p>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{showIg}}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="s-ig" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Instagram <span style="opacity: .7">· optional</span></label>
+<div style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.ig}}; background: {{t.navBg}}">
+<span aria-hidden="true" style="padding: 0 0 0 14px; font-size: 16px; color: {{t.muted}}">@</span>
+<input id="s-ig" type="text" value="{{v.ig}}" onChange="{{onInstagram}}" placeholder="yourhandle" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 4px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<button type="button" onClick="{{removeIg}}" aria-label="Remove Instagram" style="flex: none; width: 44px; height: 46px; border: 0; background: transparent; color: {{t.muted}}; cursor: pointer; font: 400 20px/1 {{t.body}}">×</button>
+</div>
+<sc-if value="{{er.ig}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">Add your Instagram handle, or remove this field.</p>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{showTg}}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="s-tg" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Telegram <span style="opacity: .7">· optional</span></label>
+<div style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.tg}}; background: {{t.navBg}}">
+<span aria-hidden="true" style="padding: 0 0 0 14px; font-size: 16px; color: {{t.muted}}">@</span>
+<input id="s-tg" type="text" value="{{v.tg}}" onChange="{{onTelegram}}" placeholder="yourhandle" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 4px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<button type="button" onClick="{{removeTg}}" aria-label="Remove Telegram" style="flex: none; width: 44px; height: 46px; border: 0; background: transparent; color: {{t.muted}}; cursor: pointer; font: 400 20px/1 {{t.body}}">×</button>
+</div>
+<sc-if value="{{er.tg}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">Add your Telegram handle, or remove this field.</p>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{showAddr}}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="s-addr" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Address</label>
+<input id="s-addr" type="text" value="{{v.addr}}" onChange="{{onAddress}}" placeholder="Street and number, City" aria-invalid="{{er.addr}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.addr}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<sc-if value="{{er.addr}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">Add the street and city so guests can find you.</p>
+</sc-if>
+</div>
+<div>
+<label for="s-entry" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Floor and how to get in</label>
+<input id="s-entry" type="text" value="{{c.entry}}" onChange="{{onEntry}}" placeholder="Floor, flat · how guests get in" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+</div>
+</sc-if>
+<sc-if value="{{showFoot}}" hint-placeholder-val="{{ false }}">
+<div>
+<label for="s-foot" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Small print</label>
+<input id="s-foot" type="text" value="{{c.foot}}" onChange="{{onFoot}}" placeholder="Save me once Shabbat is out" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+</div>
+</sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{addChips}}" as="ad" hint-placeholder-count="3">
+<button type="button" onClick="{{ad.pick}}" style="min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px dashed {{t.lineStrong}}; background: transparent; color: {{t.ink}}; cursor: pointer; font: 500 14px/1 {{t.body}}">{{ad.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{hasErr}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 0; font-size: 14px; line-height: 1.45; color: #B3261E">Fill in the fields marked in red, or remove the ones you don't need, to go on.</p>
+</sc-if>
+<button type="button" onClick="{{goStep3}}" aria-disabled="{{hasErr}}" style="align-self: flex-start; min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0; background: {{t.accent}}; color: {{t.accentInk}}; cursor: {{nextCursor}}; opacity: {{nextOpacity}}; font: 500 15px/1 {{t.body}}">Next: print →</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isStep3}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div style="padding: 20px 22px; border-radius: 20px; background: {{t.navBg}}">
+<div style="font-size: 14px; color: {{t.muted}}">{{slipEyebrow}}</div>
+<div style="margin-top: 6px; font-family: {{t.display}}; font-weight: {{t.headWeight}}; font-size: 24px; line-height: 1.2">{{askEn}}</div>
+<div dir="rtl" lang="he" style="margin-top: 4px; font-size: 17px; text-align: right">{{askHe}}</div>
+<div style="margin-top: 12px; font-size: 14px; line-height: 1.5; color: {{t.muted}}">{{sizeLine}}</div>
+<sc-if value="{{notFits}}" hint-placeholder-val="{{ false }}">
+<div style="margin-top: 8px; font-size: 14px; color: {{t.accent}}">{{fitLabel}}</div>
+</sc-if>
+<button type="button" onClick="{{copySlip}}" style="display: inline-flex; align-items: center; gap: 6px; margin: 10px 0 0 -6px; min-height: 36px; padding: 0 6px; border: 0; border-radius: 8px; background: transparent; color: {{t.muted}}; cursor: pointer; font: 500 13px/1 {{t.body}}; text-decoration: underline; text-underline-offset: 3px"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"></rect><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"></path></svg>{{copyLabel}}</button>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" onClick="{{downloadPdf}}" aria-busy="{{pdfBusy}}" style="min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: {{t.accent}}; color: {{t.accentInk}}; cursor: {{pdfCursor}}; opacity: {{pdfOpacity}}; font: 500 15px/1 {{t.body}}">{{pdfLabel}}</button>
+<a href="PrintMap.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 6px; color: {{t.ink}}; font: 500 15px/1 {{t.body}}; text-underline-offset: 3px">Find a print shop</a>
+</div>
+<sc-if value="{{pdfErr}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 0; font-size: 14px; line-height: 1.45; color: #B3261E">{{pdfErr}}</p>
+</sc-if>
+</div>
+</sc-if>
+</aside>
+
+<section aria-label="Card preview" style="flex: 999 1 520px; min-width: 0">
+<div class="k-stage" style="position: relative; min-height: 640px; border-radius: {{t.panelRadius}}; background: {{t.surface}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; overflow: hidden">
+<div role="group" aria-label="Card shape" style="position: absolute; top: 20px; left: 20px; display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: {{t.navBg}}">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="2">
+<button type="button" onClick="{{tb.pick}}" aria-pressed="{{tb.pressed}}" style="min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; cursor: pointer; font: 500 13px/1 {{t.body}}; background: {{tb.bg}}; color: {{tb.fg}}">{{tb.label}}</button>
+</sc-for>
+</div>
+<div class="k-prevwrap">
+<div class="k-prev" data-kt-print style="width: {{cardW}}; height: {{cardH}}; border-radius: 6px; overflow: hidden; box-shadow: {{t.cardShadow}}">
+<dc-import name="Card" tpl="{{tpl}}" c="{{c}}" orient="{{orient}}" hint-size="{{hint}}"></dc-import>
+<span class="k-tex {{paper.tex}}" aria-hidden="true"></span>
+</div>
+</div>
+<div style="font-size: 13px; color: {{t.muted}}">{{tplName}} on {{paperLower}} · updates as you type</div>
+</div>
+</section>
+
+</main>
+<dc-import name="MusicPill" hint-size="0px,0px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2240}}'>
+const ED_THEMES = {
+  paper: {
+    label: 'Warm stationery',
+    bg: '#EFE9DF', ink: '#23211C', muted: '#665F52', line: 'rgba(35,33,28,0.12)', lineStrong: 'rgba(35,33,28,0.28)',
+    surface: '#E5DCCD', navBg: '#F7F2E9', accent: '#2F3C7E', accentInk: '#F7F2E9',
+    display: "'Gloock', serif", body: "'Instrument Sans', sans-serif",
+    headWeight: '400', headTrack: '-0.01em', panelRadius: '28px', fieldRadius: '14px', btnRadius: '999px',
+    cardShadow: '0 1px 0 rgba(35,33,28,0.06), 0 26px 52px -22px rgba(35,33,28,0.42)'
+  },
+};
+const ED_ORDER = ['paper'];
+const KT_PAPER_GROUPS = [
+  { id: 'match', label: 'Matches the template', note: 'the card gives the background' },
+  { id: 'white', label: 'White & cream', note: 'prints anywhere' },
+  { id: 'kraft', label: 'Kraft & natural', note: 'warm, homely' },
+  { id: 'pastel', label: 'Colour card', note: 'one soft range' },
+  { id: 'pearl', label: 'Pearl', note: 'shimmer, laser only' },
+  { id: 'dark', label: 'Dark', note: 'white ink or foil' }
+];
+// min: where it can be printed. home < copy < shop
+const KT_PAPERS = [
+  { id: 'tpl', g: 'white', short: 'Design', name: 'Printed colour on white', hex: null, tex: 'k-tex-none', min: 'home', en: 'Bright white card, smooth matte, 300 gsm', he: 'בריסטול לבן מט, 300 גרם', note: 'The template colour is printed on white card.' },
+  { id: 'white', g: 'white', short: 'White', name: 'Bright white', hex: '#FBFAF7', tex: 'k-tex-smooth', min: 'home', en: 'Bright white card, smooth matte, 300 gsm', he: 'בריסטול לבן מט, 300 גרם' },
+  { id: 'ivory', g: 'white', short: 'Ivory', name: 'Ivory', hex: '#F5EEDD', tex: 'k-tex-smooth', min: 'home', en: 'Ivory (cream) card, matte, 300 gsm', he: 'בריסטול שמנת מט, 300 גרם' },
+  { id: 'cotton', g: 'white', short: 'Cotton', name: 'Cotton', hex: '#F2EBDC', tex: 'k-tex-cotton', min: 'shop', en: 'Cotton card, textured, 300–350 gsm', he: 'נייר כותנה עם מרקם, 300–350 גרם' },
+  { id: 'natural', g: 'white', short: 'Natural', name: 'Natural ecru', hex: '#EBE1CB', tex: 'k-tex-cotton', min: 'home', en: 'Natural (ecru) card, uncoated, 300 gsm', he: 'בריסטול נטורל לא מצופה, 300 גרם' },
+  { id: 'stone', g: 'white', short: 'Stone', name: 'Stone grey', hex: '#E2DFD8', tex: 'k-tex-cotton', min: 'home', en: 'Light grey card, uncoated, 300 gsm', he: 'בריסטול אפור בהיר, 300 גרם' },
+  { id: 'kraftlight', g: 'kraft', short: 'Light', name: 'Light kraft', hex: '#D9C3A0', tex: 'k-tex-kraft', min: 'home', en: 'Light kraft card, 300 gsm', he: 'קרטון קראפט בהיר, 300 גרם' },
+  { id: 'kraft', g: 'kraft', short: 'Kraft', name: 'Brown kraft', hex: '#C29F75', tex: 'k-tex-kraft', min: 'home', en: 'Brown kraft card, 300 gsm', he: 'קרטון קראפט חום, 300 גרם', inkNote: 'Ink looks softer on kraft; dark designs read best.' },
+  { id: 'oat', g: 'kraft', short: 'Oat', name: 'Oatmeal fleck', hex: '#E4D8C2', tex: 'k-tex-kraft', min: 'shop', en: 'Recycled oatmeal card with fleck, 300 gsm', he: 'נייר ממוחזר בגוון שיבולת שועל, 300 גרם' },
+  { id: 'blush', g: 'pastel', short: 'Blush', name: 'Blush', hex: '#F2D6CF', tex: 'k-tex-smooth', min: 'home', en: 'Coloured card, blush pink, 300 gsm, uncoated', he: 'בריסטול צבעוני ורוד בהיר, 300 גרם' },
+  { id: 'peach', g: 'pastel', short: 'Peach', name: 'Peach', hex: '#F4D4B8', tex: 'k-tex-smooth', min: 'home', en: 'Coloured card, peach, 300 gsm, uncoated', he: 'בריסטול צבעוני אפרסק, 300 גרם' },
+  { id: 'butter', g: 'pastel', short: 'Butter', name: 'Butter yellow', hex: '#F2E7B6', tex: 'k-tex-smooth', min: 'home', en: 'Coloured card, pale yellow, 300 gsm, uncoated', he: 'בריסטול צבעוני צהוב בהיר, 300 גרם' },
+  { id: 'sage', g: 'pastel', short: 'Sage', name: 'Sage', hex: '#D3DCC6', tex: 'k-tex-smooth', min: 'home', en: 'Coloured card, sage green, 300 gsm, uncoated', he: 'בריסטול צבעוני ירוק מרווה, 300 גרם' },
+  { id: 'mint', g: 'pastel', short: 'Mint', name: 'Mint', hex: '#CDE3D8', tex: 'k-tex-smooth', min: 'home', en: 'Coloured card, mint, 300 gsm, uncoated', he: 'בריסטול צבעוני מנטה, 300 גרם' },
+  { id: 'sky', g: 'pastel', short: 'Sky', name: 'Sky blue', hex: '#CEDCE8', tex: 'k-tex-smooth', min: 'home', en: 'Coloured card, light blue, 300 gsm, uncoated', he: 'בריסטול צבעוני תכלת, 300 גרם' },
+  { id: 'lilac', g: 'pastel', short: 'Lilac', name: 'Lilac', hex: '#DCD3E8', tex: 'k-tex-smooth', min: 'home', en: 'Coloured card, lilac, 300 gsm, uncoated', he: 'בריסטול צבעוני לילך, 300 גרם' },
+  { id: 'terracotta', g: 'pastel', short: 'Clay', name: 'Terracotta', hex: '#D79A7E', tex: 'k-tex-cotton', min: 'shop', en: 'Coloured card, terracotta, 300 gsm, uncoated', he: 'בריסטול צבעוני טרקוטה, 300 גרם' },
+  { id: 'pearl', g: 'pearl', short: 'Pearl', name: 'Pearl white', hex: '#F3F0EB', tex: 'k-tex-pearl', min: 'shop', en: 'Pearl (shimmer) card, white, 300 gsm, laser print', he: 'נייר פנינה לבן, 300 גרם, הדפסת לייזר' },
+  { id: 'champagne', g: 'pearl', short: 'Gold', name: 'Champagne pearl', hex: '#EBDDC2', tex: 'k-tex-pearl', min: 'shop', en: 'Pearl (shimmer) card, champagne, 300 gsm, laser print', he: 'נייר פנינה שמפניה, 300 גרם, הדפסת לייזר' },
+  { id: 'rose', g: 'pearl', short: 'Rose', name: 'Rose pearl', hex: '#EED6D2', tex: 'k-tex-pearl', min: 'shop', en: 'Pearl (shimmer) card, rose, 300 gsm, laser print', he: 'נייר פנינה ורוד, 300 גרם, הדפסת לייזר' },
+  { id: 'navy', g: 'dark', short: 'Navy', name: 'Navy', hex: '#1F2A44', tex: 'k-tex-cotton', min: 'shop', dark: true, en: 'Navy card + white ink (or gold foil), 300 gsm', he: 'בריסטול כחול כהה + הדפסה בלבן או ריקוע זהב, 300 גרם' },
+  { id: 'forest', g: 'dark', short: 'Forest', name: 'Forest green', hex: '#22382D', tex: 'k-tex-cotton', min: 'shop', dark: true, en: 'Forest green card + white ink (or gold foil), 300 gsm', he: 'בריסטול ירוק כהה + הדפסה בלבן או ריקוע זהב, 300 גרם' },
+  { id: 'wine', g: 'dark', short: 'Wine', name: 'Wine', hex: '#561E2A', tex: 'k-tex-cotton', min: 'shop', dark: true, en: 'Burgundy card + white ink (or gold foil), 300 gsm', he: 'בריסטול בורדו + הדפסה בלבן או ריקוע זהב, 300 גרם' },
+  { id: 'black', g: 'dark', short: 'Black', name: 'Black', hex: '#1B1A18', tex: 'k-tex-cotton', min: 'shop', dark: true, en: 'Black card + white ink (or gold foil), 300 gsm', he: 'בריסטול שחור + הדפסה בלבן או ריקוע זהב, 300 גרם' }
+];
+const KT_METHODS = [
+  { id: 'shop', label: 'Print shop', note: 'Needed for pearl and dark paper: laser press, white ink or foil. Ask a day ahead.' }
+];
+const KT_RANK = { home: 0, copy: 1, shop: 2 };
+// Default paper: card stock in the template's own colour. Only text and art are printed on it.
+const KT_STOCK = {
+  'Candlelight': ['Cream', 'שמנת'], 'Linen': ['Off-white', 'אוף-וויט'], 'Blue hour': ['Navy', 'כחול כהה', true],
+  'Sage': ['Pale sage', 'ירקרק בהיר'], 'Monogram': ['Bright white', 'לבן'], 'Honey': ['Honey yellow', 'צהוב דבש'],
+  'After dark': ['Black', 'שחור', true], 'Pomegranate': ['Warm white', 'לבן חם'], 'Olive grove': ['Light olive', 'זית בהיר'],
+  'Challah': ['Peach', 'אפרסק'], 'Two lights': ['Lilac', 'לילך'], 'Pomegranate print': ['Light pink', 'ורוד בהיר'],
+  'Good wine': ['Warm white', 'לבן חם'], 'Sunset collage': ['Off-white', 'אוף-וויט'], 'Garden collage': ['Bright white', 'לבן'],
+  'Candle night': ['Cream white', 'לבן שמנת']
+};
+function ktStock(t) {
+  const [name, he, dark] = KT_STOCK[t.name] || ['Matching', 'בגוון התבנית'];
+  return {
+    id: 'stock', g: 'match', short: 'Match', name: name + ' card', hex: t.bg, tex: 'k-tex-smooth', min: dark ? 'shop' : 'home', dark: !!dark,
+    en: name + ' card, matte, 300 gsm, colour close to ' + t.bg + (dark ? ', print in white ink or gold foil' : ''),
+    he: 'בריסטול ' + he + ' מט, 300 גרם, בגוון ' + t.bg + (dark ? ', הדפסה בלבן או ריקוע זהב' : ''),
+    note: 'The card itself gives the background. Only the text and art are printed.'
+  };
+}
+
+const KT_SERIF = "'Gloock', serif", KT_BODONI = "'Bodoni Moda', serif", KT_ISERIF = "'Instrument Serif', serif", KT_SCRIPT = "'Mrs Saint Delafield', cursive", KT_GEIST = "'Geist', sans-serif", KT_SANS = "'Instrument Sans', sans-serif";
+const KT_TPLS = [
+  { name: 'Candlelight', layout: 'classic', bg: '#F3E6D3', ink: '#3A2817', sub: '#6E5440', rule: 'rgba(58,40,23,0.35)', greetFont: KT_SCRIPT, greetStyle: 'normal', greetColor: '#3A2817', greetTall: 64, greetWide: 50, nameFont: KT_SERIF, nameStyle: 'normal', nameWeight: '400', nameTall: 24, nameWide: 22, bodyFont: KT_SANS },
+  { name: 'Linen', layout: 'frame', bg: '#FBF8F2', ink: '#1E1C18', sub: '#6B655A', rule: 'rgba(30,28,24,0.45)', greetFont: KT_SERIF, greetStyle: 'normal', greetColor: '#1E1C18', greetTall: 34, greetWide: 28, nameFont: KT_SERIF, nameStyle: 'normal', nameWeight: '400', nameTall: 36, nameWide: 30, bodyFont: KT_SANS },
+  { name: 'Blue hour', layout: 'stack', bg: '#26304F', ink: '#F1EADB', sub: '#C2BBAC', rule: 'rgba(241,234,219,0.35)', greetFont: KT_BODONI, greetStyle: 'italic', greetColor: '#F1EADB', greetTall: 34, greetWide: 28, nameFont: KT_BODONI, nameStyle: 'italic', nameWeight: '400', nameTall: 50, nameWide: 42, bodyFont: KT_SANS },
+  { name: 'Sage', layout: 'frame', bg: '#F1F2EC', ink: '#2F4A36', sub: '#4E5B4A', rule: '#3F5A45', greetFont: KT_ISERIF, greetStyle: 'italic', greetColor: '#3F5A45', greetTall: 34, greetWide: 28, nameFont: KT_ISERIF, nameStyle: 'normal', nameWeight: '400', nameTall: 40, nameWide: 32, bodyFont: KT_SANS },
+  { name: 'Monogram', layout: 'mono', bg: '#FFFFFF', ink: '#111111', sub: '#66625D', rule: 'rgba(17,17,17,0.25)', greetFont: KT_ISERIF, greetStyle: 'italic', greetColor: '#111111', greetTall: 34, greetWide: 28, nameFont: KT_GEIST, nameStyle: 'normal', nameWeight: '500', nameTall: 30, nameWide: 26, bodyFont: KT_GEIST },
+  { name: 'Honey', layout: 'big', bg: '#EBCB7A', ink: '#2B2210', sub: '#5A4720', rule: 'rgba(43,34,16,0.3)', greetFont: KT_GEIST, greetStyle: 'normal', greetColor: '#2B2210', greetTall: 34, greetWide: 28, nameFont: KT_GEIST, nameStyle: 'normal', nameWeight: '600', nameTall: 66, nameWide: 50, bodyFont: KT_GEIST },
+  { name: 'After dark', layout: 'classic', bg: '#16130F', ink: '#F1E8D8', sub: '#B4A894', rule: 'rgba(241,232,216,0.3)', greetFont: KT_SCRIPT, greetStyle: 'normal', greetColor: '#E3A548', greetTall: 64, greetWide: 50, nameFont: KT_BODONI, nameStyle: 'normal', nameWeight: '500', nameTall: 24, nameWide: 22, bodyFont: KT_SANS },
+  { name: 'Pomegranate', layout: 'stack', bg: '#F7F0EB', ink: '#5E1F2B', sub: '#6A4F52', rule: 'rgba(122,46,58,0.35)', greetFont: KT_BODONI, greetStyle: 'italic', greetColor: '#7A2E3A', greetTall: 34, greetWide: 28, nameFont: KT_BODONI, nameStyle: 'italic', nameWeight: '400', nameTall: 48, nameWide: 40, bodyFont: KT_SANS },
+  { name: 'Olive grove', layout: 'stack', bg: '#D9D6BF', ink: '#2B2E21', sub: '#4F523A', rule: 'rgba(43,46,33,0.3)', greetFont: KT_ISERIF, greetStyle: 'italic', greetColor: '#2B2E21', greetTall: 34, greetWide: 28, nameFont: KT_ISERIF, nameStyle: 'normal', nameWeight: '400', nameTall: 48, nameWide: 40, bodyFont: KT_SANS },
+  { name: 'Challah', kind: 'illustrated', layout: 'art', art: 'challah', bg: '#F6D9C9', ink: '#A93624', sub: '#A93624', tint: '#EFB49F', rule: '#A93624', greetFont: "'Fraunces', serif", greetStyle: 'italic', greetWeight: '400', greetColor: '#A93624', greetArtTall: 20, greetArtWide: 17, nameFont: "'Fraunces', serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' },
+  { name: 'Two lights', kind: 'illustrated', layout: 'art', art: 'candles', bg: '#E5D6EC', ink: '#6E3378', sub: '#6E3378', tint: '#D3B5DC', rule: '#6E3378', greetFont: "'Fraunces', serif", greetStyle: 'italic', greetWeight: '400', greetColor: '#6E3378', greetArtTall: 20, greetArtWide: 17, nameFont: "'Fraunces', serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' },
+  { name: 'Pomegranate print', kind: 'illustrated', layout: 'art', art: 'pomegranate', bg: '#F3D5DA', ink: '#A0304A', sub: '#A0304A', tint: '#E9AEBB', rule: '#A0304A', greetFont: "'Fraunces', serif", greetStyle: 'italic', greetWeight: '400', greetColor: '#A0304A', greetArtTall: 20, greetArtWide: 17, nameFont: "'Fraunces', serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' },
+  { name: 'Good wine', kind: 'illustrated', layout: 'art', art: 'bottle', bg: '#F7EFE7', ink: '#A23447', sub: '#A23447', tint: '#EBC3C0', rule: '#A23447', greetFont: "'Fraunces', serif", greetStyle: 'italic', greetWeight: '400', greetColor: '#A23447', greetArtTall: 20, greetArtWide: 17, nameFont: "'Fraunces', serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' },
+  { name: 'Sunset collage', kind: 'illustrated', layout: 'art', art: 'sunset', bg: '#FFF9F2', ink: '#161616', sub: '#4A4744', tint: '#EEEEEE', rule: '#161616', c1: '#B79CF2', c2: '#F6A043', c3: '#2E3C8C', c4: '#EE5137', c5: '#3BAA5C', c6: '#F5A8C6', greetFont: "'Jost', sans-serif", greetStyle: 'normal', greetWeight: '500', greetTrack: '0.12em', greetCase: 'uppercase', greetColor: '#4A4744', greetArtTall: 12, greetArtWide: 11, nameFont: "'Jost', sans-serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Jost', sans-serif", wideDir: 'row-reverse' },
+  { name: 'Garden collage', kind: 'illustrated', layout: 'art', art: 'garden', bg: '#FFFFFF', ink: '#161616', sub: '#4A4744', tint: '#EEEEEE', rule: '#161616', c1: '#B79CF2', c2: '#F6A043', c3: '#2E3C8C', c4: '#EE5137', c5: '#3BAA5C', c6: '#F5A8C6', greetFont: "'Jost', sans-serif", greetStyle: 'normal', greetWeight: '500', greetTrack: '0.12em', greetCase: 'uppercase', greetColor: '#4A4744', greetArtTall: 12, greetArtWide: 11, nameFont: "'Jost', sans-serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Jost', sans-serif", wideDir: 'row-reverse' },
+  { name: 'Candle night', kind: 'illustrated', layout: 'art', art: 'candlenight', bg: '#F7F3EA', ink: '#1E3A8A', sub: '#3D4E8C', tint: '#DCE3F3', rule: '#1E3A8A', greetFont: "'Gloock', serif", greetStyle: 'normal', greetWeight: '400', greetColor: '#B7791F', greetArtTall: 20, greetArtWide: 17, nameFont: "'Gloock', serif", nameStyle: 'normal', nameWeight: '400', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' }
+];
+class Component extends DCLogic {
+  // The landing page remembers the template tile that was clicked; open the editor on it.
+  applyPick(p) {
+    if (!p || !p.name || Date.now() - (p.t || 0) > 60000) return;
+    const i = KT_TPLS.findIndex((x) => x.name === p.name);
+    if (i < 0) return;
+    this.setState({ idx: i, orient: p.orient === 'wide' ? 'wide' : 'tall', step: 1, moreTpl: i >= 6 });
+    try { localStorage.removeItem('kartis-pick'); } catch (e) {}
+  }
+  componentDidMount() {
+    try { this.applyPick(JSON.parse(localStorage.getItem('kartis-pick') || 'null')); } catch (e) {}
+    try {
+      this._pickBc = new BroadcastChannel('kartis-pick');
+      this._pickBc.onmessage = (e) => this.applyPick(e && e.data);
+    } catch (e) { this._pickBc = null; }
+  }
+  componentWillUnmount() {
+    try { if (this._pickBc) this._pickBc.close(); } catch (e) {}
+    this._pickBc = null;
+  }
+  renderVals() {
+    const s = this.state || {};
+    const key = s.theme || this.props.theme || 'paper';
+    const t = ED_THEMES[key] || ED_THEMES.paper;
+    const pill = (on) => ({ bg: on ? t.accent : 'transparent', fg: on ? t.accentInk : t.ink });
+    const themes = ED_ORDER.map((k) => ({ label: ED_THEMES[k].label, pressed: k === key, ...pill(k === key), pick: () => this.setState({ theme: k }) }));
+    const orient = s.orient || 'tall';
+    const tall = orient === 'tall';
+    const tabs = [['tall', 'Tall'], ['wide', 'Wide']].map(([k, label]) => ({ label, pressed: k === orient, ...pill(k === orient), pick: () => this.setState({ orient: k }) }));
+    const idx = s.idx || 0;
+    const baseTpl = KT_TPLS[idx];
+    const stock = ktStock(baseTpl);
+    const ALL_PAPERS = [stock].concat(KT_PAPERS);
+    const paperId = s.paper || 'stock';
+    const paper = ALL_PAPERS.find((p) => p.id === paperId) || stock;
+    const tpl = paper.id === 'stock' ? baseTpl : paper.hex ? Object.assign({}, baseTpl, { bg: paper.hex }, paper.dark ? {
+      ink: '#F4EFE6', sub: 'rgba(244,239,230,0.74)', rule: 'rgba(244,239,230,0.35)', greetColor: '#E2C27E', tint: 'rgba(244,239,230,0.12)'
+    } : {}) : baseTpl;
+    const method = 'shop'; // cards are printed at a print shop only
+    const paperGroups = KT_PAPER_GROUPS.map((g) => ({
+      label: g.label, note: g.note,
+      items: ALL_PAPERS.filter((p) => p.g === g.id).map((p) => {
+        const on = p.id === paper.id;
+        return {
+          name: p.name + (KT_RANK[p.min] > KT_RANK[method] ? ' · needs a ' + (p.min === 'shop' ? 'print shop' : 'copy shop') : ''),
+          short: p.short, tex: p.tex, pressed: on,
+          swatch: p.hex || ('linear-gradient(135deg, ' + baseTpl.bg + ' 50%, ' + (baseTpl.band || baseTpl.tint || baseTpl.ink) + ' 50%)'),
+          ring: on ? '0 0 0 2px ' + t.bg + ', 0 0 0 4px ' + t.ink : 'inset 0 0 0 1px rgba(0,0,0,.12)',
+          cellBg: on ? t.surface : 'transparent',
+          pick: () => this.setState({ paper: p.id, pdf: '' })
+        };
+      })
+    }));
+    const methodObj = KT_METHODS.find((m) => m.id === method);
+    const methods = KT_METHODS.map((m) => ({ label: m.label, pressed: m.id === method, ...pill(m.id === method), pick: () => this.setState({ method: m.id, pdf: '' }) }));
+    const fits = KT_RANK[paper.min] <= KT_RANK[method];
+    const eff = fits ? method : paper.min; // where this paper actually has to be printed
+    const homeGsm = eff === 'home';
+    const askEn = homeGsm && !paper.dark && paper.min === 'home' ? paper.en.replace('300 gsm', '250 gsm') : paper.en;
+    const askHe = homeGsm && !paper.dark && paper.min === 'home' ? paper.he.replace('300 גרם', '250 גרם') : paper.he;
+    const tpls = KT_TPLS.map((x, i) => ({
+      name: x.name, bg: x.bg, ink: x.ink, top: x.band || x.bg,
+      font: x.nameFont, fontStyle: x.nameStyle, weight: x.nameWeight,
+      pressed: i === idx,
+      border: i === idx ? '2px solid ' + t.ink : '1px solid ' + t.line,
+      pick: () => this.setState({ idx: i })
+    }));
+    const platform = s.platform ?? 'Instagram';
+    const platforms = ['Instagram', 'Telegram'].map((p) => ({
+      label: p, pressed: p === platform, ...pill(p === platform),
+      border: p === platform ? t.accent : t.lineStrong,
+      pick: () => this.setState({ platform: p === platform ? '' : p })
+    }));
+    const handleBare = (s.handle ?? 'yourhandle').replace(/^@+/, '');
+    const showQr = s.showQr ?? true;
+    const showAddr = s.showAddr ?? false;
+    const qr = s.qr ?? 'your-link.com';
+    const fin = s.step === 3; // on the print step the card shows only what the user typed
+    const c = {
+      greeting: s.greeting ?? 'Shabbat Shalom',
+      name: s.name ?? 'Your Name',
+      line: s.line ?? 'So glad we shared a table tonight.',
+      platform,
+      handle: handleBare,
+      whatsapp: '',
+      instagram: s.showIg ? (s.instagram ?? 'yourhandle') : '',
+      telegram: s.showTg ? (s.telegram ?? 'yourhandle') : '',
+      phone: s.showPhone ? (s.phone || '+972 5X XXX XXXX') : '',
+      email: s.showEmail ? (s.email || 'you@email.com') : '',
+      showQr,
+      foot: s.showFoot ? (s.foot ?? 'Save me once Shabbat is out') : '',
+      qr: (s.qr || '').trim() || 'your-link.com',
+      showAddr,
+      address: s.address || 'Street and number, City',
+      entry: s.entry ?? (fin ? '' : 'Floor, flat · how guests get in'),
+      way: s.way ?? ''
+    };
+    const set = (k) => (e) => this.setState({ [k]: e.target.value });
+    const sizeRow = tall
+      ? 'Card size 102 × 132 mm, cut on the crop marks'
+      : 'Card size 89 × 51 mm, cut on the crop marks';
+    const printRow = eff === 'home'
+      ? 'Printer setting “Cardstock” or “Heavy paper”, rear tray, 100% scale'
+      : paper.dark
+        ? 'White ink or gold foil on dark card. Ask if they offer it'
+        : paper.g === 'pearl'
+          ? 'Laser or digital press, one side, 100% scale'
+          : 'Colour digital print, one side, 100% scale (not “fit to page”)';
+    const cutRow = eff === 'home'
+      ? 'Metal ruler and craft knife, along the crop marks'
+      : 'Guillotine cut along the crop marks (small extra fee)';
+    const slipRows = [
+      { k: 'Paper', v: paper.name + (paper.id === 'tpl' ? ' (white card)' : '') + ', ' + (homeGsm && !paper.dark && paper.min === 'home' ? '250 gsm' : '300 gsm') + ', matte' },
+      { k: 'Size', v: sizeRow },
+      { k: 'Print', v: printRow }
+    ];
+    const slipText = askEn + '\n' + askHe + '\n' + slipRows.map((r) => r.k + ': ' + r.v).join('\n');
+    // Field values as typed. Placeholders show on the card preview, but do not count as filled.
+    const v = { name: s.name ?? '', qr: s.qr ?? '', phone: s.phone ?? '', email: s.email ?? '', ig: s.instagram ?? '', tg: s.telegram ?? '', addr: s.address ?? '' };
+    const qrBytes = (x) => new TextEncoder().encode((x || '').trim()).length;
+    const qrLong = (x) => qrBytes(x) > 200;
+    const missing = (st) => {
+      const f = (x) => !(x || '').trim();
+      return { name: f(st.name), qr: (st.showQr ?? true) && (f(st.qr) || qrLong(st.qr)), phone: !!st.showPhone && f(st.phone), email: !!st.showEmail && f(st.email), ig: !!st.showIg && f(st.instagram), tg: !!st.showTg && f(st.telegram), addr: !!st.showAddr && f(st.address) };
+    };
+    const MISS = missing(s);
+    const hasErr = Object.values(MISS).some(Boolean);
+    const ER = {}; Object.keys(MISS).forEach((k) => { ER[k] = !!s.tried && MISS[k]; });
+    const step = hasErr && s.step === 3 ? 2 : (s.step || 1);
+    const toStep = (n) => {
+      if (n !== 3) return this.setState({ step: n });
+      const now = this.state || {};
+      const blocked = Object.values(missing(now)).some(Boolean);
+      this.setState(blocked ? { step: 2, tried: true } : { step: 3 });
+    };
+    const stepPill = (on) => ({ bg: on ? t.navBg : 'transparent', fg: t.ink, numBg: on ? t.accent : 'transparent', numFg: on ? t.accentInk : t.muted });
+    const steps = [[1, 'Design'], [2, 'Words'], [3, 'Print']].map(([n, label]) => ({ n, label, pressed: n === step, ...stepPill(n === step), pick: () => toStep(n) }));
+    const QUICK = ['stock', 'tpl', 'white', 'ivory', 'cotton', 'kraft', 'sage', 'pearl', 'navy'];
+    const papersAll = paperGroups.reduce((acc, g) => acc.concat(g.items), []);
+    const quickIds = ALL_PAPERS.map((p) => p.id);
+    const papersShown = (s.morePaper ? papersAll : papersAll.filter((x, i) => QUICK.includes(quickIds[i]) || x.pressed));
+    const withPaper = (b) => paper.id !== 'stock' && paper.hex ? Object.assign({}, b, { bg: paper.hex }, paper.dark ? { ink: '#F4EFE6', sub: 'rgba(244,239,230,0.74)', rule: 'rgba(244,239,230,0.35)', greetColor: '#E2C27E', tint: 'rgba(244,239,230,0.12)' } : {}) : b;
+    const tplsShown = tpls.map((x, i) => ({ ...x, obj: withPaper(KT_TPLS[i]), cellBg: x.pressed ? t.navBg : 'transparent', nameWeight: x.pressed ? '600' : '400', ring: x.pressed ? '0 0 0 2px ' + t.bg + ', 0 0 0 3.5px ' + t.ink + ', 0 10px 20px -12px rgba(35,33,28,.5)' : '0 1px 2px rgba(35,33,28,.14), 0 10px 20px -12px rgba(35,33,28,.45)' })).filter((x, i) => s.moreTpl || i < 6 || x.pressed);
+    const thumbScale = tall ? 0.3 : 0.24;
+    const showPhone = s.showPhone ?? false, showFoot = s.showFoot ?? false;
+    const addChips = [
+      !s.showPhone && { label: '+ Phone number', pick: () => this.setState({ showPhone: true }) },
+      !s.showEmail && { label: '+ Email', pick: () => this.setState({ showEmail: true }) },
+      !s.showIg && { label: '+ Instagram', pick: () => this.setState({ showIg: true }) },
+      !s.showTg && { label: '+ Telegram', pick: () => this.setState({ showTg: true }) },
+      !showAddr && { label: '+ Address', pick: () => this.setState({ showAddr: true }) },
+      !showFoot && { label: '+ Small print', pick: () => this.setState({ showFoot: true }) }
+    ].filter(Boolean);
+    return {
+      steps, isStep1: step === 1, isStep2: step === 2, isStep3: step === 3,
+      goStep2: () => this.setState({ step: 2 }), goStep3: () => toStep(3), nextCursor: 'pointer', nextOpacity: s.tried && hasErr ? '.45' : '1', v,
+      tplsShown, papersShown, thumbScale, thumbW: (tall ? 108 : 121) + 'px', thumbH: (tall ? 140 : 69) + 'px', tplName: KT_TPLS[idx].name, paperLower: paper.id === 'tpl' ? 'white card' : paper.name.toLowerCase(),
+      moreTplLabel: s.moreTpl ? 'Show fewer' : 'All ' + KT_TPLS.length + ' templates', toggleMoreTpl: () => this.setState({ moreTpl: !s.moreTpl }),
+      morePaperLabel: s.morePaper ? 'Show fewer' : 'All ' + ALL_PAPERS.length + ' papers', toggleMorePaper: () => this.setState({ morePaper: !s.morePaper }),
+      platformLabel: platform || 'Instagram', cyclePlatform: () => this.setState({ platform: platform === 'Telegram' ? 'Instagram' : 'Telegram' }),
+      showPhone, showFoot, addChips,
+      showIg: !!s.showIg, showTg: !!s.showTg,
+      onWhatsapp: set('whatsapp'), onInstagram: set('instagram'), onTelegram: set('telegram'),
+      removePhone: () => this.setState({ showPhone: false }),
+      qrMsg: qrLong(s.qr) ? 'This link is too long for a QR. Use a shorter link, like your profile address.' : 'Add a link for the QR, or turn the QR off.',
+      qrHint: showQr && !tall && qrBytes(s.qr) > 40 && !qrLong(s.qr) ? 'Long links make a dense QR. On the wide card a short link scans more easily.' : '',
+      pdfBusy: s.pdf === 'busy', pdfCursor: s.pdf === 'busy' ? 'progress' : 'pointer', pdfOpacity: s.pdf === 'busy' ? '.6' : '1',
+      pdfLabel: s.pdf === 'busy' ? 'Preparing PDF…' : s.pdf === 'done' ? 'PDF saved · download again' : (eff === 'shop' ? 'Download print-ready PDF' : 'Download PDF · A4 sheet'),
+      pdfNote: (eff === 'shop'
+        ? 'One card at ' + (tall ? '101.6 × 132.1' : '88.9 × 50.8') + ' mm with 3 mm bleed and crop marks, 400 dpi. Print shops take it as is.'
+        : 'A4 sheet with ' + (tall ? '2 cards' : '8 cards') + ' and crop marks. Print at 100% (“Actual size”), then cut on the marks.')
+        + (paper.hex && !paper.dark ? ' The background is left blank: your ' + paper.name.toLowerCase() + ' card gives the colour.' : '')
+        + (paper.dark ? ' Dark card: the file is a colour proof; the shop prints it in white ink or foil.' : ''),
+      pdfErr: s.pdfErr || '',
+      downloadPdf: async () => {
+        if (this._pdfBusy) return;
+        this._pdfBusy = true;
+        this.setState({ pdf: 'busy', pdfErr: '' });
+        try {
+          const eng = window.KT_PRINT;
+          if (!eng) throw new Error('NO_ENGINE');
+          const want = tall ? [360, 468] : [504, 288];
+          const prev = document.querySelector('[data-kt-print]');
+          const root = prev && Array.from(prev.querySelectorAll('div')).find((d) => d.offsetWidth === want[0] && d.offsetHeight === want[1]);
+          if (!root) throw new Error('NO_CARD');
+          if (document.fonts && document.fonts.ready) await document.fonts.ready;
+          const mode = eff === 'home' ? 'home' : 'shop';
+          const tname = KT_TPLS[idx].name;
+          const label = 'Kartis - ' + tname + ' - ' + (tall ? '101.6 x 132.1' : '88.9 x 50.8') + ' mm trim' + (mode === 'shop' ? ' + 3 mm bleed' : '') + ' - ' + paper.name + ' - print at 100%' + (paper.dark ? ' - PROOF: white ink or foil' : '');
+          const o = await eng.make(root, { mode, orient, printBg: !paper.hex || !!paper.dark, label, title: 'Kartis card - ' + ((s.name || '').trim() || 'card') });
+          const slug = (x) => (x || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          const filename = ['kartis', slug(s.name) || 'card', slug(tname), orient, mode === 'shop' ? 'print-ready' : 'a4-sheet'].join('-') + '.pdf';
+          const blob = new Blob([o.bytes], { type: 'application/pdf' });
+          let api = null;
+          try {
+            if (window.claude && window.claude.use) api = await Promise.race([window.claude.use('downloads'), new Promise((r) => setTimeout(() => r(null), 3000))]);
+          } catch (e) { api = null; }
+          let done = false;
+          if (api) {
+            try { await api.save({ filename, data: blob }); done = true; }
+            catch (e) {
+              if (e && e.code === 'declined') { this.setState({ pdf: '' }); return; }
+              if (e && e.code === 'rate_limited') throw new Error('BUSY');
+            }
+          }
+          if (!done) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = filename; a.rel = 'noopener';
+            document.body.appendChild(a); a.click(); a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 60000);
+          }
+          this.setState({ pdf: 'done' });
+        } catch (e) {
+          const m = e && e.message;
+          this.setState({ pdf: '', pdfErr: m === 'BUSY' ? 'A download is already waiting for your answer.' : m === 'NO_CARD' ? 'The card preview is not ready yet. Wait a moment and try again.' : 'Could not make the PDF. Try again, or open the page in Chrome or Safari.' });
+        } finally { this._pdfBusy = false; }
+      },
+      showEmail: !!s.showEmail, removeEmail: () => this.setState({ showEmail: false }), onEmail: set('email'),
+      er: ER,
+      eb: Object.fromEntries(Object.keys(ER).map((k) => [k, ER[k] ? '#B3261E' : t.lineStrong])),
+      hasErr: !!s.tried && hasErr,
+      removeIg: () => this.setState({ showIg: false }), removeTg: () => this.setState({ showTg: false }), qrKnobS: showQr ? '18px' : '0px',
+      sizeLine: sizeRow + '. ' + printRow + '.', notFits: !fits,
+      paper, paperGroups, methods, methodNote: (methodObj ? methodObj.note : '') + (paper.inkNote ? ' ' + paper.inkNote : ''),
+      askEn, askHe, slipRows,
+      slipEyebrow: eff === 'home' ? 'Buy this paper' : 'Show this at the counter',
+      fitLabel: fits ? 'Works for ' + (methodObj ? methodObj.label.toLowerCase() : '') : 'Needs a ' + (paper.min === 'shop' ? 'print shop' : 'copy shop'),
+      fitBg: fits ? t.surface : t.accent,
+      fitFg: fits ? t.ink : t.accentInk,
+      copyLabel: s.copied ? 'Copied' : 'Copy request',
+      copySlip: () => {
+        try { navigator.clipboard.writeText(slipText); } catch (e) {}
+        this.setState({ copied: true });
+        clearTimeout(this._ct); this._ct = setTimeout(() => this.setState({ copied: false }), 1600);
+      },
+      t, themes, tabs, tpls, tpl, orient, c, showQr, qr, platforms, handleBare,
+      handlePreview: handleBare ? (platform ? platform + '  ' : '') + '@' + handleBare : '@yourname',
+      showAddr,
+      addrTrack: showAddr ? t.accent : t.lineStrong,
+      addrKnob: showAddr ? '20px' : '0px',
+      toggleAddr: () => this.setState({ showAddr: !showAddr }),
+      entryChips: ['Door will be open', 'Please knock, no intercom', 'Mechanical lock, code 1234'].map((label) => ({
+        label,
+        pick: () => this.setState({ entry: ((s.entry ?? 'Floor, flat · how guests get in').split(' · ')[0] + ' · ' + label.charAt(0).toLowerCase() + label.slice(1)) })
+      })),
+      onAddress: set('address'), onEntry: set('entry'), onWay: set('way'),
+      qrTrack: showQr ? t.accent : t.lineStrong,
+      qrKnob: showQr ? '20px' : '0px',
+      qrNote: showQr ? 'QR opens ' + (qr || 'nothing yet') : 'No QR on this card',
+      meta: tall ? 'Tall · 102 × 132 mm' : 'Wide · 89 × 51 mm',
+      cardW: tall ? '360px' : '504px',
+      cardH: tall ? '468px' : '288px',
+      hint: tall ? '360px,468px' : '504px,288px',
+      toggleQr: () => this.setState({ showQr: !showQr }),
+      onGreeting: set('greeting'), onName: set('name'), onLine: set('line'), onHandle: set('handle'),
+      onPhone: set('phone'), onQr: set('qr'), onFoot: set('foot')
+    };
+  }
+}
+</script>
+</body>
+</html>

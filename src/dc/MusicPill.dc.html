@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kartis — music still playing</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.k-mp{position:fixed;left:20px;bottom:20px;z-index:60;display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;padding:0;border:0;border-radius:999px;cursor:pointer;color:#2B3A66;background:linear-gradient(120deg,#E7E1FF,#D8F0FF,#FFE6F0,#E7E1FF);background-size:300% 100%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),0 10px 26px -12px rgba(90,110,200,.6),0 0 26px rgba(200,215,255,.65);animation:k-mp-in .35s cubic-bezier(.2,.7,.2,1) both,k-mp-shimmer 9s ease-in-out infinite;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.k-mp:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 14px 30px -12px rgba(90,110,200,.7),0 0 36px rgba(200,215,255,.9)}
+.k-mp:focus-visible{outline:2px solid #6E7FD6;outline-offset:3px}
+@keyframes k-mp-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes k-mp-shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@media (prefers-reduced-motion:reduce){.k-mp{animation:none}}
+</style>
+</helmet>
+<div style="font-family: 'Instrument Sans', sans-serif">
+<sc-if value="{{on}}" hint-placeholder-val="{{ true }}">
+<button type="button" class="k-mp" onClick="{{toggle}}" aria-pressed="{{pressed}}" aria-label="{{label}}" title="{{label}}">
+<sc-if value="{{playing}}" hint-placeholder-val="{{ true }}">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5h3l4-3.5v12l-4-3.5H3z"></path><path d="M13.5 7a4 4 0 0 1 0 6"></path><path d="M15.8 4.8a7 7 0 0 1 0 10.4"></path></svg>
+</sc-if>
+<sc-if value="{{silent}}" hint-placeholder-val="{{ false }}">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5h3l4-3.5v12l-4-3.5H3z"></path><path d="M13.5 7.5l5 5M18.5 7.5l-5 5"></path></svg>
+</sc-if>
+</button>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":120,"height":120}}'>
+// Shows on other pages once the landing page's music has been started. Talks to Main over a BroadcastChannel,
+// so it works whether the pages share one window or sit in separate frames.
+class Component extends DCLogic {
+  componentDidMount() {
+    try {
+      this._bc = new BroadcastChannel('kartis-music');
+      this._bc.onmessage = (e) => {
+        const d = (e && e.data) || {};
+        if (d.type === 'status') this.setState({ playing: !!d.playing, active: d.active !== false && (!!d.active || !!d.playing) });
+      };
+      this._bc.postMessage({ type: 'ping' });
+    } catch (e) { this._bc = null; }
+  }
+  componentWillUnmount() {
+    try { if (this._bc) this._bc.close(); } catch (e) {}
+    this._bc = null;
+  }
+  renderVals() {
+    const s = this.state || {};
+    const playing = !!s.playing;
+    return {
+      on: !!s.active,
+      playing, silent: !playing,
+      pressed: playing ? 'true' : 'false',
+      label: playing ? 'Mute music' : 'Play music',
+      // Same as the sound button on the landing page: switches the music off and on
+      toggle: () => {
+        try { if (this._bc) this._bc.postMessage({ type: playing ? 'stop' : 'play' }); } catch (e) {}
+        this.setState({ playing: !playing });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

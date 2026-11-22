@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kartis — Shabbat cards</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&amp;family=Geist:wght@400;500;600&amp;family=Gloock&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600&amp;family=Mrs+Saint+Delafield&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{opacity:.78}
+.k-fc{transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.k-fan:hover .k-l{transform:translate(-232px,40px) rotate(-13deg) !important}
+.k-fan:hover .k-r{transform:translate(232px,40px) rotate(13deg) !important}
+.k-fan:hover .k-c{transform:translateY(-10px) !important}
+.k-card{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.k-tile:hover .k-card{transform:translateY(-6px) rotate(-1.2deg)}
+.k-cta{opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}
+.k-tile:hover .k-cta,.k-tile:focus-within .k-cta{opacity:1;transform:none}
+input::placeholder{color:inherit;opacity:.55}
+.k-journey-float{animation:k-float 5s ease-in-out infinite}
+.k-journey-btn{position:relative;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border:0;border-radius:999px;cursor:pointer;font:400 18px/1 'Gloock',serif;letter-spacing:-.005em;color:#2B3A66;background:linear-gradient(120deg,#E7E1FF,#D8F0FF,#FFE6F0,#E7E1FF);background-size:300% 100%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),0 10px 26px -12px rgba(90,110,200,.6),0 0 26px rgba(200,215,255,.65);animation:k-shimmer 9s ease-in-out infinite;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.k-journey-btn:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 14px 30px -12px rgba(90,110,200,.7),0 0 36px rgba(200,215,255,.9)}
+.k-journey-btn:focus-visible{outline:2px solid #6E7FD6;outline-offset:3px}
+.k-tw1{animation:k-twinkle 2.2s ease-in-out infinite;transform-origin:50% 50%}
+.k-tw2{animation:k-twinkle 2.8s -1.2s ease-in-out infinite;transform-origin:50% 50%}
+.k-journey{position:relative;width:min(1400px,100%);margin:0 auto;max-height:0;opacity:0;filter:blur(26px);transform:scale(.94);transform-origin:50% 0;overflow:hidden;transition:max-height 1.7s cubic-bezier(.65,0,.35,1),opacity 1.2s ease,filter 1.5s ease,transform 1.7s cubic-bezier(.22,.7,.2,1),margin-top 1.7s cubic-bezier(.65,0,.35,1);-webkit-mask-image:url(/_blob/cfe5b25633c958c1ee331ab8fd728cdc);mask-image:url(/_blob/cfe5b25633c958c1ee331ab8fd728cdc);-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.k-journey.k-open{max-height:92vh;opacity:1;filter:blur(0);transform:none;margin-top:48px}
+@media (max-width:720px){.k-journey-float{left:16px !important;bottom:16px !important}}
+@keyframes k-shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes k-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes k-twinkle{0%,100%{opacity:.35;transform:scale(.7) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(20deg)}}
+@media (prefers-reduced-motion:reduce){.k-journey,.k-journey-btn,.k-journey-float,.k-tw1,.k-tw2{animation:none !important;transition:opacity .3s !important;filter:none !important}}
+.k-pop{animation:k-pop-in .45s cubic-bezier(.2,.7,.2,1) both}
+.k-pop-bg{animation:k-fade-in .3s ease both}
+@keyframes k-pop-in{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes k-fade-in{from{opacity:0}to{opacity:1}}
+@media (max-width:1080px){.k-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}}
+@media (max-width:720px){
+.k-fan{transform:scale(.56);transform-origin:top center;margin-bottom:-190px !important}
+.k-grid{grid-template-columns:minmax(0,1fr) !important}
+.k-steps{grid-template-columns:minmax(0,1fr) !important}
+.k-navlinks{display:none !important}
+.k-tile{height:300px !important}
+}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: {{t.bg}}; color: {{t.ink}}; font-family: {{t.body}}; transition: background .4s, color .4s; overflow-x: hidden">
+
+
+<header style="padding: 16px 16px 0">
+<nav aria-label="Main" style="max-width: 1174px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 8px 8px 28px; border-radius: 999px; background: {{t.navBg}}; border: 1px solid {{t.line}}">
+<a href="#top" style="text-decoration: none; font-family: {{t.display}}; font-size: 26px; letter-spacing: {{t.headTrack}}; font-weight: {{t.headWeight}}">Kartis</a>
+<div class="k-navlinks" style="display: flex; gap: 36px; font-size: 15px">
+<a href="#how" style="text-decoration: none">How it works</a>
+<a href="#templates" style="text-decoration: none">Templates</a>
+<a href="#ai" style="text-decoration: none">Draft with AI</a>
+</div>
+<a href="EditorSimple.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border-radius: {{t.btnRadius}}; background: {{t.accent}}; color: {{t.accentInk}}; text-decoration: none; font-size: 15px; font-weight: 500">Create a card</a>
+</nav>
+</header>
+
+<section id="top" style="max-width: 1100px; margin: 0 auto; padding: 96px 16px 0; text-align: center">
+<p style="margin: 0 0 28px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{t.muted}}">For Friday dinners, kiddush and every long table</p>
+<h1 style="margin: 0 auto; max-width: 880px; font-family: {{t.display}}; font-weight: {{t.headWeight}}; font-size: clamp(44px, 6.4vw, 92px); line-height: 1.02; letter-spacing: {{t.headTrack}}">Exchange cards for Shabbat</h1>
+<p style="margin: 4px 0 0; font-family: {{t.script}}; font-style: {{t.scriptStyle}}; font-size: {{t.scriptSize}}; line-height: 1.15; color: {{t.scriptColor}}">paper now, phones later</p>
+<p style="max-width: 540px; margin: 24px auto 0; font-size: 18px; line-height: 1.55; color: {{t.muted}}">Design a printed card with your QR code before candle lighting. Hand it across the table. They scan it after Havdalah.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 36px">
+<a href="EditorSimple.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: {{t.btnRadius}}; background: {{t.accent}}; color: {{t.accentInk}}; text-decoration: none; font-size: 16px; font-weight: 500">Create your card</a>
+<a href="#how" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: {{t.btnRadius}}; border: 1px solid {{t.lineStrong}}; text-decoration: none; font-size: 16px; font-weight: 500">How it works</a>
+</div>
+<div class="k-journey-float" style="position: fixed; left: 24px; bottom: 24px; z-index: 50; display: flex; align-items: center">
+<button type="button" class="k-journey-btn" onClick="{{toggleJourney}}" aria-expanded="{{journeyExpanded}}" aria-controls="k-journey">
+<svg class="k-tw1" width="14" height="14" viewBox="0 0 16 16" fill="#8C9BE8" aria-hidden="true"><path d="M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4 Z"></path></svg>
+<span>{{journeyLabel}}</span>
+<svg class="k-tw2" width="11" height="11" viewBox="0 0 16 16" fill="#E9A7C4" aria-hidden="true"><path d="M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4 Z"></path></svg>
+</button>
+<sc-if value="{{journeyOpen}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="k-journey-btn" onClick="{{toggleSound}}" aria-pressed="{{soundPressed}}" aria-label="{{soundLabel}}" title="{{soundLabel}}" style="width: 52px; min-width: 52px; padding: 0; justify-content: center; margin-left: 8px">
+<sc-if value="{{soundOn}}" hint-placeholder-val="{{ true }}">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5h3l4-3.5v12l-4-3.5H3z"></path><path d="M13.5 7a4 4 0 0 1 0 6"></path><path d="M15.8 4.8a7 7 0 0 1 0 10.4"></path></svg>
+</sc-if>
+<sc-if value="{{soundOff}}" hint-placeholder-val="{{ false }}">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5h3l4-3.5v12l-4-3.5H3z"></path><path d="M13.5 7.5l5 5M18.5 7.5l-5 5"></path></svg>
+</sc-if>
+</button>
+</sc-if>
+</div>
+<sc-if value="{{journeyOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; left: 28px; bottom: 84px; z-index: 50; font: 400 20px/1.2 'Mrs Saint Delafield', cursive; color: #5A6798; pointer-events: none">Music: Satie, Gymnopédie No. 1 (Musopen)</div>
+</sc-if>
+</section>
+
+<div id="k-journey" class="k-journey {{journeyClass}}" role="region" aria-label="A journey to the white city">
+<sc-if value="{{journeyMounted}}" hint-placeholder-val="{{ false }}">
+<dc-import name="WhiteShip" hint-size="100%,100vh"></dc-import>
+</sc-if>
+</div>
+
+<div class="k-fan" style="position: relative; height: 440px; max-width: 900px; margin: 80px auto 0">
+<div class="k-fc k-l" style="position: absolute; left: 50%; top: 30px; width: 260px; height: 340px; margin-left: -130px; transform: translate(-188px, 30px) rotate(-9deg); box-sizing: border-box; padding: 26px; border-radius: 6px; background: #FBF8F2; color: #1E1C18; box-shadow: {{t.cardShadow}}; display: flex; flex-direction: column; justify-content: space-between; text-align: left">
+<div>
+<div style="font-family: 'Gloock', serif; font-size: 30px; line-height: 1.05">Your<br>Name</div>
+<div style="margin-top: 12px; font: 400 12px/1.5 'Instrument Sans', sans-serif; color: #6B655A">Friday dinner<br>at our table</div>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px">
+<div style="font: 400 11px/1.45 'Instrument Sans', sans-serif; color: #6B655A">Scan me<br>after Shabbat</div>
+<div style="background: #FFFFFF; padding: 6px; border-radius: 4px; line-height: 0"><img src="/_blob/6992beac7ab56f30cc65e48b199ccef6" alt="QR code" style="width: 64px; height: 64px"></div>
+</div>
+</div>
+<div class="k-fc k-r" style="position: absolute; left: 50%; top: 30px; width: 260px; height: 340px; margin-left: -130px; transform: translate(188px, 30px) rotate(9deg); box-sizing: border-box; padding: 26px; border-radius: 6px; background: #20253A; color: #EFE7D6; box-shadow: {{t.cardShadow}}; display: flex; flex-direction: column; justify-content: space-between; text-align: left">
+<div>
+<div style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 32px; line-height: 1.05">Your Name</div>
+<div style="margin-top: 12px; font: 400 12px/1.5 'Manrope', sans-serif; color: #B9B2A3">Lovely to meet you tonight</div>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px">
+<div style="font: 400 11px/1.45 'Manrope', sans-serif; color: #B9B2A3">@yourhandle</div>
+<div style="background: #FFFFFF; padding: 6px; border-radius: 4px; line-height: 0"><img src="/_blob/6992beac7ab56f30cc65e48b199ccef6" alt="QR code" style="width: 64px; height: 64px"></div>
+</div>
+</div>
+<div class="k-fc k-c" style="position: absolute; left: 50%; top: 0; z-index: 2; width: 272px; height: 356px; margin-left: -136px; transform: translateY(0); box-sizing: border-box; padding: 28px; border-radius: 6px; background: #F3E6D3; color: #3A2817; box-shadow: {{t.cardShadow}}; display: flex; flex-direction: column; justify-content: space-between; text-align: center">
+<div>
+<div style="font-family: 'Mrs Saint Delafield', cursive; font-size: 56px; line-height: 1">Shabbat Shalom</div>
+<div style="width: 40px; height: 1px; margin: 16px auto; background: #3A2817; opacity: .35"></div>
+<div style="font: italic 400 16px/1.4 'Instrument Serif', serif; color: #6E5440">So glad we shared a table tonight.</div>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; text-align: left">
+<div>
+<div style="font-family: 'Gloock', serif; font-size: 20px">Your Name</div>
+<div style="margin-top: 4px; font: 400 11px/1.4 'Instrument Sans', sans-serif; color: #6E5440">Save me once Shabbat is out</div>
+</div>
+<div style="background: #FFFFFF; padding: 6px; border-radius: 4px; line-height: 0"><img src="/_blob/6992beac7ab56f30cc65e48b199ccef6" alt="QR code" style="width: 64px; height: 64px"></div>
+</div>
+</div>
+</div>
+
+<section id="how" aria-labelledby="how-h" style="max-width: 1174px; margin: 72px auto 0; padding: 0 16px">
+<h2 id="how-h" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">How it works</h2>
+<div class="k-steps" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px">
+<div style="border-top: 1px solid {{t.lineStrong}}; padding-top: 20px">
+<div style="font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: {{t.muted}}">01 · Friday</div>
+<h3 style="margin: 12px 0 0; font-family: {{t.display}}; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}; font-size: 28px; line-height: 1.15">Design it, print it</h3>
+<p style="margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: {{t.muted}}">Pick a template, add your name and a QR to whatever you want to share. Send the file to a print shop near you.</p>
+</div>
+<div style="border-top: 1px solid {{t.lineStrong}}; padding-top: 20px">
+<div style="font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: {{t.muted}}">02 · Shabbat</div>
+<h3 style="margin: 12px 0 0; font-family: {{t.display}}; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}; font-size: 28px; line-height: 1.15">Hand it over</h3>
+<p style="margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: {{t.muted}}">Paper only. Slip it to the person you clicked with between the soup and the dessert.</p>
+</div>
+<div style="border-top: 1px solid {{t.lineStrong}}; padding-top: 20px">
+<div style="font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: {{t.muted}}">03 · Motzei Shabbat</div>
+<h3 style="margin: 12px 0 0; font-family: {{t.display}}; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}; font-size: 28px; line-height: 1.15">They scan, you're saved</h3>
+<p style="margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: {{t.muted}}">Once Shabbat is out, they scan the QR. One tap and you're in their phone.</p>
+</div>
+</div>
+</section>
+
+<section id="templates" aria-labelledby="tpl-h" style="max-width: 1174px; margin: 140px auto 0; padding: 0 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 32px">
+<div>
+<h2 id="tpl-h" style="margin: 0; font-family: {{t.display}}; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}; font-size: clamp(40px, 4.6vw, 60px); line-height: 1">Templates</h2>
+<p style="margin: 12px 0 0; font-size: 16px; color: {{t.muted}}">Sixteen styles, from quiet type to illustrated. Each comes tall or wide.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<div role="group" aria-label="Style" style="display: flex; gap: 4px; padding: 4px; border-radius: 999px; border: 1px solid {{t.line}}">
+<sc-for list="{{kinds}}" as="kd" hint-placeholder-count="3">
+<button type="button" onClick="{{kd.pick}}" aria-pressed="{{kd.pressed}}" style="min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; cursor: pointer; font: 500 14px/1 {{t.body}}; background: {{kd.bg}}; color: {{kd.fg}}">{{kd.label}}</button>
+</sc-for>
+</div>
+<div role="group" aria-label="Card shape" style="display: flex; gap: 4px; padding: 4px; border-radius: 999px; border: 1px solid {{t.line}}">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="2">
+<button type="button" onClick="{{tb.pick}}" aria-pressed="{{tb.pressed}}" style="min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; cursor: pointer; font: 500 14px/1 {{t.body}}; background: {{tb.bg}}; color: {{tb.fg}}">{{tb.label}}</button>
+</sc-for>
+</div>
+</div>
+</div>
+<div class="k-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<sc-for list="{{templates}}" as="item" hint-placeholder-count="9">
+<div>
+<div class="k-tile" style="position: relative; height: 360px; border-radius: {{t.radius}}; background: {{t.surface}}; display: flex; align-items: center; justify-content: center; overflow: hidden">
+<div class="k-card" style="position: relative; width: {{tileW}}; height: {{tileH}}; border-radius: 4px; overflow: hidden; box-shadow: {{t.cardShadow}}">
+<div style="position: absolute; left: 0; top: 0; transform: scale({{tileScale}}); transform-origin: top left">
+<dc-import name="Card" tpl="{{item.tpl}}" c="{{item.c}}" orient="{{orient}}" hint-size="{{hint}}"></dc-import>
+</div>
+</div>
+<a href="EditorSimple.dc.html" onClick="{{item.open}}" tabindex="-1" aria-hidden="true" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; cursor: pointer"></a>
+<div style="position: absolute; left: 0; right: 0; bottom: 20px; z-index: 2; display: flex; justify-content: center">
+<a class="k-cta" href="EditorSimple.dc.html" onClick="{{item.open}}" aria-label="Customize {{item.name}}" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: {{t.btnRadius}}; background: {{t.accent}}; color: {{t.accentInk}}; text-decoration: none; font-size: 14px; font-weight: 500">Customize template</a>
+</div>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 14px 4px 0; font-size: 14px">
+<span style="font-weight: 500">{{item.name}}</span>
+<span style="color: {{t.muted}}">{{item.meta}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="ai" aria-labelledby="ai-h" style="max-width: 760px; margin: 140px auto 0; padding: 0 16px; text-align: center">
+<span style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px; padding: 6px 12px; border-radius: 999px; border: 1px solid {{t.line}}; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: {{t.muted}}">Coming soon</span>
+<h2 id="ai-h" style="margin: 0; font-family: {{t.display}}; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}; font-size: clamp(34px, 3.8vw, 48px); line-height: 1.08">Not sure where to start?</h2>
+<p style="margin: 14px auto 0; max-width: 480px; font-size: 17px; line-height: 1.55; color: {{t.muted}}">Describe the evening and who you are. We'll draft a card you can tweak before it goes to print.</p>
+<form style="margin-top: 32px; text-align: left" action="#ai" onSubmit="{{submitPrompt}}">
+<label for="k-prompt" style="display: block; margin: 0 0 8px 4px; font-size: 13px; color: {{t.muted}}">Describe your card</label>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 8px; border-radius: {{t.radius}}; background: {{t.navBg}}; border: 1px solid {{t.lineStrong}}">
+<input id="k-prompt" type="text" value="{{prompt}}" onChange="{{onPrompt}}" placeholder="Warm and simple, for a Friday dinner in Jerusalem" style="flex: 1 1 260px; min-width: 0; min-height: 48px; padding: 0 14px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<button type="button" onClick="{{openAi}}" aria-haspopup="dialog" style="min-height: 48px; padding: 0 24px; border: 0; border-radius: {{t.btnRadius}}; cursor: pointer; background: {{t.accent}}; color: {{t.accentInk}}; font: 500 15px/1 {{t.body}}">Draft it</button>
+</div>
+</form>
+</section>
+
+<footer style="max-width: 1174px; margin: 160px auto 0; padding: 32px 16px 48px; border-top: 1px solid {{t.line}}; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 20px">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px">
+<span style="font-family: {{t.display}}; font-size: 22px; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}">Kartis<span style="color: {{t.accent}}">.</span></span>
+<span style="font-size: 14px; color: {{t.muted}}">Printed cards for a phone-free Shabbat.</span>
+</div>
+<span style="font-size: 14px; color: {{t.muted}}">Created by <a href="mailto:daria.dxns@gmail.com" style="color: {{t.ink}}; text-underline-offset: 3px">Daria</a></span>
+</footer>
+
+<sc-if value="{{aiOpen}}" hint-placeholder-val="{{ false }}">
+<div onClick="{{closeAi}}" style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(24,22,34,.38); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px)" class="k-pop-bg">
+<div role="dialog" aria-modal="true" aria-labelledby="ai-pop-h" onClick="{{stopClick}}" onKeyDown="{{aiKey}}" class="k-pop" style="position: relative; width: min(460px, 100%); box-sizing: border-box; padding: 36px 32px 30px; border-radius: {{t.radius}}; background: {{t.navBg}}; color: {{t.ink}}; box-shadow: 0 30px 80px -30px rgba(20,20,40,.55), 0 0 0 1px {{t.line}}; text-align: left">
+<button type="button" onClick="{{closeAi}}" aria-label="Close" style="position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: {{t.muted}}; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14"></path></svg></button>
+<span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: {{t.surface}}; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: {{t.muted}}"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4 Z"></path></svg>In the works</span>
+<sc-if value="{{aiNotDone}}" hint-placeholder-val="{{ true }}">
+<h2 id="ai-pop-h" style="margin: 18px 0 0; font-family: {{t.display}}; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}; font-size: 32px; line-height: 1.1">Drafting with AI is almost ready</h2>
+<p style="margin: 12px 0 0; font-size: 16px; line-height: 1.55; color: {{t.muted}}">We're still teaching it the difference between a Friday dinner and a board meeting. Leave your email and we'll write once you can try it.</p>
+<form onSubmit="{{subscribe}}" style="margin-top: 24px" novalidate="novalidate">
+<label for="k-email" style="display: block; margin: 0 0 6px 2px; font-size: 14px; font-weight: 500">Email</label>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<input id="k-email" type="email" autocomplete="email" value="{{email}}" onChange="{{onEmail}}" placeholder="you@example.com" aria-invalid="{{emailInvalid}}" aria-describedby="k-email-msg" style="flex: 1 1 220px; min-width: 0; box-sizing: border-box; min-height: 48px; padding: 0 14px; border-radius: {{t.btnRadius}}; border: 1px solid {{emailBorder}}; background: {{t.bg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<button type="submit" style="min-height: 48px; padding: 0 22px; border: 0; border-radius: {{t.btnRadius}}; cursor: pointer; background: {{t.accent}}; color: {{t.accentInk}}; font: 500 15px/1 {{t.body}}">Notify me</button>
+</div>
+<p id="k-email-msg" style="margin: 8px 0 0 2px; min-height: 20px; font-size: 13px; line-height: 1.5; color: {{emailMsgColor}}">{{emailMsg}}</p>
+</form>
+</sc-if>
+<sc-if value="{{aiDone}}" hint-placeholder-val="{{ false }}">
+<h2 id="ai-pop-h" style="margin: 18px 0 0; font-family: {{t.display}}; font-weight: {{t.headWeight}}; letter-spacing: {{t.headTrack}}; font-size: 32px; line-height: 1.1">You're on the list</h2>
+<p style="margin: 12px 0 0; font-size: 16px; line-height: 1.55; color: {{t.muted}}">We'll write to <span style="color: {{t.ink}}">{{email}}</span> as soon as drafting with AI opens. Never on Shabbat.</p>
+<button type="button" onClick="{{closeAi}}" style="margin-top: 24px; min-height: 48px; padding: 0 22px; border: 1px solid {{t.lineStrong}}; border-radius: {{t.btnRadius}}; cursor: pointer; background: transparent; color: {{t.ink}}; font: 500 15px/1 {{t.body}}">Back to the cards</button>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4800}}'>
+const KARTIS_THEMES = {
+  paper: {
+    label: 'Warm stationery',
+    bg: '#EFE9DF', ink: '#23211C', muted: '#665F52', line: 'rgba(35,33,28,0.12)', lineStrong: 'rgba(35,33,28,0.28)',
+    surface: '#E5DCCD', navBg: '#F7F2E9', accent: '#2F3C7E', accentInk: '#F7F2E9',
+    display: "'Gloock', serif", body: "'Instrument Sans', sans-serif",
+    script: "'Mrs Saint Delafield', cursive", scriptStyle: 'normal', scriptSize: '72px', scriptColor: '#2F3C7E',
+    headWeight: '400', headTrack: '-0.01em', radius: '24px', btnRadius: '999px',
+    cardShadow: '0 1px 0 rgba(35,33,28,0.06), 0 22px 44px -20px rgba(35,33,28,0.40)'
+  },
+};
+const KARTIS_ORDER = ['paper'];
+const KT_SERIF = "'Gloock', serif", KT_BODONI = "'Bodoni Moda', serif", KT_ISERIF = "'Instrument Serif', serif", KT_SCRIPT = "'Mrs Saint Delafield', cursive", KT_GEIST = "'Geist', sans-serif", KT_SANS = "'Instrument Sans', sans-serif";
+const KT_TPLS = [
+  { name: 'Candlelight', layout: 'classic', bg: '#F3E6D3', ink: '#3A2817', sub: '#6E5440', rule: 'rgba(58,40,23,0.35)', greetFont: KT_SCRIPT, greetStyle: 'normal', greetColor: '#3A2817', greetTall: 64, greetWide: 50, nameFont: KT_SERIF, nameStyle: 'normal', nameWeight: '400', nameTall: 24, nameWide: 22, bodyFont: KT_SANS },
+  { name: 'Linen', layout: 'frame', bg: '#FBF8F2', ink: '#1E1C18', sub: '#6B655A', rule: 'rgba(30,28,24,0.45)', greetFont: KT_SERIF, greetStyle: 'normal', greetColor: '#1E1C18', greetTall: 34, greetWide: 28, nameFont: KT_SERIF, nameStyle: 'normal', nameWeight: '400', nameTall: 36, nameWide: 30, bodyFont: KT_SANS },
+  { name: 'Blue hour', layout: 'stack', bg: '#26304F', ink: '#F1EADB', sub: '#C2BBAC', rule: 'rgba(241,234,219,0.35)', greetFont: KT_BODONI, greetStyle: 'italic', greetColor: '#F1EADB', greetTall: 34, greetWide: 28, nameFont: KT_BODONI, nameStyle: 'italic', nameWeight: '400', nameTall: 50, nameWide: 42, bodyFont: KT_SANS },
+  { name: 'Sage', layout: 'frame', bg: '#F1F2EC', ink: '#2F4A36', sub: '#4E5B4A', rule: '#3F5A45', greetFont: KT_ISERIF, greetStyle: 'italic', greetColor: '#3F5A45', greetTall: 34, greetWide: 28, nameFont: KT_ISERIF, nameStyle: 'normal', nameWeight: '400', nameTall: 40, nameWide: 32, bodyFont: KT_SANS },
+  { name: 'Monogram', layout: 'mono', bg: '#FFFFFF', ink: '#111111', sub: '#66625D', rule: 'rgba(17,17,17,0.25)', greetFont: KT_ISERIF, greetStyle: 'italic', greetColor: '#111111', greetTall: 34, greetWide: 28, nameFont: KT_GEIST, nameStyle: 'normal', nameWeight: '500', nameTall: 30, nameWide: 26, bodyFont: KT_GEIST },
+  { name: 'Honey', layout: 'big', bg: '#EBCB7A', ink: '#2B2210', sub: '#5A4720', rule: 'rgba(43,34,16,0.3)', greetFont: KT_GEIST, greetStyle: 'normal', greetColor: '#2B2210', greetTall: 34, greetWide: 28, nameFont: KT_GEIST, nameStyle: 'normal', nameWeight: '600', nameTall: 66, nameWide: 50, bodyFont: KT_GEIST },
+  { name: 'After dark', layout: 'classic', bg: '#16130F', ink: '#F1E8D8', sub: '#B4A894', rule: 'rgba(241,232,216,0.3)', greetFont: KT_SCRIPT, greetStyle: 'normal', greetColor: '#E3A548', greetTall: 64, greetWide: 50, nameFont: KT_BODONI, nameStyle: 'normal', nameWeight: '500', nameTall: 24, nameWide: 22, bodyFont: KT_SANS },
+  { name: 'Pomegranate', layout: 'stack', bg: '#F7F0EB', ink: '#5E1F2B', sub: '#6A4F52', rule: 'rgba(122,46,58,0.35)', greetFont: KT_BODONI, greetStyle: 'italic', greetColor: '#7A2E3A', greetTall: 34, greetWide: 28, nameFont: KT_BODONI, nameStyle: 'italic', nameWeight: '400', nameTall: 48, nameWide: 40, bodyFont: KT_SANS },
+  { name: 'Olive grove', layout: 'stack', bg: '#D9D6BF', ink: '#2B2E21', sub: '#4F523A', rule: 'rgba(43,46,33,0.3)', greetFont: KT_ISERIF, greetStyle: 'italic', greetColor: '#2B2E21', greetTall: 34, greetWide: 28, nameFont: KT_ISERIF, nameStyle: 'normal', nameWeight: '400', nameTall: 48, nameWide: 40, bodyFont: KT_SANS },
+  { name: 'Challah', kind: 'illustrated', layout: 'art', art: 'challah', bg: '#F6D9C9', ink: '#A93624', sub: '#A93624', tint: '#EFB49F', rule: '#A93624', greetFont: "'Fraunces', serif", greetStyle: 'italic', greetWeight: '400', greetColor: '#A93624', greetArtTall: 20, greetArtWide: 17, nameFont: "'Fraunces', serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' },
+  { name: 'Two lights', kind: 'illustrated', layout: 'art', art: 'candles', bg: '#E5D6EC', ink: '#6E3378', sub: '#6E3378', tint: '#D3B5DC', rule: '#6E3378', greetFont: "'Fraunces', serif", greetStyle: 'italic', greetWeight: '400', greetColor: '#6E3378', greetArtTall: 20, greetArtWide: 17, nameFont: "'Fraunces', serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' },
+  { name: 'Pomegranate print', kind: 'illustrated', layout: 'art', art: 'pomegranate', bg: '#F3D5DA', ink: '#A0304A', sub: '#A0304A', tint: '#E9AEBB', rule: '#A0304A', greetFont: "'Fraunces', serif", greetStyle: 'italic', greetWeight: '400', greetColor: '#A0304A', greetArtTall: 20, greetArtWide: 17, nameFont: "'Fraunces', serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' },
+  { name: 'Good wine', kind: 'illustrated', layout: 'art', art: 'bottle', bg: '#F7EFE7', ink: '#A23447', sub: '#A23447', tint: '#EBC3C0', rule: '#A23447', greetFont: "'Fraunces', serif", greetStyle: 'italic', greetWeight: '400', greetColor: '#A23447', greetArtTall: 20, greetArtWide: 17, nameFont: "'Fraunces', serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' },
+  { name: 'Sunset collage', kind: 'illustrated', layout: 'art', art: 'sunset', bg: '#FFF9F2', ink: '#161616', sub: '#4A4744', tint: '#EEEEEE', rule: '#161616', c1: '#B79CF2', c2: '#F6A043', c3: '#2E3C8C', c4: '#EE5137', c5: '#3BAA5C', c6: '#F5A8C6', greetFont: "'Jost', sans-serif", greetStyle: 'normal', greetWeight: '500', greetTrack: '0.12em', greetCase: 'uppercase', greetColor: '#4A4744', greetArtTall: 12, greetArtWide: 11, nameFont: "'Jost', sans-serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Jost', sans-serif", wideDir: 'row-reverse' },
+  { name: 'Garden collage', kind: 'illustrated', layout: 'art', art: 'garden', bg: '#FFFFFF', ink: '#161616', sub: '#4A4744', tint: '#EEEEEE', rule: '#161616', c1: '#B79CF2', c2: '#F6A043', c3: '#2E3C8C', c4: '#EE5137', c5: '#3BAA5C', c6: '#F5A8C6', greetFont: "'Jost', sans-serif", greetStyle: 'normal', greetWeight: '500', greetTrack: '0.12em', greetCase: 'uppercase', greetColor: '#4A4744', greetArtTall: 12, greetArtWide: 11, nameFont: "'Jost', sans-serif", nameStyle: 'normal', nameWeight: '600', nameTall: 32, nameWide: 28, bodyFont: "'Jost', sans-serif", wideDir: 'row-reverse' },
+  { name: 'Candle night', kind: 'illustrated', layout: 'art', art: 'candlenight', bg: '#F7F3EA', ink: '#1E3A8A', sub: '#3D4E8C', tint: '#DCE3F3', rule: '#1E3A8A', greetFont: "'Gloock', serif", greetStyle: 'normal', greetWeight: '400', greetColor: '#B7791F', greetArtTall: 20, greetArtWide: 17, nameFont: "'Gloock', serif", nameStyle: 'normal', nameWeight: '400', nameTall: 32, nameWide: 28, bodyFont: "'Instrument Sans', sans-serif", wideDir: 'row' }
+];
+const KT_SAMPLES = [
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'So glad we shared a table tonight.', whatsapp: '+972 5X XXX XXXX', platform: 'Instagram', handle: 'yourhandle', phone: '', showQr: true, foot: 'Save me once Shabbat is out' },
+  { greeting: 'Good Shabbos', name: 'Your Name', line: "Let's keep talking after Shabbat.", platform: 'Telegram', handle: 'yourhandle', phone: '', showQr: false, foot: '' },
+  { greeting: 'Shavua tov, soon', name: 'Your Name', line: 'Until next Shabbat', platform: 'Instagram', handle: 'yourhandle', phone: '', showQr: true, foot: 'Scan after Havdalah' },
+  { greeting: 'Thank you for hosting', name: 'Your Name', line: 'From everyone at your table', platform: '', handle: '', phone: '', showQr: false, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'So nice to meet you tonight', platform: 'Telegram', handle: 'yourhandle', phone: '+972 5X XXX XXXX', showQr: true, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Say hi after Havdalah', platform: 'Instagram', handle: 'yourhandle', phone: '', showQr: true, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Found you at the long table.', platform: 'Telegram', handle: 'yourhandle', phone: '', showQr: true, foot: 'Scan after Havdalah' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Next Friday, at ours?', platform: 'Instagram', handle: 'yourhandle', phone: '+972 5X XXX XXXX', showQr: false, foot: '' },
+  { greeting: '', name: 'Your Name', line: "Let's do this again soon", platform: 'Telegram', handle: 'yourhandle', phone: '', showQr: true, foot: 'Scan after Havdalah' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Come for Friday dinner sometime', platform: 'Instagram', handle: 'yourhandle', phone: '', showQr: true, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Lovely to meet you tonight', platform: 'Telegram', handle: 'yourhandle', phone: '', showQr: true, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Thank you for a lovely evening', platform: 'Instagram', handle: 'yourhandle', phone: '', showQr: true, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Next kiddush is on me', platform: 'Telegram', handle: 'yourhandle', phone: '', showQr: true, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Keep in touch after Shabbat', platform: 'Instagram', handle: 'yourhandle', phone: '', showQr: true, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Friday sunsets, always', platform: 'Telegram', handle: 'yourhandle', phone: '', showQr: true, foot: '' },
+  { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'Good talks, good wine, good Shabbat', platform: 'Instagram', handle: 'yourhandle', phone: '', showQr: false, foot: '' }
+];
+const KARTIS_CHIPS = [
+  'Warm and simple, for a Friday dinner in Jerusalem',
+  'Minimal, just my name and LinkedIn',
+  'A thank-you card for our hosts'
+];
+class Component extends DCLogic {
+  music() {
+    if (!this._music) {
+      try { this._music = new Audio('/_blob/f7704579ab4aaf9c1946b8a6d22b25d6'); this._music.loop = true; this._music.volume = 0; } catch (e) { this._music = null; }
+    }
+    return this._music;
+  }
+  componentDidMount() {
+    try {
+      this._bc = new BroadcastChannel('kartis-music');
+      this._bc.onmessage = (e) => {
+        const d = (e && e.data) || {};
+        if (d.type === 'ping') this.musicStatus(this._musicTarget > 0);
+        if (d.type === 'stop') { this.setState({ muted: true }); this.fadeMusic(0, 600); }
+        if (d.type === 'play' && this._music) { this.setState({ muted: false }); this.fadeMusic(0.5, 1200); }
+      };
+    } catch (e) { this._bc = null; }
+  }
+  musicStatus(playing) {
+    try { if (this._bc) this._bc.postMessage({ type: 'status', playing: !!playing, active: !!this._music }); } catch (e) {}
+  }
+  fadeMusic(target, ms) {
+    const a = this.music(); if (!a) return;
+    this._musicTarget = target;
+    this.musicStatus(target > 0);
+    cancelAnimationFrame(this._fadeRaf);
+    if (target > 0 && a.paused) { const p = a.play(); if (p && p.catch) p.catch(() => {}); }
+    const from = a.volume, t0 = performance.now();
+    const step = (now) => {
+      const k = Math.min((now - t0) / ms, 1);
+      a.volume = Math.max(0, Math.min(1, from + (target - from) * k));
+      if (k < 1) this._fadeRaf = requestAnimationFrame(step);
+      else if (target === 0) a.pause();
+    };
+    this._fadeRaf = requestAnimationFrame(step);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this._fadeRaf);
+    if (this._music) { this._music.pause(); this._music = null; }
+    this.musicStatus(false);
+    try { if (this._bc) this._bc.close(); } catch (e) {}
+    this._bc = null;
+  }
+  renderVals() {
+    const s = this.state || {};
+    const key = s.theme || this.props.theme || 'paper';
+    const t = KARTIS_THEMES[key] || KARTIS_THEMES.paper;
+    const themes = KARTIS_ORDER.map((k) => ({
+      label: KARTIS_THEMES[k].label,
+      pressed: k === key,
+      bg: k === key ? t.accent : 'transparent',
+      fg: k === key ? t.accentInk : t.ink,
+      pick: () => this.setState({ theme: k })
+    }));
+    const orient = s.tab || 'tall';
+    const tabs = [['tall', 'Tall'], ['wide', 'Wide']].map(([k, label]) => ({
+      label,
+      pressed: k === orient,
+      bg: k === orient ? t.accent : 'transparent',
+      fg: k === orient ? t.accentInk : t.ink,
+      pick: () => this.setState({ tab: k })
+    }));
+    const tall = orient === 'tall';
+    const tileScale = tall ? 0.6 : 0.62;
+    const cw = tall ? 360 : 504, ch = tall ? 468 : 288;
+    const kind = s.kind || 'all';
+    const kinds = [['all', 'All'], ['quiet', 'Quiet'], ['illustrated', 'Illustrated']].map(([k, label]) => ({
+      label,
+      pressed: k === kind,
+      bg: k === kind ? t.accent : 'transparent',
+      fg: k === kind ? t.accentInk : t.ink,
+      pick: () => this.setState({ kind: k })
+    }));
+    const templates = KT_TPLS.map((tpl, i) => ({
+      tpl,
+      c: KT_SAMPLES[i],
+      kind: tpl.kind || 'quiet',
+      name: tpl.name,
+      // Remember which template was clicked, so the editor opens on it
+      open: () => {
+        const pick = { name: tpl.name, orient, t: Date.now() };
+        try { localStorage.setItem('kartis-pick', JSON.stringify(pick)); } catch (e) {}
+        try { const bc = new BroadcastChannel('kartis-pick'); bc.postMessage(pick); bc.close(); } catch (e) {}
+      },
+      meta: (tpl.kind === 'illustrated' ? 'Illustrated · ' : '') + (tall ? 'Tall · 4 × 5.2 in' : 'Wide · 3.5 × 2 in')
+    })).filter((x) => kind === 'all' || x.kind === kind);
+    const chips = KARTIS_CHIPS.map((label) => ({ label, pick: () => this.setState({ prompt: label }) }));
+    return {
+      t,
+      themes,
+      tabs,
+      templates,
+      kinds,
+      orient,
+      tileScale: String(tileScale),
+      tileW: Math.round(cw * tileScale) + 'px',
+      tileH: Math.round(ch * tileScale) + 'px',
+      hint: cw + 'px,' + ch + 'px',
+      chips,
+      prompt: s.prompt || '',
+      aiOpen: !!s.aiOpen,
+      aiDone: !!s.aiDone,
+      aiNotDone: !s.aiDone,
+      email: s.email || '',
+      emailInvalid: s.emailError ? 'true' : 'false',
+      emailBorder: s.emailError ? '#B4232C' : t.lineStrong,
+      emailMsg: s.emailError ? 'That email looks off. Check it and try again.' : '',
+      emailMsgColor: s.emailError ? '#B4232C' : t.muted,
+      openAi: () => this.setState({ aiOpen: true }),
+      submitPrompt: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ aiOpen: true }); },
+      closeAi: () => this.setState({ aiOpen: false, emailError: false }),
+      stopClick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      aiKey: (e) => { if (e && e.key === 'Escape') this.setState({ aiOpen: false, emailError: false }); },
+      onEmail: (e) => this.setState({ email: e.target.value, emailError: false }),
+      subscribe: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const v = (s.email || '').trim();
+        if (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) this.setState({ aiDone: true, emailError: false });
+        else this.setState({ emailError: true });
+      },
+      journeyClass: s.journey ? 'k-open' : '',
+      journeyMounted: !!s.journeyMounted,
+      journeyExpanded: s.journey ? 'true' : 'false',
+      journeyLabel: s.journey ? 'Back to shore' : 'Take a journey',
+      journeyOpen: !!s.journey,
+      soundOn: !s.muted, soundOff: !!s.muted,
+      soundPressed: s.muted ? 'false' : 'true',
+      soundLabel: s.muted ? 'Play music' : 'Mute music',
+      toggleSound: () => {
+        const muted = !s.muted;
+        this.setState({ muted });
+        if (muted) this.fadeMusic(0, 600); else this.fadeMusic(0.5, 1200);
+      },
+      toggleJourney: () => {
+        const opening = !s.journey;
+        this.setState({ journey: opening, journeyMounted: true });
+        if (opening && !s.muted) this.fadeMusic(0.5, 2800);
+        if (!opening) this.fadeMusic(0, 1800);
+        if (opening) {
+          setTimeout(() => {
+            const el = document.getElementById('k-journey');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 120);
+        }
+      },
+      onPrompt: (e) => this.setState({ prompt: e.target.value })
+    };
+  }
+}
+</script>
+</body>
+</html>

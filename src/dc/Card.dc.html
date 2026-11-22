@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kartis card</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&amp;family=Geist:wght@400;500;600&amp;family=Gloock&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;family=Mrs+Saint+Delafield&amp;family=Fraunces:ital,wght@0,400;0,600;1,400&amp;family=Jost:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="position: relative; width: {{w}}; height: {{h}}; overflow: hidden; background: {{T.bg}}; color: {{T.ink}}; font-family: {{T.bodyFont}}">
+
+<sc-if value="{{isClassic}}" hint-placeholder-val="{{ true }}">
+<div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-sizing: border-box; padding: {{pad}}; display: flex; flex-direction: column; justify-content: space-between">
+<div style="text-align: center">
+<sc-if value="{{hasGreeting}}" hint-placeholder-val="{{ true }}">
+<div style="font-family: {{T.greetFont}}; font-style: {{T.greetStyle}}; font-size: {{greetSize}}; line-height: 1.05; color: {{T.greetColor}}">{{c.greeting}}</div>
+<div style="width: 44px; height: 1px; margin: 16px auto; background: {{T.ink}}; opacity: .3"></div>
+</sc-if>
+<sc-if value="{{hasLine}}" hint-placeholder-val="{{ true }}">
+<div style="font: italic 400 {{lineSize}}/1.4 'Instrument Serif', serif; color: {{T.sub}}">{{c.line}}</div>
+</sc-if>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 14px">
+<div style="font: 400 {{smallSize}}/1.5 {{T.bodyFont}}; color: {{T.sub}}">
+<div style="font-family: {{T.nameFont}}; font-style: {{T.nameStyle}}; font-weight: {{T.nameWeight}}; font-size: {{nameSmall}}; line-height: 1.15; color: {{T.ink}}; margin-bottom: 4px">{{c.name}}</div>
+<sc-for list="{{details}}" as="d" hint-placeholder-count="2"><div>{{d.text}}</div></sc-for>
+</div>
+<sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 auto; background: #FFFFFF; padding: 6px; border-radius: 3px; line-height: 0"><svg role="img" aria-label="{{qrLabel}}" viewBox="{{qrBox}}" shape-rendering="crispEdges" style="display: block; width: {{qrSize}}; height: {{qrSize}}"><path d="{{qrD}}" fill="#000000"></path></svg></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isStack}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-sizing: border-box; padding: {{pad}}; display: flex; flex-direction: column; justify-content: space-between">
+<div>
+<sc-if value="{{hasGreeting}}" hint-placeholder-val="{{ true }}">
+<div style="margin-bottom: 14px; font: 500 {{eyebrowSize}}/1.2 {{T.bodyFont}}; letter-spacing: .14em; text-transform: uppercase; color: {{T.sub}}">{{c.greeting}}</div>
+</sc-if>
+<div style="font-family: {{T.nameFont}}; font-style: {{T.nameStyle}}; font-weight: {{T.nameWeight}}; font-size: {{nameSize}}; line-height: 1.02">{{c.name}}</div>
+<sc-if value="{{hasLine}}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 10px; font: 400 {{lineSizeSans}}/1.45 {{T.bodyFont}}; color: {{T.sub}}">{{c.line}}</div>
+</sc-if>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 14px">
+<div style="font: 400 {{smallSize}}/1.5 {{T.bodyFont}}; color: {{T.sub}}">
+<sc-for list="{{details}}" as="d" hint-placeholder-count="2"><div>{{d.text}}</div></sc-for>
+</div>
+<sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 auto; background: #FFFFFF; padding: 6px; border-radius: 3px; line-height: 0"><svg role="img" aria-label="{{qrLabel}}" viewBox="{{qrBox}}" shape-rendering="crispEdges" style="display: block; width: {{qrSize}}; height: {{qrSize}}"><path d="{{qrD}}" fill="#000000"></path></svg></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isBand}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column">
+<div style="flex: 0 0 {{bandH}}; box-sizing: border-box; padding: {{pad}}; padding-bottom: 18px; background: {{T.band}}; color: {{T.bandInk}}; display: flex; align-items: flex-end">
+<sc-if value="{{hasGreeting}}" hint-placeholder-val="{{ true }}">
+<div style="font-family: {{T.greetFont}}; font-style: {{T.greetStyle}}; font-size: {{greetSize}}; line-height: 1.05">{{c.greeting}}</div>
+</sc-if>
+</div>
+<div style="flex: 1 1 auto; box-sizing: border-box; padding: {{pad}}; padding-top: 18px; display: flex; flex-direction: column; justify-content: space-between">
+<div>
+<div style="font-family: {{T.nameFont}}; font-style: {{T.nameStyle}}; font-weight: {{T.nameWeight}}; font-size: {{nameSize}}; line-height: 1.05">{{c.name}}</div>
+<sc-if value="{{hasLine}}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 8px; font: italic 400 {{lineSize}}/1.4 'Instrument Serif', serif; color: {{T.sub}}">{{c.line}}</div>
+</sc-if>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 14px">
+<div style="font: 400 {{smallSize}}/1.5 {{T.bodyFont}}; color: {{T.sub}}">
+<sc-for list="{{details}}" as="d" hint-placeholder-count="2"><div>{{d.text}}</div></sc-for>
+</div>
+<sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 auto; background: #FFFFFF; padding: 6px; border-radius: 3px; line-height: 0; box-shadow: 0 0 0 1px rgba(0,0,0,.08)"><svg role="img" aria-label="{{qrLabel}}" viewBox="{{qrBox}}" shape-rendering="crispEdges" style="display: block; width: {{qrSizeSmall}}; height: {{qrSizeSmall}}"><path d="{{qrD}}" fill="#000000"></path></svg></div>
+</sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isFrame}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 12px; right: 12px; bottom: 12px; left: 12px; box-sizing: border-box; border: 1px solid {{T.rule}}; padding: {{padInner}}; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center">
+<div>
+<sc-if value="{{hasGreeting}}" hint-placeholder-val="{{ true }}">
+<div style="font: 500 {{eyebrowSize}}/1.2 {{T.bodyFont}}; letter-spacing: .16em; text-transform: uppercase; color: {{T.sub}}">{{c.greeting}}</div>
+</sc-if>
+<div style="margin-top: 12px; font-family: {{T.nameFont}}; font-style: {{T.nameStyle}}; font-weight: {{T.nameWeight}}; font-size: {{nameSize}}; line-height: 1.05">{{c.name}}</div>
+<sc-if value="{{hasLine}}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 8px; font: italic 400 {{lineSize}}/1.4 'Instrument Serif', serif; color: {{T.sub}}">{{c.line}}</div>
+</sc-if>
+</div>
+<div style="display: flex; align-items: center; justify-content: center; gap: 16px">
+<div style="font: 400 {{smallSize}}/1.5 {{T.bodyFont}}; color: {{T.sub}}; text-align: right">
+<sc-for list="{{details}}" as="d" hint-placeholder-count="2"><div>{{d.text}}</div></sc-for>
+</div>
+<sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 auto; background: #FFFFFF; padding: 6px; border-radius: 3px; line-height: 0"><svg role="img" aria-label="{{qrLabel}}" viewBox="{{qrBox}}" shape-rendering="crispEdges" style="display: block; width: {{qrSizeSmall}}; height: {{qrSizeSmall}}"><path d="{{qrD}}" fill="#000000"></path></svg></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isMono}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-sizing: border-box; padding: {{pad}}; display: flex; flex-direction: column; justify-content: space-between">
+<div style="display: flex; flex-direction: {{monoDir}}; align-items: {{monoAlign}}; gap: 16px">
+<div style="flex: 0 0 auto; width: {{monoSize}}; height: {{monoSize}}; border-radius: 50%; border: 1px solid {{T.rule}}; display: flex; align-items: center; justify-content: center; font-family: {{T.greetFont}}; font-style: {{T.greetStyle}}; font-size: {{monoFont}}; line-height: 1">{{initial}}</div>
+<div>
+<sc-if value="{{hasGreeting}}" hint-placeholder-val="{{ true }}">
+<div style="margin-bottom: 6px; font: 500 {{eyebrowSize}}/1.2 {{T.bodyFont}}; letter-spacing: .14em; text-transform: uppercase; color: {{T.sub}}">{{c.greeting}}</div>
+</sc-if>
+<div style="font-family: {{T.nameFont}}; font-style: {{T.nameStyle}}; font-weight: {{T.nameWeight}}; font-size: {{nameSize}}; line-height: 1.05; letter-spacing: -0.02em">{{c.name}}</div>
+<sc-if value="{{hasLine}}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 6px; font: 400 {{lineSizeSans}}/1.45 {{T.bodyFont}}; color: {{T.sub}}">{{c.line}}</div>
+</sc-if>
+</div>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 14px">
+<div style="font: 400 {{smallSize}}/1.5 {{T.bodyFont}}; color: {{T.sub}}">
+<sc-for list="{{details}}" as="d" hint-placeholder-count="2"><div>{{d.text}}</div></sc-for>
+</div>
+<sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 auto; background: #FFFFFF; padding: 6px; border-radius: 3px; line-height: 0; box-shadow: 0 0 0 1px rgba(0,0,0,.08)"><svg role="img" aria-label="{{qrLabel}}" viewBox="{{qrBox}}" shape-rendering="crispEdges" style="display: block; width: {{qrSizeSmall}}; height: {{qrSizeSmall}}"><path d="{{qrD}}" fill="#000000"></path></svg></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isBig}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-sizing: border-box; padding: {{pad}}; display: flex; flex-direction: column; justify-content: space-between">
+<div>
+<sc-if value="{{hasGreeting}}" hint-placeholder-val="{{ true }}">
+<div style="margin-bottom: 12px; font: 500 {{eyebrowSize}}/1.2 {{T.bodyFont}}; letter-spacing: .14em; text-transform: uppercase">{{c.greeting}}</div>
+</sc-if>
+<div style="font-family: {{T.nameFont}}; font-style: {{T.nameStyle}}; font-weight: {{T.nameWeight}}; font-size: {{nameSize}}; line-height: .94; letter-spacing: -0.045em">{{c.name}}</div>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 14px">
+<div style="font: 400 {{smallSize}}/1.5 {{T.bodyFont}}; color: {{T.sub}}">
+<sc-if value="{{hasLine}}" hint-placeholder-val="{{ true }}"><div style="color: {{T.ink}}; margin-bottom: 4px">{{c.line}}</div></sc-if>
+<sc-for list="{{details}}" as="d" hint-placeholder-count="2"><div>{{d.text}}</div></sc-for>
+</div>
+<sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 auto; background: #FFFFFF; padding: 6px; border-radius: 3px; line-height: 0"><svg role="img" aria-label="{{qrLabel}}" viewBox="{{qrBox}}" shape-rendering="crispEdges" style="display: block; width: {{qrSizeSmall}}; height: {{qrSizeSmall}}"><path d="{{qrD}}" fill="#000000"></path></svg></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+
+<sc-if value="{{isArt}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-sizing: border-box; padding: {{artPad}}; display: flex; flex-direction: {{artDir}}; gap: {{artGap}}">
+<div style="position: relative; flex: {{artFlex}}; min-height: 0; min-width: 0">
+<sc-if value="{{is_challah}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><g fill="{{T.tint}}" stroke="none" transform="translate(6 6)"><path d="M34 148 C26 128 40 112 56 116 C58 98 80 92 92 104 C100 90 124 92 128 106 C142 96 164 104 160 122 C174 126 172 146 164 148 Z"></path></g><g fill="none" stroke="{{T.ink}}" style="stroke-width: 4; stroke-linecap: round; stroke-linejoin: round"><path d="M24 150 H176 A6 6 0 0 1 176 162 H24 A6 6 0 0 1 24 150 Z"></path><path d="M182 156 H192"></path><path d="M34 148 C26 128 40 112 56 116 C58 98 80 92 92 104 C100 90 124 92 128 106 C142 96 164 104 160 122 C174 126 172 146 164 148"></path><path d="M56 116 C66 124 68 136 62 148"></path><path d="M92 104 C102 114 104 132 98 148"></path><path d="M128 106 C136 118 136 134 132 148"></path><path d="M160 122 C156 132 156 140 158 148"></path><path d="M70 112 L74 109"></path><path d="M110 103 L114 101"></path><path d="M144 114 L148 113"></path><path d="M78 130 L81 127"></path><path d="M116 124 L120 122"></path><path d="M100 72 V58"></path><path d="M72 80 L64 70"></path><path d="M128 80 L136 70"></path></g></svg>
+</sc-if>
+<sc-if value="{{is_candles}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><g fill="{{T.tint}}" stroke="none" transform="translate(6 6)"><rect x="64" y="64" width="24" height="84" rx="3"></rect><rect x="116" y="56" width="24" height="92" rx="3"></rect><circle cx="76" cy="44" r="15"></circle><circle cx="128" cy="36" r="15"></circle></g><g fill="none" stroke="{{T.ink}}" style="stroke-width: 4; stroke-linecap: round; stroke-linejoin: round"><rect x="64" y="64" width="24" height="84" rx="3"></rect><path d="M76 64 V58"></path><path d="M76 56 C68 47 71 38 76 30 C81 38 84 47 76 56 Z"></path><path d="M58 148 H94 L88 160 H64 Z"></path><path d="M76 160 V176"></path><path d="M60 180 H92"></path><rect x="116" y="56" width="24" height="92" rx="3"></rect><path d="M128 56 V50"></path><path d="M128 48 C120 39 123 30 128 22 C133 30 136 39 128 48 Z"></path><path d="M110 148 H146 L140 160 H116 Z"></path><path d="M128 160 V176"></path><path d="M112 180 H144"></path><path d="M64 78 C70 78 70 88 74 88"></path><path d="M48 36 L38 30"></path><path d="M156 28 L166 22"></path><path d="M102 30 V20"></path></g></svg>
+</sc-if>
+<sc-if value="{{is_cup}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><g fill="{{T.tint}}" stroke="none" transform="translate(6 6)"><path d="M62 52 H138 C138 92 120 110 100 110 C80 110 62 92 62 52 Z"></path><path d="M70 168 C76 152 124 152 130 168 Z"></path></g><g fill="none" stroke="{{T.ink}}" style="stroke-width: 4; stroke-linecap: round; stroke-linejoin: round"><path d="M62 52 H138 C138 92 120 110 100 110 C80 110 62 92 62 52 Z"></path><path d="M66 70 H134"></path><path d="M100 110 V150"></path><path d="M90 130 H110"></path><path d="M70 168 C76 152 124 152 130 168 Z"></path><circle cx="84" cy="88" r="3"></circle><circle cx="100" cy="94" r="3"></circle><circle cx="116" cy="88" r="3"></circle><path d="M148 40 L156 32"></path><path d="M150 56 H160"></path><path d="M52 40 L44 32"></path><path d="M50 56 H40"></path></g></svg>
+</sc-if>
+<sc-if value="{{is_pomegranate}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><g fill="{{T.tint}}" stroke="none" transform="translate(6 6)"><path d="M100 70 C138 70 158 96 154 128 C150 158 126 172 100 172 C72 172 48 156 46 126 C44 96 64 70 100 70 Z"></path></g><g fill="none" stroke="{{T.ink}}" style="stroke-width: 4; stroke-linecap: round; stroke-linejoin: round"><path d="M100 70 C138 70 158 96 154 128 C150 158 126 172 100 172 C72 172 48 156 46 126 C44 96 64 70 100 70 Z"></path><path d="M84 72 L80 52 L92 60 L100 46 L108 60 L120 52 L116 72"></path><path d="M124 64 C134 48 154 44 162 50 C152 64 138 68 124 64 Z"></path><path d="M130 62 L154 50"></path><path d="M64 112 C66 96 76 86 90 82"></path><circle cx="92" cy="124" r="2.5"></circle><circle cx="106" cy="136" r="2.5"></circle><circle cx="120" cy="122" r="2.5"></circle><circle cx="98" cy="150" r="2.5"></circle><circle cx="126" cy="146" r="2.5"></circle><circle cx="112" cy="110" r="2.5"></circle></g></svg>
+</sc-if>
+<sc-if value="{{is_flowers}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><g fill="{{T.tint}}" stroke="none" transform="translate(6 6)"><path d="M78 114 H122 L116 172 H84 Z"></path><circle cx="76" cy="62" r="14"></circle><circle cx="126" cy="56" r="14"></circle><circle cx="100" cy="36" r="12"></circle></g><g fill="none" stroke="{{T.ink}}" style="stroke-width: 4; stroke-linecap: round; stroke-linejoin: round"><path d="M78 114 H122 L116 172 H84 Z"></path><path d="M80 132 H120"></path><path d="M100 114 C98 94 86 80 76 76"></path><path d="M100 114 C102 92 116 78 126 70"></path><path d="M100 114 C100 86 100 64 100 48"></path><path d="M100 96 C110 86 120 88 124 92 C116 102 106 102 100 96 Z"></path><circle cx="76" cy="62" r="5"></circle><path d="M82 62 L91 62"></path><path d="M80.2 66.2 L86.6 72.6"></path><path d="M76 68 L76 77"></path><path d="M71.8 66.2 L65.4 72.6"></path><path d="M70 62 L61 62"></path><path d="M71.8 57.8 L65.4 51.4"></path><path d="M76 56 L76 47"></path><path d="M80.2 57.8 L86.6 51.4"></path><circle cx="126" cy="56" r="5"></circle><path d="M132 56 L141 56"></path><path d="M130.2 60.2 L136.6 66.6"></path><path d="M126 62 L126 71"></path><path d="M121.8 60.2 L115.4 66.6"></path><path d="M120 56 L111 56"></path><path d="M121.8 51.8 L115.4 45.4"></path><path d="M126 50 L126 41"></path><path d="M130.2 51.8 L136.6 45.4"></path><circle cx="100" cy="36" r="4"></circle><path d="M105 36 L113 36"></path><path d="M103.5 39.5 L109.2 45.2"></path><path d="M100 41 L100 49"></path><path d="M96.5 39.5 L90.8 45.2"></path><path d="M95 36 L87 36"></path><path d="M96.5 32.5 L90.8 26.8"></path><path d="M100 31 L100 23"></path><path d="M103.5 32.5 L109.2 26.8"></path></g></svg>
+</sc-if>
+<sc-if value="{{is_bottle}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><g fill="{{T.tint}}" stroke="none" transform="translate(6 6)"><path d="M70 96 C70 74 88 66 88 56 V28 H112 V56 C112 66 130 74 130 96 V178 H70 Z"></path></g><rect x="80" y="108" width="40" height="46" rx="6" fill="{{T.bg}}" stroke="none"></rect><g fill="none" stroke="{{T.ink}}" style="stroke-width: 4; stroke-linecap: round; stroke-linejoin: round"><path d="M88 28 H112 V56 C112 66 130 74 130 96 V168 C130 174 126 178 120 178 H80 C74 178 70 174 70 168 V96 C70 74 88 66 88 56 Z"></path><path d="M88 40 H112"></path><rect x="80" y="108" width="40" height="46" rx="6"></rect><circle cx="95" cy="126" r="4"></circle><circle cx="105" cy="126" r="4"></circle><circle cx="100" cy="134" r="4"></circle><circle cx="100" cy="142" r="3"></circle><path d="M100 120 L104 115"></path><path d="M146 62 L154 56"></path><path d="M54 62 L46 56"></path><path d="M148 80 H158"></path></g></svg>
+</sc-if>
+<sc-if value="{{is_feast}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 300 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><path d="M16 34 C26 16 36 16 44 34 C52 52 62 52 70 34 C78 16 88 16 96 34" fill="none" stroke="{{T.c3}}" style="stroke-width: 10; stroke-linecap: round"></path><circle cx="74" cy="142" r="28" fill="{{T.c2}}"></circle><circle cx="108" cy="130" r="32" fill="{{T.c2}}"></circle><circle cx="142" cy="142" r="28" fill="{{T.c2}}"></circle><g fill="none" stroke="{{T.c6}}" style="stroke-width: 5; stroke-linecap: round"><path d="M70 126 C78 134 78 146 70 156"></path><path d="M106 112 C116 124 116 138 106 152"></path><path d="M142 126 C150 134 150 146 142 156"></path></g><rect x="186" y="56" width="30" height="120" rx="8" fill="{{T.c5}}"></rect><g fill="none" stroke="#FFFFFF" style="stroke-width: 4; stroke-linecap: round"><path d="M193 74 L209 84"></path><path d="M193 96 L209 106"></path><path d="M193 118 L209 128"></path><path d="M193 140 L209 150"></path></g><path d="M201 50 C189 38 194 22 201 12 C208 22 213 38 201 50 Z" fill="{{T.c4}}"></path><rect x="228" y="76" width="30" height="100" rx="8" fill="{{T.c1}}"></rect><path d="M243 70 C231 58 236 42 243 32 C250 42 255 58 243 70 Z" fill="{{T.c2}}"></path><polygon points="36,142 40.1,155.9 54,160 40.1,164.1 36,178 31.9,164.1 18,160 31.9,155.9" fill="{{T.c3}}"></polygon><path d="M140 56.6 C123.2 46.8 128.8 32.8 140 40.5 C151.2 32.8 156.8 46.8 140 56.6 Z" fill="{{T.c6}}"></path><circle cx="172" cy="34" r="7" fill="{{T.c1}}"></circle><circle cx="20" cy="104" r="8" fill="{{T.c6}}"></circle><circle cx="282" cy="36" r="9" fill="{{T.c4}}"></circle><circle cx="284" cy="170" r="18" fill="{{T.c4}}"></circle><path d="M276 154 L272 142 L280 148 L284 138 L288 148 L296 142 L292 154 Z" fill="{{T.c4}}"></path></svg>
+</sc-if>
+<sc-if value="{{is_sunset}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 -34 300 234" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><circle cx="0" cy="200" r="34" fill="{{T.c1}}"></circle><circle cx="300" cy="200" r="34" fill="{{T.c1}}"></circle><circle cx="300" cy="-34" r="30" fill="{{T.c6}}"></circle><circle cx="40" cy="-2" r="20" fill="{{T.c3}}"></circle><circle cx="49" cy="-8" r="18" fill="{{T.bg}}"></circle><ellipse cx="118" cy="-12" rx="30" ry="11" fill="{{T.c1}}"></ellipse><ellipse cx="138" cy="-19" rx="20" ry="12" fill="{{T.c1}}"></ellipse><path d="M78 22 q6 -7 12 0 q6 -7 12 0" fill="none" stroke="{{T.c3}}" stroke-linecap="round" style="stroke-width: 2.5"></path><path d="M104 8 q5 -6 10 0 q5 -6 10 0" fill="none" stroke="{{T.c3}}" stroke-linecap="round" style="stroke-width: 2.2"></path><polygon points="200,-24 202.2,-16.2 210,-14 202.2,-11.8 200,-4 197.8,-11.8 190,-14 197.8,-16.2" fill="{{T.c4}}"></polygon><polygon points="18,52 19.6,57.4 25,59 19.6,60.6 18,66 16.4,60.6 11,59 16.4,57.4" fill="{{T.c4}}"></polygon><polygon points="284,72 285.6,77.4 291,79 285.6,80.6 284,86 282.4,80.6 277,79 282.4,77.4" fill="{{T.c4}}"></polygon><circle cx="70" cy="50" r="4" fill="{{T.c6}}"></circle><circle cx="244" cy="58" r="4" fill="{{T.c6}}"></circle><circle cx="16" cy="118" r="3.5" fill="{{T.c6}}"></circle><circle cx="288" cy="124" r="3.5" fill="{{T.c6}}"></circle><circle cx="150" cy="34" r="3" fill="{{T.c3}}"></circle><path d="M10 160 C2 146 6 132 18 124 C22 140 20 152 10 160 Z" fill="{{T.c5}}"></path><path d="M22 172 C26 156 38 148 52 148 C46 162 36 170 22 172 Z" fill="{{T.c5}}"></path><path d="M290 160 C298 146 294 132 282 124 C278 140 280 152 290 160 Z" fill="{{T.c5}}"></path><path d="M278 172 C274 156 262 148 248 148 C254 162 264 170 278 172 Z" fill="{{T.c5}}"></path><polygon points="150,200 25.0,198.9 26.7,179.4" fill="{{T.c2}}"></polygon><polygon points="150,200 30.8,162.4 38.1,144.2" fill="{{T.c2}}"></polygon><polygon points="150,200 47.0,129.2 59.3,114.0" fill="{{T.c2}}"></polygon><polygon points="150,200 72.2,102.2 88.4,91.2" fill="{{T.c2}}"></polygon><polygon points="150,200 104.2,83.7 122.9,78.0" fill="{{T.c2}}"></polygon><polygon points="150,200 140.2,75.4 159.8,75.4" fill="{{T.c2}}"></polygon><polygon points="150,200 177.1,78.0 195.8,83.7" fill="{{T.c2}}"></polygon><polygon points="150,200 211.6,91.2 227.8,102.2" fill="{{T.c2}}"></polygon><polygon points="150,200 240.7,114.0 253.0,129.2" fill="{{T.c2}}"></polygon><polygon points="150,200 261.9,144.2 269.2,162.4" fill="{{T.c2}}"></polygon><polygon points="150,200 273.3,179.4 275.0,198.9" fill="{{T.c2}}"></polygon><circle cx="150" cy="200" r="38" fill="{{T.c2}}"></circle><polygon points="268,18 271.6,30.4 284,34 271.6,37.6 268,50 264.4,37.6 252,34 264.4,30.4" fill="{{T.c2}}"></polygon><polygon points="236,11 238,18 245,20 238,22 236,29 234,22 227,20 234,18" fill="{{T.c2}}"></polygon><circle cx="164" cy="36" r="6" fill="{{T.c5}}"></circle></svg>
+</sc-if>
+<sc-if value="{{is_garden}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 300 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><path d="M26 186 C26 128 64 104 92 98 C90 134 70 172 26 186 Z" fill="{{T.c5}}"></path><path d="M58 196 C88 154 128 150 154 156 C134 184 100 198 58 196 Z" fill="{{T.c5}}"></path><circle cx="140" cy="66" r="17" fill="{{T.c6}}"></circle><circle cx="129" cy="85.1" r="17" fill="{{T.c6}}"></circle><circle cx="107" cy="85.1" r="17" fill="{{T.c6}}"></circle><circle cx="96" cy="66" r="17" fill="{{T.c6}}"></circle><circle cx="107" cy="46.9" r="17" fill="{{T.c6}}"></circle><circle cx="129" cy="46.9" r="17" fill="{{T.c6}}"></circle><circle cx="118" cy="66" r="14" fill="{{T.c2}}"></circle><path d="M188 52 H252 C252 92 238 108 220 108 C202 108 188 92 188 52 Z" fill="{{T.c1}}"></path><path d="M191 70 H249 C246 90 236 102 220 102 C204 102 194 90 191 70 Z" fill="{{T.c4}}"></path><rect x="216" y="106" width="8" height="40" fill="{{T.c1}}"></rect><ellipse cx="220" cy="150" rx="26" ry="8" fill="{{T.c1}}"></ellipse><path d="M160 180 C178 150 200 196 222 176 C244 156 262 196 286 172" fill="none" stroke="{{T.c3}}" style="stroke-width: 10; stroke-linecap: round"></path><polygon points="46,22 50.1,35.9 64,40 50.1,44.1 46,58 41.9,44.1 28,40 41.9,35.9" fill="{{T.c2}}"></polygon><path d="M272 70.8 C257.6 62.4 262.4 50.4 272 57 C281.6 50.4 286.4 62.4 272 70.8 Z" fill="{{T.c4}}"></path><circle cx="170" cy="30" r="7" fill="{{T.c3}}"></circle><circle cx="270" cy="120" r="6" fill="{{T.c6}}"></circle></svg>
+</sc-if>
+<sc-if value="{{is_candlenight}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 300 200" aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"><defs><radialGradient id="cn-glow" cx=".5" cy=".42" r=".5"><stop offset="0" stop-color="#3D8A86"></stop><stop offset=".6" stop-color="#2A62B8" stop-opacity=".6"></stop><stop offset="1" stop-color="#1E4AA8" stop-opacity="0"></stop></radialGradient><radialGradient id="cn-flame" cx=".5" cy=".82" r=".75"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset=".35" stop-color="#FFE4B8"></stop><stop offset="1" stop-color="#F6974E"></stop></radialGradient><linearGradient id="cn-wax" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AB2E6"></stop><stop offset="1" stop-color="#2A4A9E"></stop></linearGradient><clipPath id="cn-clip"><rect x="0" y="0" width="300" height="200" rx="10"></rect></clipPath></defs><g clip-path="url(#cn-clip)"><rect x="0" y="0" width="300" height="200" fill="#1E4AA8"></rect><ellipse cx="150" cy="84" rx="120" ry="96" fill="url(#cn-glow)"></ellipse><circle cx="78" cy="29" r="1.0" fill="#FFFFFF" opacity="0.58"></circle><circle cx="32" cy="82" r="1.5" fill="#FFFFFF" opacity="0.90"></circle><circle cx="222" cy="50" r="1.1" fill="#FFFFFF" opacity="0.64"></circle><circle cx="61" cy="29" r="0.8" fill="#FFFFFF" opacity="0.96"></circle><circle cx="239" cy="155" r="1.4" fill="#FFFFFF" opacity="0.60"></circle><circle cx="98" cy="123" r="1.3" fill="#FFFFFF" opacity="0.93"></circle><circle cx="253" cy="26" r="1.2" fill="#FFFFFF" opacity="0.84"></circle><circle cx="152" cy="42" r="1.1" fill="#FFFFFF" opacity="0.54"></circle><circle cx="268" cy="166" r="1.1" fill="#FFFFFF" opacity="0.65"></circle><circle cx="261" cy="113" r="1.5" fill="#FFFFFF" opacity="0.92"></circle><circle cx="152" cy="85" r="1.2" fill="#FFFFFF" opacity="0.72"></circle><circle cx="58" cy="65" r="1.4" fill="#FFFFFF" opacity="0.52"></circle><circle cx="27" cy="123" r="0.9" fill="#FFFFFF" opacity="0.77"></circle><circle cx="142" cy="72" r="1.6" fill="#FFFFFF" opacity="0.60"></circle><circle cx="126" cy="46" r="1.2" fill="#FFFFFF" opacity="0.64"></circle><circle cx="111" cy="144" r="0.9" fill="#FFFFFF" opacity="0.78"></circle><circle cx="260" cy="28" r="0.7" fill="#FFFFFF" opacity="0.61"></circle><circle cx="222" cy="121" r="0.8" fill="#FFFFFF" opacity="0.67"></circle><circle cx="62" cy="93" r="0.6" fill="#FFFFFF" opacity="0.85"></circle><circle cx="258" cy="182" r="1.3" fill="#FFFFFF" opacity="0.98"></circle><circle cx="19" cy="62" r="1.6" fill="#FFFFFF" opacity="0.89"></circle><circle cx="126" cy="180" r="1.2" fill="#FFFFFF" opacity="0.91"></circle><circle cx="94" cy="44" r="1.0" fill="#FFFFFF" opacity="0.57"></circle><circle cx="118" cy="183" r="0.9" fill="#FFFFFF" opacity="0.50"></circle><circle cx="26" cy="41" r="1.4" fill="#FFFFFF" opacity="0.68"></circle><circle cx="93" cy="27" r="1.6" fill="#FFFFFF" opacity="0.71"></circle><circle cx="71" cy="21" r="0.7" fill="#FFFFFF" opacity="0.58"></circle><circle cx="198" cy="37" r="0.6" fill="#FFFFFF" opacity="0.75"></circle><circle cx="82" cy="190" r="0.7" fill="#FFFFFF" opacity="0.76"></circle><circle cx="224" cy="84" r="1.6" fill="#FFFFFF" opacity="0.74"></circle><circle cx="80" cy="84" r="0.6" fill="#FFFFFF" opacity="0.71"></circle><circle cx="82" cy="170" r="1.4" fill="#FFFFFF" opacity="0.75"></circle><circle cx="23" cy="56" r="0.8" fill="#FFFFFF" opacity="0.60"></circle><circle cx="77" cy="167" r="0.7" fill="#FFFFFF" opacity="0.53"></circle><circle cx="266" cy="112" r="1.6" fill="#FFFFFF" opacity="0.70"></circle><circle cx="259" cy="128" r="1.4" fill="#FFFFFF" opacity="0.87"></circle><circle cx="148" cy="27" r="0.8" fill="#FFFFFF" opacity="0.94"></circle><circle cx="259" cy="176" r="0.9" fill="#FFFFFF" opacity="0.83"></circle><circle cx="231" cy="126" r="1.4" fill="#FFFFFF" opacity="0.76"></circle><circle cx="192" cy="133" r="0.9" fill="#FFFFFF" opacity="0.96"></circle><circle cx="274" cy="23" r="1.6" fill="#FFFFFF" opacity="0.98"></circle><circle cx="196" cy="18" r="1.5" fill="#FFFFFF" opacity="0.56"></circle><circle cx="277" cy="130" r="0.7" fill="#FFFFFF" opacity="0.58"></circle><circle cx="187" cy="112" r="1.3" fill="#FFFFFF" opacity="0.96"></circle><circle cx="73" cy="11" r="1.5" fill="#FFFFFF" opacity="0.51"></circle><circle cx="252" cy="31" r="1.4" fill="#FFFFFF" opacity="0.89"></circle><circle cx="253" cy="109" r="1.5" fill="#FFFFFF" opacity="0.60"></circle><circle cx="197" cy="70" r="1.5" fill="#FFFFFF" opacity="0.89"></circle><circle cx="142" cy="105" r="0.6" fill="#FFFFFF" opacity="0.52"></circle><circle cx="176" cy="98" r="1.5" fill="#FFFFFF" opacity="0.80"></circle><circle cx="52" cy="75" r="1.4" fill="#FFFFFF" opacity="0.76"></circle><circle cx="17" cy="161" r="1.4" fill="#FFFFFF" opacity="0.54"></circle><circle cx="162" cy="79" r="1.4" fill="#FFFFFF" opacity="0.66"></circle><circle cx="78" cy="98" r="1.6" fill="#FFFFFF" opacity="0.55"></circle><circle cx="45" cy="122" r="1.5" fill="#FFFFFF" opacity="0.76"></circle><circle cx="132" cy="164" r="1.4" fill="#FFFFFF" opacity="0.53"></circle><circle cx="254" cy="45" r="0.9" fill="#FFFFFF" opacity="0.92"></circle><circle cx="129" cy="154" r="0.8" fill="#FFFFFF" opacity="0.94"></circle><circle cx="62" cy="37" r="1.1" fill="#FFFFFF" opacity="0.67"></circle><circle cx="161" cy="173" r="1.3" fill="#FFFFFF" opacity="0.50"></circle><circle cx="99" cy="108" r="1.1" fill="#FFFFFF" opacity="0.86"></circle><circle cx="146" cy="24" r="0.8" fill="#FFFFFF" opacity="0.92"></circle><circle cx="111" cy="148" r="1.6" fill="#FFFFFF" opacity="0.81"></circle><circle cx="198" cy="120" r="0.9" fill="#FFFFFF" opacity="0.96"></circle><circle cx="141" cy="174" r="0.9" fill="#FFFFFF" opacity="0.93"></circle><circle cx="228" cy="120" r="1.0" fill="#FFFFFF" opacity="0.57"></circle><circle cx="224" cy="75" r="1.3" fill="#FFFFFF" opacity="0.57"></circle><circle cx="36" cy="36" r="1.4" fill="#FFFFFF" opacity="0.59"></circle><circle cx="259" cy="77" r="1.2" fill="#FFFFFF" opacity="0.68"></circle><circle cx="183" cy="27" r="1.0" fill="#FFFFFF" opacity="0.97"></circle><path d="M92 41 L94.64 49.36 L103 52 L94.64 54.64 L92 63 L89.36 54.64 L81 52 L89.36 49.36 Z" fill="#F4C25A"></path><path d="M214 64 L215.92 70.08 L222 72 L215.92 73.92 L214 80 L212.08 73.92 L206 72 L212.08 70.08 Z" fill="#F4C25A"></path><path d="M104 112 L105.44 116.56 L110 118 L105.44 119.44 L104 124 L102.56 119.44 L98 118 L102.56 116.56 Z" fill="#F4C25A"></path><path d="M206 131 L208.16 137.84 L215 140 L208.16 142.16 L206 149 L203.84 142.16 L197 140 L203.84 137.84 Z" fill="#F4C25A"></path><path d="M244 28 L245.44 32.56 L250 34 L245.44 35.44 L244 40 L242.56 35.44 L238 34 L242.56 32.56 Z" fill="#F4C25A"></path><path d="M64 145 L65.2 148.8 L69 150 L65.2 151.2 L64 155 L62.8 151.2 L59 150 L62.8 148.8 Z" fill="#F4C25A"></path><path d="M176 21 L177.2 24.8 L181 26 L177.2 27.2 L176 31 L174.8 27.2 L171 26 L174.8 24.8 Z" fill="#F4C25A"></path><path d="M124 150 C124 140 136 137 150 138 C164 137 176 140 176 150 L180 206 L120 206 Z" fill="url(#cn-wax)"></path><path d="M134 152 C142 157 152 150 164 155" stroke="#1E3A8A" style="stroke-width: 2" fill="none" stroke-linecap="round"></path><rect x="148" y="122" width="4" height="17" rx="1.5" fill="#E3EAF8"></rect><path d="M150 54 C136 84 133 110 140 122 C144 129 156 129 160 122 C167 110 164 84 150 54 Z" fill="url(#cn-flame)"></path></g></svg>
+</sc-if>
+</div>
+<div style="flex: {{textFlex}}; min-width: 0; display: flex; flex-direction: column; justify-content: {{textJust}}; gap: 12px">
+<div>
+<sc-if value="{{hasGreeting}}" hint-placeholder-val="{{ true }}">
+<div style="margin-bottom: 4px; font-family: {{T.greetFont}}; font-style: {{T.greetStyle}}; font-weight: {{T.greetWeight}}; font-size: {{artGreetSize}}; letter-spacing: {{T.greetTrack}}; text-transform: {{T.greetCase}}; line-height: 1.2; color: {{T.greetColor}}">{{c.greeting}}</div>
+</sc-if>
+<div style="font-family: {{T.nameFont}}; font-style: {{T.nameStyle}}; font-weight: {{T.nameWeight}}; font-size: {{nameSize}}; line-height: 1.04; letter-spacing: -0.01em">{{c.name}}</div>
+<sc-if value="{{hasLine}}" hint-placeholder-val="{{ true }}">
+<div style="margin-top: 6px; font: 400 {{lineSizeSans}}/1.45 {{T.bodyFont}}; color: {{T.sub}}">{{c.line}}</div>
+</sc-if>
+</div>
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px">
+<div style="font: 400 {{smallSize}}/1.5 {{T.bodyFont}}; color: {{T.sub}}">
+<sc-for list="{{details}}" as="d" hint-placeholder-count="2"><div>{{d.text}}</div></sc-for>
+</div>
+<sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
+<div style="flex: 0 0 auto; background: #FFFFFF; padding: 5px; border-radius: 4px; line-height: 0; box-shadow: 0 0 0 1.5px {{T.ink}}"><svg role="img" aria-label="{{qrLabel}}" viewBox="{{qrBox}}" shape-rendering="crispEdges" style="display: block; width: {{qrArt}}; height: {{qrArt}}"><path d="{{qrD}}" fill="#000000"></path></svg></div>
+</sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tpl":{"editor":null},"c":{"editor":null},"orient":{"editor":"enum","options":["tall","wide"],"default":"tall"},"$preview":{"width":360,"height":468}}'>
+// Kartis QR encoder: byte mode, error correction M, versions 1-10, best mask.
+// Returns { n, d } — module count and an SVG path (1 unit per module, no quiet zone).
+const KT_QR = (() => {
+  const ECC = [0, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26];
+  const BLK = [0, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5];
+  const rawModules = (v) => {
+    let r = (16 * v + 128) * v + 64;
+    if (v >= 2) { const n = Math.floor(v / 7) + 2; r -= (25 * n - 10) * n - 55; if (v >= 7) r -= 36; }
+    return r;
+  };
+  const dataCw = (v) => Math.floor(rawModules(v) / 8) - ECC[v] * BLK[v];
+  const gfMul = (x, y) => { let z = 0; for (let i = 7; i >= 0; i--) { z = (z << 1) ^ ((z >>> 7) * 0x11D); z ^= ((y >>> i) & 1) * x; } return z & 0xFF; };
+  const rsDivisor = (deg) => {
+    const r = new Array(deg).fill(0); r[deg - 1] = 1; let root = 1;
+    for (let i = 0; i < deg; i++) {
+      for (let j = 0; j < r.length; j++) { r[j] = gfMul(r[j], root); if (j + 1 < r.length) r[j] ^= r[j + 1]; }
+      root = gfMul(root, 0x02);
+    }
+    return r;
+  };
+  const rsRemainder = (data, div) => {
+    const r = div.map(() => 0);
+    for (const b of data) { const f = b ^ r.shift(); r.push(0); div.forEach((c, i) => { r[i] ^= gfMul(c, f); }); }
+    return r;
+  };
+  const utf8 = (s) => Array.from(new TextEncoder().encode(s));
+  function encode(text) {
+    const bytes = utf8(text);
+    let v = 1;
+    for (; v <= 10; v++) if (4 + (v < 10 ? 8 : 16) + bytes.length * 8 <= dataCw(v) * 8) break;
+    if (v > 10) throw new Error('QR_TOO_LONG');
+    const bits = [];
+    const push = (val, len) => { for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1); };
+    push(4, 4); push(bytes.length, v < 10 ? 8 : 16); bytes.forEach((b) => push(b, 8));
+    const cap = dataCw(v) * 8;
+    push(0, Math.min(4, cap - bits.length));
+    push(0, (8 - bits.length % 8) % 8);
+    for (let p = 0xEC; bits.length < cap; p ^= 0xEC ^ 0x11) push(p, 8);
+    const data = [];
+    for (let i = 0; i < bits.length; i += 8) { let b = 0; for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j]; data.push(b); }
+    // Split into blocks, add ECC, interleave
+    const nb = BLK[v], ec = ECC[v], raw = Math.floor(rawModules(v) / 8);
+    const nShort = nb - raw % nb, shortLen = Math.floor(raw / nb);
+    const div = rsDivisor(ec), blocks = [];
+    for (let i = 0, k = 0; i < nb; i++) {
+      const dat = data.slice(k, k + shortLen - ec + (i < nShort ? 0 : 1)); k += dat.length;
+      const e = rsRemainder(dat, div);
+      if (i < nShort) dat.push(0);
+      blocks.push(dat.concat(e));
+    }
+    const cw = [];
+    for (let i = 0; i < blocks[0].length; i++) blocks.forEach((b, j) => { if (i !== shortLen - ec || j >= nShort) cw.push(b[i]); });
+    // Matrix
+    const n = v * 4 + 17;
+    const m = [...Array(n)].map(() => new Array(n).fill(false));
+    const fn = [...Array(n)].map(() => new Array(n).fill(false));
+    const set = (x, y, d) => { m[y][x] = d; fn[y][x] = true; };
+    for (let i = 0; i < n; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+    const finder = (cx, cy) => { for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) { const d = Math.max(Math.abs(dx), Math.abs(dy)), x = cx + dx, y = cy + dy; if (x >= 0 && x < n && y >= 0 && y < n) set(x, y, d !== 2 && d !== 4); } };
+    finder(3, 3); finder(n - 4, 3); finder(3, n - 4);
+    const al = v === 1 ? [] : (() => { const c = Math.floor(v / 7) + 2, step = Math.floor((v * 8 + c * 3 + 5) / (c * 4 - 4)) * 2, r = [6]; for (let p = n - 7; r.length < c; p -= step) r.splice(1, 0, p); return r; })();
+    al.forEach((ax, i) => al.forEach((ay, j) => {
+      if ((i === 0 && j === 0) || (i === 0 && j === al.length - 1) || (i === al.length - 1 && j === 0)) return;
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(ax + dx, ay + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+    }));
+    const format = (mask) => {
+      const d = (0 << 3) | mask; // level M = 00
+      let r = d; for (let i = 0; i < 10; i++) r = (r << 1) ^ ((r >>> 9) * 0x537);
+      const b = ((d << 10) | r) ^ 0x5412;
+      const bit = (i) => ((b >>> i) & 1) === 1;
+      for (let i = 0; i <= 5; i++) set(8, i, bit(i));
+      set(8, 7, bit(6)); set(8, 8, bit(7)); set(7, 8, bit(8));
+      for (let i = 9; i < 15; i++) set(14 - i, 8, bit(i));
+      for (let i = 0; i < 8; i++) set(n - 1 - i, 8, bit(i));
+      for (let i = 8; i < 15; i++) set(8, n - 15 + i, bit(i));
+      set(8, n - 8, true);
+    };
+    format(0);
+    if (v >= 7) {
+      let r = v; for (let i = 0; i < 12; i++) r = (r << 1) ^ ((r >>> 11) * 0x1F25);
+      const b = (v << 12) | r;
+      for (let i = 0; i < 18; i++) { const bt = ((b >>> i) & 1) === 1, a = n - 11 + i % 3, c = Math.floor(i / 3); set(a, c, bt); set(c, a, bt); }
+    }
+    // Data placement
+    let i = 0;
+    for (let right = n - 1; right >= 1; right -= 2) {
+      if (right === 6) right = 5;
+      for (let vert = 0; vert < n; vert++) for (let j = 0; j < 2; j++) {
+        const x = right - j, up = ((right + 1) & 2) === 0, y = up ? n - 1 - vert : vert;
+        if (!fn[y][x] && i < cw.length * 8) { m[y][x] = ((cw[i >>> 3] >>> (7 - (i & 7))) & 1) === 1; i++; }
+      }
+    }
+    const maskFn = [
+      (x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x) => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+      (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0, (x, y) => x * y % 2 + x * y % 3 === 0,
+      (x, y) => (x * y % 2 + x * y % 3) % 2 === 0, (x, y) => ((x + y) % 2 + x * y % 3) % 2 === 0
+    ];
+    const applyMask = (k) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!fn[y][x] && maskFn[k](x, y)) m[y][x] = !m[y][x]; };
+    const penalty = () => {
+      let p = 0;
+      const runs = (get) => {
+        for (let a = 0; a < n; a++) {
+          let run = 1;
+          for (let b = 1; b <= n; b++) {
+            if (b < n && get(a, b) === get(a, b - 1)) run++;
+            else { if (run >= 5) p += run - 2; run = 1; }
+          }
+          for (let b = 0; b + 10 < n + 1; b++) {
+            const s = []; for (let k = 0; k < 11 && b + k < n; k++) s.push(get(a, b + k) ? 1 : 0);
+            const str = s.join('');
+            if (str === '10111010000' || str === '00001011101') p += 40;
+          }
+        }
+      };
+      runs((a, b) => m[a][b]); runs((a, b) => m[b][a]);
+      for (let y = 0; y < n - 1; y++) for (let x = 0; x < n - 1; x++) { const c = m[y][x]; if (c === m[y][x + 1] && c === m[y + 1][x] && c === m[y + 1][x + 1]) p += 3; }
+      let dark = 0; m.forEach((r) => r.forEach((c) => { if (c) dark++; }));
+      p += Math.floor(Math.abs(dark * 20 - n * n * 10) / (n * n)) * 10;
+      return p;
+    };
+    let best = 0, bestP = Infinity;
+    for (let k = 0; k < 8; k++) { applyMask(k); format(k); const p = penalty(); if (p < bestP) { bestP = p; best = k; } applyMask(k); }
+    applyMask(best); format(best);
+    let d = '';
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (m[y][x]) d += 'M' + x + ' ' + y + 'h1v1h-1z';
+    return { n, d, version: v, mask: best };
+  }
+  return { encode };
+})();
+// ---- Kartis print engine: card DOM -> SVG -> 400 dpi raster -> PDF with bleed and crop marks ----
+const KT_FONT_FILES = [
+  ['Gloock', 'normal', '400', '801340ae3f3dac1ec6614fc2f706ebc7'],
+  ['Mrs Saint Delafield', 'normal', '400', '057964666946031b4bde62cd34cdbfd4'],
+  ['Instrument Serif', 'normal', '400', '4517282e3c951dffb2254da909abf3fc'],
+  ['Instrument Serif', 'italic', '400', '4303ac869783c2c93c1f89e93ec191b5'],
+  ['Instrument Sans', 'normal', '400 700', '76568820281ed1438891850a28250c40'],
+  ['Bodoni Moda', 'normal', '400 900', '4950f4b1a4af5aa7ff7373d68e174c91'],
+  ['Bodoni Moda', 'italic', '400 900', '7c5b7080ed89cff1ab5dbe01a6287a1c'],
+  ['Geist', 'normal', '100 900', 'e2554336e7db464da4ea630b7a44d051'],
+  ['Fraunces', 'normal', '100 900', '9ec12f4da7491986ba3e511904e926c1'],
+  ['Fraunces', 'italic', '100 900', '29825b105c28e84a18bca5f538317fb4'],
+  ['Jost', 'normal', '100 900', 'fbfd3cf4f9bdc3bfaa6bd57e34d75d13']
+];
+const KT_MM = 72 / 25.4;           // PDF points per mm
+const KT_DPI = 400;
+const KT_BLEED = 3;                // mm
+const KT_SIZES = { tall: { w: 101.6, h: 132.08 }, wide: { w: 88.9, h: 50.8 } }; // trim, mm (4 x 5.2 in, 3.5 x 2 in)
+
+let ktFontCss = null;
+async function ktFonts(base) {
+  if (ktFontCss) return ktFontCss;
+  const b64 = (buf) => { const u = new Uint8Array(buf); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+  const rules = await Promise.all(KT_FONT_FILES.map(async ([fam, style, weight, id]) => {
+    try {
+      const r = await fetch((base || '') + '/_blob/' + id);
+      if (!r.ok) throw new Error(r.status);
+      return '@font-face{font-family:"' + fam + '";font-style:' + style + ';font-weight:' + weight + ';src:url(data:font/woff2;base64,' + b64(await r.arrayBuffer()) + ') format("woff2")}';
+    } catch (e) { return ''; }
+  }));
+  ktFontCss = rules.join('\n');
+  return ktFontCss;
+}
+
+const ktEsc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const ktClear = (c) => !c || c === 'transparent' || /rgba\([^)]*,\s*0\)$/.test(c);
+
+// Walk the rendered card and describe it as SVG, in card px (unscaled), with bleed extension.
+function ktCardToSvg(root, opt) {
+  const rr = root.getBoundingClientRect();
+  const W = root.offsetWidth, H = root.offsetHeight;
+  const k = rr.width / W || 1;                       // preview may be scaled (canvas zoom, mobile)
+  const B = opt.bleedPx;                              // bleed in card px
+  const box = (el) => { const r = el.getBoundingClientRect(); return { x: (r.left - rr.left) / k, y: (r.top - rr.top) / k, w: r.width / k, h: r.height / k }; };
+  const out = [];
+  const meas = document.createElement('canvas').getContext('2d');
+  const opacityOf = (el) => { let o = 1; for (let e = el; e && e !== root.parentNode; e = e.parentElement) o *= parseFloat(getComputedStyle(e).opacity || '1'); return o; };
+  const radius = (cs, b) => { const r = cs.borderTopLeftRadius; if (!r || r === '0px') return 0; if (r.endsWith('%')) return Math.min(b.w, b.h) * parseFloat(r) / 100; return Math.min(parseFloat(r), b.w / 2, b.h / 2); };
+  const extend = (b) => { // grow boxes that touch the trim edge into the bleed
+    const e = 0.75, x0 = b.x <= e ? -B : b.x, y0 = b.y <= e ? -B : b.y;
+    const x1 = b.x + b.w >= W - e ? W + B : b.x + b.w, y1 = b.y + b.h >= H - e ? H + B : b.y + b.h;
+    return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
+  };
+  const walk = (el) => {
+    if (el.nodeType !== 1) return;
+    const cs = getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden') return;
+    if (el.classList && el.classList.contains('k-tex')) return; // screen-only paper texture
+    const tag = el.tagName.toLowerCase();
+    const b = box(el);
+    if (b.w <= 0 || b.h <= 0) return;
+    const op = opacityOf(el);
+    if (tag === 'svg') {
+      const c = el.cloneNode(true);
+      c.setAttribute('x', b.x); c.setAttribute('y', b.y); c.setAttribute('width', b.w); c.setAttribute('height', b.h);
+      c.removeAttribute('style'); c.setAttribute('overflow', 'hidden');
+      if (op < 1) c.setAttribute('opacity', op);
+      out.push(new XMLSerializer().serializeToString(c));
+      return;
+    }
+    if (tag === 'img') { out.push('<image href="' + ktEsc(el.currentSrc || el.src) + '" x="' + b.x + '" y="' + b.y + '" width="' + b.w + '" height="' + b.h + '"/>'); return; }
+    const isRoot = el === root;
+    const bg = cs.backgroundColor;
+    // ring shadows: "rgb(..) 0px 0px 0px 1.5px"
+    const sh = cs.boxShadow;
+    if (sh && sh !== 'none') {
+      sh.split(/,(?![^(]*\))/).forEach((part) => {
+        const col = (part.match(/rgba?\([^)]*\)|#[0-9a-f]+/i) || [])[0];
+        const nums = part.replace(/rgba?\([^)]*\)/, '').trim().split(/\s+/).map(parseFloat);
+        if (col && nums.length >= 4 && nums[0] === 0 && nums[1] === 0 && nums[2] === 0 && nums[3] > 0 && !/inset/.test(part)) {
+          const s = nums[3], r = radius(cs, b) + s;
+          out.push('<rect x="' + (b.x - s) + '" y="' + (b.y - s) + '" width="' + (b.w + 2 * s) + '" height="' + (b.h + 2 * s) + '" rx="' + r + '" fill="' + col + '"' + (op < 1 ? ' opacity="' + op + '"' : '') + '/>');
+        }
+      });
+    }
+    if (!ktClear(bg) && !(isRoot && !opt.printBg)) {
+      const eb = extend(b), r = (eb.w === b.w && eb.h === b.h) ? radius(cs, b) : 0;
+      out.push('<rect x="' + eb.x + '" y="' + eb.y + '" width="' + eb.w + '" height="' + eb.h + '" rx="' + r + '" fill="' + bg + '"' + (op < 1 ? ' opacity="' + op + '"' : '') + '/>');
+    }
+    const bw = parseFloat(cs.borderTopWidth);
+    if (bw > 0 && cs.borderTopStyle !== 'none' && !ktClear(cs.borderTopColor)) {
+      const r = radius(cs, b);
+      out.push('<rect x="' + (b.x + bw / 2) + '" y="' + (b.y + bw / 2) + '" width="' + (b.w - bw) + '" height="' + (b.h - bw) + '" rx="' + Math.max(0, r - bw / 2) + '" fill="none" stroke="' + cs.borderTopColor + '" stroke-width="' + bw + '"' + (op < 1 ? ' opacity="' + op + '"' : '') + '/>');
+    }
+    for (const n of el.childNodes) {
+      if (n.nodeType === 3) ktText(n, cs, op, box, meas, out);
+      else walk(n);
+    }
+  };
+  walk(root);
+  return { W, H, body: out.join('\n') };
+}
+
+function ktText(node, cs, op, box, meas, out) {
+  const txt = node.nodeValue;
+  if (!txt || !txt.trim()) return;
+  const font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+  meas.font = font;
+  const m = meas.measureText('Hg');
+  const asc = m.fontBoundingBoxAscent != null ? m.fontBoundingBoxAscent : parseFloat(cs.fontSize) * 0.8;
+  const desc = m.fontBoundingBoxDescent != null ? m.fontBoundingBoxDescent : parseFloat(cs.fontSize) * 0.2;
+  const upper = cs.textTransform === 'uppercase';
+  const ls = cs.letterSpacing === 'normal' ? 0 : parseFloat(cs.letterSpacing) || 0;
+  const range = document.createRange();
+  const re = /\S+/g; let mm;
+  while ((mm = re.exec(txt))) {
+    range.setStart(node, mm.index); range.setEnd(node, mm.index + mm[0].length);
+    const rects = range.getClientRects();
+    if (!rects.length) continue;
+    // a word broken over two lines keeps its first fragment; rare on a card
+    const r0 = rects[0], rr = node.parentElement.closest('[data-kt-card]') || node.parentElement;
+    const b = box({ getBoundingClientRect: () => r0 });
+    const y = b.y + (b.h - (asc + desc)) / 2 + asc;
+    const word = upper ? mm[0].toUpperCase() : mm[0];
+    out.push('<text x="' + b.x + '" y="' + y + '" style="font:' + ktEsc(font) + (ls ? ';letter-spacing:' + ls + 'px' : '') + '" fill="' + cs.color + '"' + (op < 1 ? ' opacity="' + op + '"' : '') + '>' + ktEsc(word) + '</text>');
+  }
+}
+
+async function ktRaster(svgInner, W, H, B, scale) {
+  const fonts = await ktFonts('');
+  const tw = W + 2 * B, th = H + 2 * B;
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="' + Math.round(tw * scale) + '" height="' + Math.round(th * scale) + '" viewBox="' + (-B) + ' ' + (-B) + ' ' + tw + ' ' + th + '"><style>' + fonts + '</style>' + svgInner + '</svg>';
+  const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  const img = new Image();
+  img.src = url;
+  await (img.decode ? img.decode() : new Promise((ok, no) => { img.onload = ok; img.onerror = no; }));
+  await new Promise((r) => setTimeout(r, 60)); // Safari: let fonts in the SVG image settle
+  const cv = document.createElement('canvas');
+  cv.width = Math.round(tw * scale); cv.height = Math.round(th * scale);
+  const ctx = cv.getContext('2d');
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.drawImage(img, 0, 0, cv.width, cv.height);
+  ctx.drawImage(img, 0, 0, cv.width, cv.height);
+  return cv;
+}
+
+async function ktDeflate(u8) {
+  if (typeof CompressionStream === 'undefined') return null;
+  const cs = new CompressionStream('deflate');
+  const buf = await new Response(new Blob([u8]).stream().pipeThrough(cs)).arrayBuffer();
+  return new Uint8Array(buf);
+}
+
+// canvas -> image XObject (lossless Flate RGB, or JPEG fallback)
+async function ktImage(cv) {
+  const { width: w, height: h } = cv;
+  const px = cv.getContext('2d').getImageData(0, 0, w, h).data;
+  const rgb = new Uint8Array(w * h * 3);
+  for (let i = 0, j = 0; i < px.length; i += 4, j += 3) { rgb[j] = px[i]; rgb[j + 1] = px[i + 1]; rgb[j + 2] = px[i + 2]; }
+  const z = await ktDeflate(rgb);
+  if (z) return { w, h, filter: 'FlateDecode', data: z };
+  const blob = await new Promise((r) => cv.toBlob(r, 'image/jpeg', 0.95));
+  return { w, h, filter: 'DCTDecode', data: new Uint8Array(await blob.arrayBuffer()) };
+}
+
+// Minimal PDF writer: one page, one image placed many times, vector marks, Helvetica label.
+function ktPdf(page) {
+  const enc = new TextEncoder();
+  const parts = []; const offs = []; let len = 0;
+  const add = (x) => { const u = typeof x === 'string' ? enc.encode(x) : x; parts.push(u); len += u.length; };
+  const obj = (n, body, stream) => {
+    offs[n] = len;
+    add(n + ' 0 obj\n' + body + (stream ? '\nstream\n' : '\nendobj\n'));
+    if (stream) { add(stream); add('\nendstream\nendobj\n'); }
+  };
+  const f = (n) => (Math.round(n * 1000) / 1000).toString();
+  add('%PDF-1.4\n%âãÏÓ\n');
+  const im = page.image;
+  obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  const box = (b) => '[' + b.map(f).join(' ') + ']';
+  obj(3, '<< /Type /Page /Parent 2 0 R /MediaBox ' + box([0, 0, page.w, page.h]) +
+    (page.trim ? ' /TrimBox ' + box(page.trim) + ' /BleedBox ' + box(page.bleed) : '') +
+    ' /Resources << /XObject << /Im1 5 0 R >> /Font << /F1 6 0 R >> >> /Contents 4 0 R >>');
+  const cs = enc.encode(page.content);
+  obj(4, '<< /Length ' + cs.length + ' >>', cs);
+  obj(5, '<< /Type /XObject /Subtype /Image /Width ' + im.w + ' /Height ' + im.h + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /' + im.filter + ' /Length ' + im.data.length + ' >>', im.data);
+  obj(6, '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  obj(7, '<< /Title (' + page.title.replace(/[()\\]/g, '') + ') /Producer (Kartis) /Creator (Kartis card editor) >>');
+  const xref = len;
+  let x = 'xref\n0 8\n0000000000 65535 f \n';
+  for (let i = 1; i <= 7; i++) x += String(offs[i]).padStart(10, '0') + ' 00000 n \n';
+  add(x + 'trailer\n<< /Size 8 /Root 1 0 R /Info 7 0 R >>\nstartxref\n' + xref + '\n%%EOF\n');
+  const outb = new Uint8Array(len); let p = 0; parts.forEach((u) => { outb.set(u, p); p += u.length; });
+  return outb;
+}
+
+// Layout: 'shop' = one card, 3 mm bleed, crop marks, Trim/BleedBox. 'home' = A4, cards butted, cut marks.
+function ktLayout(mode, orient, img, label) {
+  const S = KT_SIZES[orient], tw = S.w * KT_MM, th = S.h * KT_MM, b = KT_BLEED * KT_MM;
+  const f = (n) => (Math.round(n * 1000) / 1000).toString();
+  const lines = []; const mark = (x1, y1, x2, y2) => lines.push(f(x1) + ' ' + f(y1) + ' m ' + f(x2) + ' ' + f(y2) + ' l S');
+  const txt = (x, y, s, size) => 'BT /F1 ' + size + ' Tf ' + f(x) + ' ' + f(y) + ' Td (' + s.replace(/\u00D7/g, 'x').replace(/\u00B7/g, '-').replace(/[()\\]/g, '').replace(/[^\x20-\x7E]/g, '') + ') Tj ET';
+  if (mode === 'shop') {
+    const m = 12 * KT_MM;                       // margin around trim: bleed + mark offset + mark
+    const pw = tw + 2 * m, ph = th + 2 * m + 6 * KT_MM;
+    const ox = m, oy = m + 6 * KT_MM;           // trim origin (bottom-left)
+    const off = b + 1 * KT_MM, ml = 5 * KT_MM;  // marks start outside the bleed
+    [[ox, oy], [ox + tw, oy], [ox, oy + th], [ox + tw, oy + th]].forEach(([x, y]) => {
+      const sx = x === ox ? -1 : 1, sy = y === oy ? -1 : 1;
+      mark(x + sx * off, y, x + sx * (off + ml), y);
+      mark(x, y + sy * off, x, y + sy * (off + ml));
+    });
+    const content = 'q ' + f(tw + 2 * b) + ' 0 0 ' + f(th + 2 * b) + ' ' + f(ox - b) + ' ' + f(oy - b) + ' cm /Im1 Do Q\n' +
+      'q 0 0 0 RG 0.25 w\n' + lines.join('\n') + '\nQ\n0 0 0 rg ' + txt(ox - b, 6 * KT_MM, label, 6.5) + '\n';
+    return { w: pw, h: ph, trim: [ox, oy, ox + tw, oy + th], bleed: [ox - b, oy - b, ox + tw + b, oy + th + b], content, image: img };
+  }
+  // home: A4 portrait. Every card keeps its own 3 mm bleed and a 6 mm gutter, so a home printer's
+  // unprintable edge never eats into a card. Tall: 2 per sheet. Wide: 8 per sheet.
+  const pw = 210 * KT_MM, ph = 297 * KT_MM;
+  const cols = orient === 'tall' ? 1 : 2, rows = orient === 'tall' ? 2 : 4;
+  const cw = tw + 2 * b, ch = th + 2 * b;
+  const gw = cols * cw, gh = rows * ch, ox = (pw - gw) / 2, oy = (ph - gh) / 2 + 2 * KT_MM;
+  const cells = [], xs = [], ys = [];
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const x = ox + c * cw, y = oy + r * ch;
+    cells.push('q ' + f(cw) + ' 0 0 ' + f(ch) + ' ' + f(x) + ' ' + f(y) + ' cm /Im1 Do Q');
+  }
+  for (let c = 0; c < cols; c++) xs.push(ox + c * cw + b, ox + c * cw + b + tw);
+  for (let r = 0; r < rows; r++) ys.push(oy + r * ch + b, oy + r * ch + b + th);
+  const gap = 1 * KT_MM;
+  const mlX = Math.min(5 * KT_MM, ox - gap - 4 * KT_MM), mlY = Math.min(5 * KT_MM, oy - gap - 4 * KT_MM);
+  xs.forEach((x) => { mark(x, oy - gap, x, oy - gap - mlY); mark(x, oy + gh + gap, x, oy + gh + gap + mlY); });
+  ys.forEach((y) => { mark(ox - gap, y, ox - gap - mlX, y); mark(ox + gw + gap, y, ox + gw + gap + mlX, y); });
+  const content = cells.join('\n') + '\nq 0 0 0 RG 0.3 w\n' + lines.join('\n') + '\nQ\n0 0 0 rg ' + txt(ox, oy - gap - mlY - 3.5 * KT_MM, label, 7) + '\n';
+  return { w: pw, h: ph, content, image: img, perSheet: cols * rows };
+}
+
+async function ktMakePdf(root, o) {
+  const S = KT_SIZES[o.orient];
+  const W = root.offsetWidth;
+  const pxPerMm = W / S.w;
+  const bleedPx = KT_BLEED * pxPerMm;
+  const svg = ktCardToSvg(root, { bleedPx, printBg: o.printBg });
+  const scale = (KT_DPI / 25.4) / pxPerMm;
+  const cv = await ktRaster(svg.body, svg.W, svg.H, bleedPx, scale);
+  const img = await ktImage(cv);
+  const page = ktLayout(o.mode, o.orient, img, o.label);
+  page.title = o.title;
+  return { bytes: ktPdf(page), page, canvas: cv };
+}
+// Expose for the editor's Download PDF button (same window).
+if (typeof window !== 'undefined') window.KT_PRINT = { make: ktMakePdf, sizes: KT_SIZES, bleed: KT_BLEED, dpi: KT_DPI };
+const CARD_DEFAULT_TPL = { layout: 'classic', bg: '#F3E6D3', ink: '#3A2817', sub: '#6E5440', rule: 'rgba(58,40,23,0.35)', greetFont: "'Mrs Saint Delafield', cursive", greetStyle: 'normal', greetColor: '#3A2817', greetTall: 64, greetWide: 50, nameFont: "'Gloock', serif", nameStyle: 'normal', nameWeight: '400', nameTall: 24, nameWide: 22, bodyFont: "'Instrument Sans', sans-serif", tint: '#EBD3B6', greetWeight: '400', greetTrack: '0', greetCase: 'none', c1: '#B79CF2', c2: '#F6A043', c3: '#2E3C8C', c4: '#EE5137', c5: '#3BAA5C', c6: '#F5A8C6' };
+const CARD_DEFAULT_C = { greeting: 'Shabbat Shalom', name: 'Your Name', line: 'So glad we shared a table tonight.', whatsapp: '+972 5X XXX XXXX', platform: 'Instagram', handle: 'yourhandle', phone: '', showQr: true, foot: 'Save me once Shabbat is out' };
+class Component extends DCLogic {
+  renderVals() {
+    const T = Object.assign({}, CARD_DEFAULT_TPL, this.props.tpl || {});
+    const c = Object.assign({}, CARD_DEFAULT_C, this.props.c || {});
+    const tall = (this.props.orient || 'tall') !== 'wide';
+    const px = (n) => n + 'px';
+    // Print scale: tall 4 in = 360 px (90 px/in), wide 3.5 in = 504 px (144 px/in).
+    // Minimum type size on the printed card: 8 pt.
+    const MIN_PT = 8;
+    const pxPerPt = tall ? 90 / 72 : 144 / 72;
+    const minPx = MIN_PT * pxPerPt;
+    const fit = (n) => px(Math.round(Math.max(n, minPx) * 10) / 10);
+    const clean = (x) => (x || '').trim().replace(/^@+/, '');
+    const handle = clean(c.handle);
+    const details = [];
+    if (c.whatsapp !== undefined) {
+      const ph = (c.whatsapp || c.phone || '').trim();
+      if (ph) details.push({ text: ph });
+      if ((c.email || '').trim()) details.push({ text: c.email.trim() });
+      if (clean(c.instagram)) details.push({ text: 'Instagram  @' + clean(c.instagram) });
+      if (clean(c.telegram)) details.push({ text: 'Telegram  @' + clean(c.telegram) });
+    } else if (handle) details.push({ text: (c.platform ? c.platform + '  ' : '') + '@' + handle });
+    if (c.whatsapp === undefined && (c.phone || '').trim()) details.push({ text: c.phone.trim() });
+    if ((c.foot || '').trim()) details.push({ text: c.foot.trim() });
+    if (c.showAddr) {
+      const where = [c.address, c.entry, c.way].map((x) => (x || '').trim()).filter(Boolean);
+      where.reverse().forEach((x) => details.unshift({ text: x }));
+    }
+    // Real, scannable QR for the link the guest will open (quiet zone of 2 modules + the white tile)
+    let qrEnc;
+    try { qrEnc = KT_QR.encode((c.qr || '').trim() || 'your-link.com'); } catch (e) { qrEnc = KT_QR.encode('your-link.com'); }
+    const L = T.layout;
+    return {
+      T, c, details,
+      qrD: qrEnc.d, qrBox: '-2 -2 ' + (qrEnc.n + 4) + ' ' + (qrEnc.n + 4), qrLabel: 'QR code: ' + ((c.qr || '').trim() || 'your-link.com'),
+      w: tall ? '360px' : '504px',
+      h: tall ? '468px' : '288px',
+      pad: tall ? '34px' : '28px',
+      padInner: tall ? '28px 22px' : '18px 22px',
+      greetSize: fit(tall ? T.greetTall : T.greetWide),
+      nameSize: fit(tall ? T.nameTall : T.nameWide),
+      nameSmall: fit(tall ? 24 : 21),
+      lineSize: fit(tall ? 19 : 18),
+      lineSizeSans: fit(tall ? 15 : 16),
+      smallSize: fit(tall ? 13 : 16),
+      eyebrowSize: fit(tall ? 12 : 16),
+      qrSize: tall ? '76px' : '64px',
+      qrSizeSmall: tall ? '68px' : '58px',
+      bandH: tall ? '42%' : '40%',
+      monoSize: tall ? '84px' : '64px',
+      monoFont: fit(tall ? 46 : 36),
+      monoDir: tall ? 'column' : 'row',
+      monoAlign: tall ? 'flex-start' : 'center',
+      initial: ((c.name || '').trim().charAt(0) || '·').toUpperCase(),
+      hasGreeting: !!(c.greeting || '').trim(),
+      hasLine: !!(c.line || '').trim(),
+      showQr: c.showQr !== false,
+      isClassic: L === 'classic', isStack: L === 'stack', isBand: L === 'band',
+      isFrame: L === 'frame', isMono: L === 'mono', isBig: L === 'big', isArt: L === 'art',
+      is_challah: T.art === 'challah',
+      is_candles: T.art === 'candles',
+      is_cup: T.art === 'cup',
+      is_pomegranate: T.art === 'pomegranate',
+      is_flowers: T.art === 'flowers',
+      is_bottle: T.art === 'bottle',
+      is_feast: T.art === 'feast',
+      is_sunset: T.art === 'sunset',
+      is_garden: T.art === 'garden',
+      is_candlenight: T.art === 'candlenight',
+      artPad: tall ? '28px' : '24px',
+      artDir: tall ? 'column' : (T.wideDir || 'row'),
+      artGap: tall ? '16px' : '22px',
+      artFlex: tall ? '1 1 auto' : '0 0 42%',
+      textFlex: tall ? '0 0 auto' : '1 1 0',
+      textJust: tall ? 'flex-start' : 'space-between',
+      artGreetSize: fit(tall ? (T.greetArtTall || 18) : (T.greetArtWide || 16)),
+      qrArt: tall ? '58px' : '52px'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -11,6 +11,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&amp;family=Geist:wght@400;500;600&amp;family=Gloock&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600&amp;family=Mrs+Saint+Delafield&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0}
+h1,h2,h3{text-wrap:balance}
+p{text-wrap:pretty}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a,button,input{touch-action:manipulation}
+.k-field:focus-within{outline:2px solid #6E7FD6;outline-offset:2px}
 a{color:inherit}a:hover{opacity:.78}
 input::placeholder{color:inherit;opacity:.5}
 .k-prev{position:relative}
@@ -20,6 +25,7 @@ input::placeholder{color:inherit;opacity:.5}
 .k-tex-pearl{background:linear-gradient(118deg,rgba(255,255,255,0) 18%,rgba(255,255,255,.55) 38%,rgba(236,226,255,.35) 48%,rgba(255,255,255,0) 62%,rgba(255,244,226,.4) 80%,rgba(255,255,255,0) 94%);mix-blend-mode:soft-light;animation:k-sheen 6s ease-in-out infinite alternate;background-size:220% 100%}
 .k-tex-smooth{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.02))}
 .k-tex-none{display:none}
+@media (prefers-reduced-motion:reduce){.k-tex-pearl{animation:none}.k-sw{transition:none}}
 @keyframes k-sheen{from{background-position:0 0}to{background-position:100% 0}}
 .k-sw{transition:transform .15s}
 .k-sw:hover{transform:translateY(-2px)}
@@ -100,18 +106,18 @@ input::placeholder{color:inherit;opacity:.5}
 <div style="display: flex; flex-direction: column; gap: 18px">
 <div>
 <label for="s-name" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Your name</label>
-<input id="s-name" type="text" value="{{v.name}}" onChange="{{onName}}" placeholder="Your Name" aria-invalid="{{er.name}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.name}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-name" name="name" autocomplete="name" spellcheck="false" type="text" value="{{v.name}}" onChange="{{onName}}" placeholder="Your Name" aria-invalid="{{er.name}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.name}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 <sc-if value="{{er.name}}" hint-placeholder-val="{{ false }}">
 <p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">Add your name. It's the main line on the card.</p>
 </sc-if>
 </div>
 <div>
 <label for="s-greet" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Greeting</label>
-<input id="s-greet" type="text" value="{{c.greeting}}" onChange="{{onGreeting}}" placeholder="Shabbat Shalom" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-greet" name="greet" autocomplete="off" type="text" value="{{c.greeting}}" onChange="{{onGreeting}}" placeholder="Shabbat Shalom" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 </div>
 <div>
 <label for="s-line" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">A line for them</label>
-<input id="s-line" type="text" value="{{c.line}}" onChange="{{onLine}}" placeholder="So glad we shared a table tonight." style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-line" name="line" autocomplete="off" type="text" value="{{c.line}}" onChange="{{onLine}}" placeholder="So glad we shared a table tonight." style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 </div>
 <button type="button" role="switch" aria-checked="{{showQr}}" onClick="{{toggleQr}}" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; padding: 0 2px; border: 0; background: transparent; color: {{t.ink}}; cursor: pointer; font: 400 15px/1.3 {{t.body}}; text-align: left">
 <span>QR code to scan after Shabbat</span>
@@ -120,7 +126,7 @@ input::placeholder{color:inherit;opacity:.5}
 <sc-if value="{{showQr}}" hint-placeholder-val="{{ true }}">
 <div>
 <label for="s-qr" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">The QR opens</label>
-<input id="s-qr" type="url" value="{{v.qr}}" onChange="{{onQr}}" placeholder="your-link.com" aria-invalid="{{er.qr}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.qr}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-qr" name="qr" autocomplete="url" spellcheck="false" autocapitalize="none" inputmode="url" type="url" value="{{v.qr}}" onChange="{{onQr}}" placeholder="your-link.com" aria-invalid="{{er.qr}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.qr}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 <sc-if value="{{er.qr}}" hint-placeholder-val="{{ false }}">
 <p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">{{qrMsg}}</p>
 </sc-if>
@@ -132,8 +138,8 @@ input::placeholder{color:inherit;opacity:.5}
 <sc-if value="{{showPhone}}" hint-placeholder-val="{{ false }}">
 <div>
 <label for="s-phone" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Phone number <span style="opacity: .7">· optional</span></label>
-<div style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.phone}}; background: {{t.navBg}}">
-<input id="s-phone" type="tel" value="{{v.phone}}" onChange="{{onPhone}}" placeholder="+972 5X XXX XXXX" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 14px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<div class="k-field" style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.phone}}; background: {{t.navBg}}">
+<input id="s-phone" name="phone" autocomplete="tel" aria-invalid="{{er.phone}}" type="tel" value="{{v.phone}}" onChange="{{onPhone}}" placeholder="+972 5X XXX XXXX" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 14px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 <button type="button" onClick="{{removePhone}}" aria-label="Remove phone number" style="flex: none; width: 44px; height: 46px; border: 0; background: transparent; color: {{t.muted}}; cursor: pointer; font: 400 20px/1 {{t.body}}">×</button>
 </div>
 <sc-if value="{{er.phone}}" hint-placeholder-val="{{ false }}">
@@ -144,8 +150,8 @@ input::placeholder{color:inherit;opacity:.5}
 <sc-if value="{{showEmail}}" hint-placeholder-val="{{ false }}">
 <div>
 <label for="s-email" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Email <span style="opacity: .7">· optional</span></label>
-<div style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.email}}; background: {{t.navBg}}">
-<input id="s-email" type="email" value="{{v.email}}" onChange="{{onEmail}}" placeholder="you@email.com" autocomplete="email" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 14px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<div class="k-field" style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.email}}; background: {{t.navBg}}">
+<input id="s-email" name="email" spellcheck="false" autocapitalize="none" aria-invalid="{{er.email}}" type="email" value="{{v.email}}" onChange="{{onEmail}}" placeholder="you@email.com" autocomplete="email" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 14px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 <button type="button" onClick="{{removeEmail}}" aria-label="Remove email" style="flex: none; width: 44px; height: 46px; border: 0; background: transparent; color: {{t.muted}}; cursor: pointer; font: 400 20px/1 {{t.body}}">×</button>
 </div>
 <sc-if value="{{er.email}}" hint-placeholder-val="{{ false }}">
@@ -156,9 +162,9 @@ input::placeholder{color:inherit;opacity:.5}
 <sc-if value="{{showIg}}" hint-placeholder-val="{{ false }}">
 <div>
 <label for="s-ig" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Instagram <span style="opacity: .7">· optional</span></label>
-<div style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.ig}}; background: {{t.navBg}}">
+<div class="k-field" style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.ig}}; background: {{t.navBg}}">
 <span aria-hidden="true" style="padding: 0 0 0 14px; font-size: 16px; color: {{t.muted}}">@</span>
-<input id="s-ig" type="text" value="{{v.ig}}" onChange="{{onInstagram}}" placeholder="yourhandle" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 4px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-ig" name="ig" autocomplete="off" spellcheck="false" autocapitalize="none" aria-invalid="{{er.ig}}" type="text" value="{{v.ig}}" onChange="{{onInstagram}}" placeholder="yourhandle" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 4px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 <button type="button" onClick="{{removeIg}}" aria-label="Remove Instagram" style="flex: none; width: 44px; height: 46px; border: 0; background: transparent; color: {{t.muted}}; cursor: pointer; font: 400 20px/1 {{t.body}}">×</button>
 </div>
 <sc-if value="{{er.ig}}" hint-placeholder-val="{{ false }}">
@@ -169,9 +175,9 @@ input::placeholder{color:inherit;opacity:.5}
 <sc-if value="{{showTg}}" hint-placeholder-val="{{ false }}">
 <div>
 <label for="s-tg" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Telegram <span style="opacity: .7">· optional</span></label>
-<div style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.tg}}; background: {{t.navBg}}">
+<div class="k-field" style="display: flex; align-items: center; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.tg}}; background: {{t.navBg}}">
 <span aria-hidden="true" style="padding: 0 0 0 14px; font-size: 16px; color: {{t.muted}}">@</span>
-<input id="s-tg" type="text" value="{{v.tg}}" onChange="{{onTelegram}}" placeholder="yourhandle" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 4px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-tg" name="tg" autocomplete="off" spellcheck="false" autocapitalize="none" aria-invalid="{{er.tg}}" type="text" value="{{v.tg}}" onChange="{{onTelegram}}" placeholder="yourhandle" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 46px; padding: 0 8px 0 4px; border: 0; outline: none; background: transparent; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 <button type="button" onClick="{{removeTg}}" aria-label="Remove Telegram" style="flex: none; width: 44px; height: 46px; border: 0; background: transparent; color: {{t.muted}}; cursor: pointer; font: 400 20px/1 {{t.body}}">×</button>
 </div>
 <sc-if value="{{er.tg}}" hint-placeholder-val="{{ false }}">
@@ -182,20 +188,20 @@ input::placeholder{color:inherit;opacity:.5}
 <sc-if value="{{showAddr}}" hint-placeholder-val="{{ false }}">
 <div>
 <label for="s-addr" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Address</label>
-<input id="s-addr" type="text" value="{{v.addr}}" onChange="{{onAddress}}" placeholder="Street and number, City" aria-invalid="{{er.addr}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.addr}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-addr" name="addr" autocomplete="street-address" type="text" value="{{v.addr}}" onChange="{{onAddress}}" placeholder="Street and number, City" aria-invalid="{{er.addr}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{eb.addr}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 <sc-if value="{{er.addr}}" hint-placeholder-val="{{ false }}">
 <p role="alert" style="margin: 6px 0 0 2px; font-size: 13px; line-height: 1.4; color: #B3261E">Add the street and city so guests can find you.</p>
 </sc-if>
 </div>
 <div>
 <label for="s-entry" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Floor and how to get in</label>
-<input id="s-entry" type="text" value="{{c.entry}}" onChange="{{onEntry}}" placeholder="Floor, flat · how guests get in" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-entry" name="entry" autocomplete="off" type="text" value="{{c.entry}}" onChange="{{onEntry}}" placeholder="Floor, flat · how guests get in" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 </div>
 </sc-if>
 <sc-if value="{{showFoot}}" hint-placeholder-val="{{ false }}">
 <div>
 <label for="s-foot" style="display: block; margin: 0 0 6px 2px; font-size: 14px; color: {{t.muted}}">Small print</label>
-<input id="s-foot" type="text" value="{{c.foot}}" onChange="{{onFoot}}" placeholder="Save me once Shabbat is out" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
+<input id="s-foot" name="foot" autocomplete="off" type="text" value="{{c.foot}}" onChange="{{onFoot}}" placeholder="Save me once Shabbat is out" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border-radius: {{t.fieldRadius}}; border: 1px solid {{t.lineStrong}}; background: {{t.navBg}}; color: {{t.ink}}; font: 400 16px/1.2 {{t.body}}">
 </div>
 </sc-if>
 <div style="display: flex; flex-wrap: wrap; gap: 8px">
@@ -220,7 +226,7 @@ input::placeholder{color:inherit;opacity:.5}
 <sc-if value="{{notFits}}" hint-placeholder-val="{{ false }}">
 <div style="margin-top: 8px; font-size: 14px; color: {{t.accent}}">{{fitLabel}}</div>
 </sc-if>
-<button type="button" onClick="{{copySlip}}" style="display: inline-flex; align-items: center; gap: 6px; margin: 10px 0 0 -6px; min-height: 36px; padding: 0 6px; border: 0; border-radius: 8px; background: transparent; color: {{t.muted}}; cursor: pointer; font: 500 13px/1 {{t.body}}; text-decoration: underline; text-underline-offset: 3px"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"></rect><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"></path></svg>{{copyLabel}}</button>
+<button type="button" onClick="{{copySlip}}" style="display: inline-flex; align-items: center; gap: 6px; margin: 10px 0 0 -6px; min-height: 40px; padding: 0 6px; border: 0; border-radius: 8px; background: transparent; color: {{t.muted}}; cursor: pointer; font: 500 13px/1 {{t.body}}; text-decoration: underline; text-underline-offset: 3px"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"></rect><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"></path></svg>{{copyLabel}}</button>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px">
 <button type="button" onClick="{{downloadPdf}}" aria-busy="{{pdfBusy}}" style="min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: {{t.accent}}; color: {{t.accentInk}}; cursor: {{pdfCursor}}; opacity: {{pdfOpacity}}; font: 500 15px/1 {{t.body}}">{{pdfLabel}}</button>
@@ -476,7 +482,7 @@ class Component extends DCLogic {
       if (n !== 3) return this.setState({ step: n });
       const now = this.state || {};
       const blocked = Object.values(missing(now)).some(Boolean);
-      this.setState(blocked ? { step: 2, tried: true } : { step: 3 });
+      this.setState(blocked ? { step: 2, tried: true } : { step: 3 }); if (blocked) setTimeout(() => { const el = document.querySelector('[data-kt-page="EditorSimple"] [aria-invalid="true"]'); if (el) el.focus(); }, 60);
     };
     const stepPill = (on) => ({ bg: on ? t.navBg : 'transparent', fg: t.ink, numBg: on ? t.accent : 'transparent', numFg: on ? t.accentInk : t.muted });
     const steps = [[1, 'Design'], [2, 'Words'], [3, 'Print']].map(([n, label]) => ({ n, label, pressed: n === step, ...stepPill(n === step), pick: () => toStep(n) }));

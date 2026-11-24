@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notes from around the world</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'KN Caveat';font-display:swap;src:url(/assets/notes/caveat.woff2) format('woff2');unicode-range:U+0000-024F,U+2000-206F,U+20AC}
+@font-face{font-family:'KN Caveat';font-display:swap;src:url(/assets/notes/caveat-cyr.woff2) format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'KN Patrick Hand';font-display:swap;src:url(/assets/notes/patrick-hand.woff2) format('woff2')}
+@font-face{font-family:'KN Indie Flower';font-display:swap;src:url(/assets/notes/indie-flower.woff2) format('woff2')}
+@font-face{font-family:'KN Kalam';font-display:swap;src:url(/assets/notes/kalam.woff2) format('woff2')}
+@font-face{font-family:'KN Shadows';font-display:swap;src:url(/assets/notes/shadows.woff2) format('woff2')}
+@font-face{font-family:'KN Reenie';font-display:swap;src:url(/assets/notes/reenie.woff2) format('woff2')}
+@font-face{font-family:'KN Belle Aurore';font-display:swap;src:url(/assets/notes/belle-aurore.woff2) format('woff2')}
+@font-face{font-family:'KN Homemade Apple';font-display:swap;src:url(/assets/notes/homemade-apple.woff2) format('woff2')}
+@font-face{font-family:'KN Fell';font-style:italic;font-display:swap;src:url(/assets/notes/fell-italic.woff2) format('woff2')}
+.kn-note{touch-action:none}
+.kn-note:focus-visible{outline:2px solid #2F3C7E;outline-offset:4px}
+</style>
+</helmet>
+<section id="notes" aria-labelledby="kn-h" style="max-width: 1174px; margin: 120px auto 0; padding: 0 16px; box-sizing: border-box; color: #23211C; font-family: 'Instrument Sans', sans-serif">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 32px">
+<div style="max-width: 640px">
+<sc-if value="{{hasCount}}" hint-placeholder-val="{{ false }}">
+<div style="font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #665F52">{{countLine}}</div>
+</sc-if>
+<h2 id="kn-h" style="margin: 12px 0 0; font-family: Gloock, serif; font-weight: 400; font-size: clamp(36px, 5vw, 56px); line-height: 1.05; letter-spacing: -.01em">{{L.title}}</h2>
+<p style="margin: 14px 0 0; font-size: 17px; line-height: 1.55; color: #665F52">{{L.lead}}</p>
+</div>
+<button type="button" id="kn-open" onClick="{{open}}" aria-haspopup="dialog" style="min-height: 52px; padding: 0 28px; border: 0; border-radius: 999px; background: #2F3C7E; color: #F7F2E9; font: 500 16px/1 'Instrument Sans', sans-serif; cursor: pointer">{{L.leave}}</button>
+</div>
+
+<div id="kn-board" aria-label="{{L.boardAria}}" style="position: relative; margin-top: 32px; height: {{boardH}}; border-radius: 28px; background: #E5DCCD; box-shadow: inset 0 0 0 1px rgba(35,33,28,0.08); overflow: hidden">
+<sc-if value="{{showEmpty}}" hint-placeholder-val="{{ false }}">
+<p style="position: absolute; left: 0; right: 0; top: 50%; margin: -12px 0 0; text-align: center; font-size: 16px; color: #665F52">{{emptyText}}</p>
+</sc-if>
+<sc-for list="{{notes}}" as="n" hint-placeholder-count="0">
+<article class="kn-note" tabindex="0" aria-label="{{n.aria}}" onPointerDown="{{n.grab}}" onKeyDown="{{n.key}}" style="position: absolute; left: {{n.x}}; top: {{n.y}}; width: {{noteW}}; z-index: {{n.z}}; cursor: {{n.cursor}}; user-select: none; transform: rotate({{n.rot}}) scale({{n.scale}}); transition: transform .15s; filter: drop-shadow(0 1px 1px rgba(35,33,28,0.10)) drop-shadow(0 6px 10px rgba(35,33,28,0.08)) drop-shadow(0 16px 24px rgba(35,33,28,0.08))">
+<div dir="auto" style="position: relative; min-height: 180px; box-sizing: border-box; padding: {{n.pad}}; background: {{n.bg}}; clip-path: {{n.clip}}; display: flex; flex-direction: column; gap: 12px">
+<p dir="auto" style="margin: 0; font-family: {{n.font}}; font-size: {{n.size}}; line-height: {{n.lh}}; font-style: {{n.italic}}; color: {{n.ink}}; overflow-wrap: anywhere">{{n.text}}</p>
+<div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: {{n.meta}}">
+<span dir="auto" style="display: inline-flex; align-items: center; gap: 5px"><svg width="11" height="11" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 18s6-5.5 6-10a6 6 0 0 0-12 0c0 4.5 6 10 6 10z"></path><circle cx="10" cy="8" r="2"></circle></svg>{{n.place}}</span>
+<span dir="auto">{{n.who}}</span>
+</div>
+</div>
+<sc-if value="{{n.tape}}" hint-placeholder-val="{{ true }}">
+<span aria-hidden="true" style="position: absolute; left: 50%; top: -9px; width: 64px; height: 18px; margin-left: -32px; transform: rotate({{n.tapeRot}}); background: rgba(247,242,233,0.7); box-shadow: 0 1px 2px rgba(35,33,28,0.12)"></span>
+</sc-if>
+</article>
+</sc-for>
+</div>
+
+<sc-if value="{{dialogOpen}}" hint-placeholder-val="{{ false }}">
+<div onClick="{{close}}" style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(24,22,34,.38); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px)">
+<div id="kn-dialog" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="kn-dh" onClick="{{stop}}" onKeyDown="{{dialogKey}}" style="position: relative; width: min(440px, 100%); max-height: calc(100vh - 32px); overflow: auto; box-sizing: border-box; padding: 28px 24px 24px; border-radius: 24px; background: #F7F2E9; box-shadow: 0 30px 80px -30px rgba(20,20,40,.55), 0 0 0 1px rgba(35,33,28,0.12); outline: none; display: flex; flex-direction: column; gap: 18px">
+<button type="button" onClick="{{close}}" aria-label="{{L.close}}" style="position: absolute; top: 10px; inset-inline-end: 10px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: #665F52; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14"></path></svg></button>
+<h3 id="kn-dh" style="margin: 0; padding-inline-end: 40px; font-family: Gloock, serif; font-weight: 400; font-size: 28px; line-height: 1.15">{{L.leave}}</h3>
+
+<div style="position: relative; margin-top: 8px; transform: rotate(-1deg); filter: drop-shadow(0 1px 1px rgba(35,33,28,0.10)) drop-shadow(0 6px 10px rgba(35,33,28,0.08)) drop-shadow(0 16px 24px rgba(35,33,28,0.08))">
+<div style="position: relative; min-height: 190px; box-sizing: border-box; padding: {{p.pad}}; background: {{p.bg}}; clip-path: {{p.clip}}; display: flex; flex-direction: column">
+<label for="kn-text" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{L.yourNote}}</label>
+<textarea id="kn-text" dir="auto" rows="4" maxlength="140" placeholder="{{L.ph}}" value="{{text}}" onChange="{{onText}}" style="flex: 1 1 auto; box-sizing: border-box; width: 100%; padding: 0; border: 0; outline: none; background: transparent; color: {{p.ink}}; font-family: {{p.font}}; font-size: {{p.size}}; line-height: {{p.lh}}; font-style: {{p.italic}}; resize: none"></textarea>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 12px; color: {{p.meta}}">
+<span dir="auto">{{myPlace}}</span><span>{{left}}</span>
+</div>
+</div>
+<sc-if value="{{p.tape}}" hint-placeholder-val="{{ true }}">
+<span aria-hidden="true" style="position: absolute; left: 50%; top: -9px; width: 64px; height: 18px; margin-left: -32px; background: rgba(247,242,233,0.7); box-shadow: 0 1px 2px rgba(35,33,28,0.12)"></span>
+</sc-if>
+</div>
+
+<div style="display: flex; justify-content: flex-end; margin-top: -8px">
+<button type="button" onClick="{{shuffle}}" style="display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 4px; border: 0; background: transparent; color: #2F3C7E; font: 500 13px/1 'Instrument Sans', sans-serif; text-decoration: underline; text-underline-offset: 3px; cursor: pointer">{{L.shuffle}}</button>
+</div>
+
+<div>
+<div style="font-size: 13px; color: #665F52; margin: 0 0 8px 2px">{{L.idea}}</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ideas}}" as="i" hint-placeholder-count="4">
+<button type="button" onClick="{{i.pick}}" style="min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px dashed rgba(35,33,28,0.35); background: transparent; color: #23211C; font: 400 13px/1 'Instrument Sans', sans-serif; cursor: pointer">{{i.text}}</button>
+</sc-for>
+</div>
+</div>
+
+<div>
+<div style="font-size: 13px; color: #665F52; margin: 0 0 8px 2px">{{L.paper}}</div>
+<div role="group" aria-label="{{L.paper}}" style="display: flex; gap: 8px">
+<sc-for list="{{kinds}}" as="k" hint-placeholder-count="2">
+<button type="button" onClick="{{k.pick}}" aria-pressed="{{k.on}}" style="flex: 1 1 0; min-height: 44px; padding: 0 8px; border-radius: 12px; border: {{k.border}}; background: #EFE9DF; color: #23211C; font: 500 14px/1 'Instrument Sans', sans-serif; cursor: pointer">{{k.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{isSticker}}" hint-placeholder-val="{{ true }}">
+<div role="group" aria-label="{{L.colour}}" style="display: flex; gap: 10px; margin-top: 10px">
+<sc-for list="{{colors}}" as="c" hint-placeholder-count="5">
+<button type="button" onClick="{{c.pick}}" aria-label="{{c.label}}" aria-pressed="{{c.on}}" style="width: 40px; height: 40px; border-radius: 50%; border: 0; background: {{c.hex}}; box-shadow: {{c.ring}}; cursor: pointer"></button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+
+<div>
+<label for="kn-name" style="display: block; font-size: 13px; color: #665F52; margin: 0 0 6px 2px">{{L.signed}}</label>
+<input id="kn-name" dir="auto" type="text" maxlength="40" autocomplete="given-name" value="{{name}}" onChange="{{onName}}" placeholder="{{L.namePh}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid rgba(35,33,28,0.28); border-radius: 14px; background: #EFE9DF; color: #23211C; font: 400 15px/1 'Instrument Sans', sans-serif">
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="{{hp}}" onChange="{{onHp}}" style="position: absolute; left: -9999px; width: 1px; height: 1px">
+</div>
+
+<div>
+<button type="button" onClick="{{post}}" aria-disabled="{{postOff}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 999px; background: #2F3C7E; color: #F7F2E9; font: 500 16px/1 'Instrument Sans', sans-serif; cursor: {{postCursor}}; opacity: {{postOpacity}}">{{postLabel}}</button>
+<p role="status" aria-live="polite" style="margin: 8px 0 0; min-height: 20px; text-align: center; font-size: 13px; line-height: 1.45; color: {{msgColor}}">{{msg}}</p>
+</div>
+</div>
+</div>
+</sc-if>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{}'>
+const KN_HAND = [["'KN Caveat', 'KT Mrs Saint Delafield', cursive", '25px', '1.2'], ["'KN Patrick Hand', 'KN Caveat', 'KT Mrs Saint Delafield', cursive", '21px', '1.3'], ["'KN Indie Flower', 'KN Caveat', 'KT Mrs Saint Delafield', cursive", '20px', '1.35'], ["'KN Kalam', 'KN Caveat', 'KT Mrs Saint Delafield', cursive", '19px', '1.4'], ["'KN Shadows', 'KN Caveat', 'KT Mrs Saint Delafield', cursive", '22px', '1.3'], ["'KN Reenie', 'KN Caveat', 'KT Mrs Saint Delafield', cursive", '27px', '1.1'], ["'Mrs Saint Delafield', 'KT Mrs Saint Delafield', cursive", '30px', '1.15']];
+const KN_OLD = [["'KN Belle Aurore', 'KT Mrs Saint Delafield', cursive", '21px', '1.35'], ["'KN Homemade Apple', 'KT Mrs Saint Delafield', cursive", '15px', '1.75'], ["'KN Fell', 'KT Mrs Saint Delafield', serif", '20px', '1.35'], ["'Mrs Saint Delafield', 'KT Mrs Saint Delafield', cursive", '30px', '1.15']];
+const KN_COLORS = [['Yellow', '#F6E3A1'], ['Pink', '#F3D2C1'], ['Green', '#D9E4CF'], ['Blue', '#D8E1EE'], ['Lilac', '#EADCF0']];
+const KN_IDEAS = ['Twelve of us tonight', 'Challah by the kids', 'First time hosting', 'Strangers became friends'];
+
+function knHash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function knRand(seed) { let x = seed || 1; return () => { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return ((x >>> 0) % 10000) / 10000; }; }
+function knEdge(rnd) {
+  const j = 2.2, pts = [];
+  for (let x = 0; x <= 100; x += 5) pts.push(x + '% ' + (rnd() * j).toFixed(1) + '%');
+  for (let y = 5; y <= 95; y += 6) pts.push((100 - rnd() * j).toFixed(1) + '% ' + y + '%');
+  for (let x = 100; x >= 0; x -= 5) pts.push(x + '% ' + (100 - rnd() * j).toFixed(1) + '%');
+  for (let y = 95; y >= 5; y -= 6) pts.push((rnd() * j).toFixed(1) + '% ' + y + '%');
+  return 'polygon(' + pts.join(', ') + ')';
+}
+function knPaper(paper, color, font, rnd) {
+  if (paper === 'letter') {
+    const f = KN_OLD[font % KN_OLD.length];
+    return { font: f[0], size: f[1], lh: f[2], italic: f[0].indexOf('Fell') > -1 ? 'italic' : 'normal', ink: '#4A2F18', meta: '#6B4E2E', tape: false, pad: '30px 26px 22px', bg: '#ECDCB8', clip: knEdge(rnd) };
+  }
+  const f = KN_HAND[font % KN_HAND.length];
+  return { font: f[0], size: f[1], lh: f[2], italic: 'normal', ink: '#23211C', meta: '#4F493F', tape: true, pad: '28px 20px 18px', bg: color || '#F6E3A1', clip: 'none' };
+}
+
+const knT = (x) => (typeof window !== 'undefined' && window.__ktT ? window.__ktT(x) : x);
+
+class Component extends DCLogic {
+  componentDidMount() {
+    this._fit = () => { const b = document.getElementById('kn-board'); if (b && b.clientWidth !== (this.state || {}).w) this.setState({ w: b.clientWidth }); };
+    this._fit();
+    try { this._ro = new ResizeObserver(this._fit); const b = document.getElementById('kn-board'); if (b) this._ro.observe(b); } catch (e) { window.addEventListener('resize', this._fit); }
+    fetch('/api/notes').then((r) => r.json()).then((d) => this.setState({ list: Array.isArray(d.notes) ? d.notes : [], loaded: true })).catch(() => this.setState({ list: [], loaded: true }));
+  }
+  componentWillUnmount() { if (this._ro) this._ro.disconnect(); else if (this._fit) window.removeEventListener('resize', this._fit); }
+  renderVals() {
+    const s = this.state || {};
+    const T = knT;
+    const L = { title: T('Notes from around the world'), lead: T('Leave a note about your Shabbat table: who came, what you ate, what you talked about. We add your city.'), leave: T('Leave a note'), boardAria: T('Notes board. Drag notes to move them.'), close: T('Close'), yourNote: T('Your note'), ph: T('Tell us about your table…'), shuffle: T('Another handwriting'), idea: T('Need an idea?'), paper: T('Paper'), colour: T('Sticker colour'), signed: T('Signed as · optional'), namePh: T('First name, or leave empty') };
+    const W = s.w || 1142;
+    const narrow = W < 560;
+    const noteW = narrow ? Math.min(250, W - 56) : 250;
+    const cols = Math.max(1, Math.floor((W - 40) / 262));
+    const colW = (W - 40) / cols;
+    const list = (s.mine || []).concat(s.list || []).slice(0, narrow ? 12 : 40);
+    const rowH = narrow ? 200 : 220;
+    const rows = Math.max(1, Math.ceil(list.length / cols));
+    const pos = s.pos || {};
+    const notes = list.map((n, i) => {
+      const rnd = knRand(knHash(String(n.id || i)));
+      const p = knPaper(n.paper, n.color, Number(n.font) || 0, rnd);
+      const col = i % cols, row = Math.floor(i / cols);
+      const bx = Math.round(20 + col * colW + (colW - noteW) / 2 + (rnd() * 24 - 12));
+      const by = Math.round(36 + row * rowH + (rnd() * 20 - 6) + (col % 2 ? 18 : 0));
+      const at = pos[n.id] || [bx, by];
+      const id = n.id;
+      const place = [n.city, n.country].filter(Boolean).join(', ') || T('Somewhere in the world');
+      const who = n.name || T('Anonymous');
+      const moveTo = (x, y) => { const P = Object.assign({}, (this.state || {}).pos); P[id] = [Math.round(Math.min(W - noteW + 20, Math.max(-20, x))), Math.round(Math.max(-10, y))]; this.setState({ pos: P }); };
+      return Object.assign(p, {
+        text: n.text, place, who, aria: n.text + ' — ' + who + ', ' + place,
+        rot: ((rnd() * 6) - 3).toFixed(1) + 'deg', tapeRot: ((rnd() * 10) - 5).toFixed(1) + 'deg',
+        x: at[0] + 'px', y: at[1] + 'px', z: String((s.order || {})[id] || (1 + i)),
+        cursor: s.drag === id ? 'grabbing' : 'grab', scale: s.drag === id ? '1.04' : '1',
+        grab: (e) => {
+          if (e.button !== undefined && e.button !== 0) return;
+          const sx = e.clientX, sy = e.clientY, ox = at[0], oy = at[1];
+          const order = Object.assign({}, (this.state || {}).order); order[id] = (this._z = (this._z || 100) + 1);
+          this.setState({ drag: id, order });
+          const move = (ev) => moveTo(ox + ev.clientX - sx, oy + ev.clientY - sy);
+          const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); this.setState({ drag: null }); };
+          window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+        },
+        key: (e) => {
+          const d = { ArrowLeft: [-12, 0], ArrowRight: [12, 0], ArrowUp: [0, -12], ArrowDown: [0, 12] }[e.key];
+          if (!d) return; e.preventDefault(); moveTo(at[0] + d[0], at[1] + d[1]);
+        }
+      });
+    });
+    const cities = {};
+    (s.list || []).forEach((n) => { if (n.city) cities[n.city + '|' + n.country] = 1; });
+    const nCities = Object.keys(cities).length;
+    const total = (s.list || []).length + (s.mine || []).length;
+
+    const paper = s.paper || 'sticker', color = s.color || '#F6E3A1', font = s.font || 0;
+    const p = knPaper(paper, color, font, knRand(7));
+    const text = s.text || '';
+    const empty = !text.trim();
+    const me = s.me || {};
+    const closeDlg = () => { this.setState({ dialogOpen: false, msg: '' }); setTimeout(() => { const b = document.getElementById('kn-open'); if (b) b.focus(); }, 30); };
+    const err = { empty: 'Write something first.', links: 'Links aren’t allowed in notes.', slow: 'You’ve left a few notes already. Try again in a few minutes.', net: 'Couldn’t post your note. Check your connection and try again.' };
+    return {
+      L, notes, noteW: noteW + 'px', boardH: Math.max(narrow ? 260 : 320, 36 + rows * rowH + 60) + 'px',
+      showEmpty: !!s.loaded && !list.length, emptyText: T('No notes yet. Be the first to leave one.'),
+      hasCount: total > 1, countLine: T(total + ' notes from ' + Math.max(1, nCities) + (nCities === 1 ? ' city' : ' cities')),
+      dialogOpen: !!s.dialogOpen,
+      open: () => {
+        this.setState({ dialogOpen: true, msg: '', font: Math.floor(Math.random() * KN_HAND.length) });
+        if (!(this.state || {}).me) fetch('/api/notes?me=1').then((r) => r.json()).then((d) => this.setState({ me: d })).catch(() => {});
+        setTimeout(() => { const t = document.getElementById('kn-text'); if (t) t.focus(); }, 40);
+      },
+      close: closeDlg,
+      stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      dialogKey: (e) => {
+        if (e.key === 'Escape') { closeDlg(); return; }
+        if (e.key === 'Tab') {
+          const f = Array.from(document.querySelectorAll('#kn-dialog button, #kn-dialog textarea, #kn-dialog input:not([tabindex="-1"])'));
+          if (!f.length) return; const first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      },
+      p, text, name: s.name || '', hp: s.hp || '',
+      myPlace: [me.city, me.country].filter(Boolean).join(', ') || T('Your city is added automatically'),
+      left: T((140 - text.length) + ' left'),
+      isSticker: paper === 'sticker',
+      onText: (e) => this.setState({ text: e.target.value.slice(0, 140), msg: '' }),
+      onName: (e) => this.setState({ name: e.target.value.slice(0, 40) }),
+      onHp: (e) => this.setState({ hp: e.target.value }),
+      shuffle: () => this.setState({ font: font + 1 }),
+      ideas: KN_IDEAS.map((t) => ({ text: T(t), pick: () => this.setState({ text: T(t), msg: '' }) })),
+      kinds: [['sticker', 'Sticker'], ['letter', 'Old letter']].map(([id, label]) => ({ label: T(label), on: id === paper ? 'true' : 'false', border: id === paper ? '2px solid #23211C' : '1px solid rgba(35,33,28,0.2)', pick: () => this.setState({ paper: id, font: Math.floor(Math.random() * 6) }) })),
+      colors: KN_COLORS.map(([label, hex]) => ({ label: T(label), hex, on: hex === color ? 'true' : 'false', ring: hex === color ? '0 0 0 2px #F7F2E9, 0 0 0 4px #23211C' : 'inset 0 0 0 1px rgba(35,33,28,0.15)', pick: () => this.setState({ color: hex }) })),
+      postOff: empty || s.sending ? 'true' : 'false',
+      postCursor: empty ? 'not-allowed' : (s.sending ? 'progress' : 'pointer'),
+      postOpacity: empty || s.sending ? '.5' : '1',
+      postLabel: T(s.sending ? 'Posting…' : 'Leave it on the board'),
+      msg: s.msg ? T(err[s.msg] || '') : '', msgColor: s.msg ? '#B3261E' : '#665F52',
+      post: () => {
+        const st = this.state || {};
+        const t = (st.text || '').trim();
+        if (!t) { this.setState({ msg: 'empty' }); const a = document.getElementById('kn-text'); if (a) a.focus(); return; }
+        if (st.sending) return;
+        this.setState({ sending: true, msg: '' });
+        const body = { text: t, name: (st.name || '').trim(), paper, color: paper === 'sticker' ? color : '', font, website: st.hp || '' };
+        fetch('/api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+          .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
+          .then(({ ok, d }) => {
+            if (!ok || !d.ok) { this.setState({ sending: false, msg: d && d.error === 'links' ? 'links' : d && d.error === 'slow' ? 'slow' : d && d.error === 'empty' ? 'empty' : 'net' }); return; }
+            const note = Object.assign({ id: d.id || ('me' + Date.now()), city: d.city, country: d.country }, body);
+            try { if (window.__ktTrack) window.__ktTrack('Left a note', { paper }); } catch (e) {}
+            this.setState({ sending: false, text: '', mine: [note].concat((this.state || {}).mine || []), dialogOpen: false });
+            setTimeout(() => { const b = document.getElementById('kn-board'); if (b) b.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60);
+          })
+          .catch(() => this.setState({ sending: false, msg: 'net' }));
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -29,7 +29,9 @@ export const PATCHES = {
     { from: "  componentWillUnmount() {\n    cancelAnimationFrame(this._fadeRaf);", to: "  componentWillUnmount() {\n    if (this._hireIo) this._hireIo.disconnect();\n    cancelAnimationFrame(this._fadeRaf);" },
     // Room under the footer links for the floating journey button
     { from: "padding: 32px 16px 48px; border-top: 1px solid {{t.line}};", to: "padding: 32px 16px 112px; border-top: 1px solid {{t.line}};" },
-    { from: "padding: 8px 8px 8px 28px;", to: "padding-block: 8px; padding-inline: 28px 8px;" }
+    { from: "padding: 8px 8px 8px 28px;", to: "padding-block: 8px; padding-inline: 28px 8px;" },
+    // Notes from around the world: a board at the bottom of the home page (src/dc/NotesBoard.dc.html)
+    { from: "</section>\n\n</main>", to: "</section>\n\n<dc-import name=\"NotesBoard\" hint-size=\"100%,600px\"></dc-import>\n\n</main>" }
   ],
   EditorSimple: [
     // Cards are laid out left to right, also on Hebrew pages

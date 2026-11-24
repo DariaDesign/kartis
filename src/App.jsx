@@ -11,6 +11,7 @@ import { withIntlFonts as X } from './fontStacks.js';
 import cardSrc from './dc/Card.dc.html?raw';
 import pillSrc from './dc/MusicPill.dc.html?raw';
 import shipSrc from './dc/WhiteShip.dc.html?raw';
+import notesSrc from './dc/NotesBoard.dc.html?raw';
 import langSrc from './dc/LangSwitch.dc.html?raw';
 import mainSrc from './dc/Main.dc.html?raw';
 import editorSrc from './dc/EditorSimple.dc.html?raw';
@@ -19,6 +20,8 @@ import shabbatSrc from './dc/ShabbatMode.dc.html?raw';
 defineDC('Card', X(applyPatches('Card', cardSrc)), { translate: false, dir: 'ltr' });
 defineDC('MusicPill', X(pillSrc));
 // vw/vh inside the scene follow its artboard (container units), not the browser window
+// Site-only: the notes board at the bottom of the home page
+defineDC('NotesBoard', X(notesSrc), { translate: false }); // notes are visitors' own words: UI text is translated in its script
 defineDC('WhiteShip', X(applyPatches('WhiteShip', shipSrc).replace(/(\d)vw\b/g, '$1cqw').replace(/(\d)vh\b/g, '$1cqh')));
 // The canvas file carries its own copy of the strings; here they come from locales.js
 const KEYS = Object.keys(LOCALES.he);

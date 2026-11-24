@@ -3,6 +3,10 @@ import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './cardFit.js';
 import { inject, track } from '@vercel/analytics';
+import { translate } from './i18n.js';
+
+// UI strings for components registered with translate:false (the notes board keeps visitors' text untouched)
+window.__ktT = translate;
 
 // Cookie-free visit counts + a few funnel events (no card content is ever sent)
 inject();

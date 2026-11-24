@@ -103,6 +103,10 @@
 </div>
 
 <div>
+<label for="kn-place" style="display: block; font-size: 13px; color: #665F52; margin: 0 0 6px 2px">{{L.placeLbl}}</label>
+<input id="kn-place" dir="auto" type="text" maxlength="60" autocomplete="off" value="{{placeVal}}" onChange="{{onPlace}}" placeholder="{{L.placePh}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid rgba(35,33,28,0.28); border-radius: 14px; background: #EFE9DF; color: #23211C; font: 400 15px/1 'Instrument Sans', sans-serif">
+</div>
+<div>
 <label for="kn-name" style="display: block; font-size: 13px; color: #665F52; margin: 0 0 6px 2px">{{L.signed}}</label>
 <input id="kn-name" dir="auto" type="text" maxlength="40" autocomplete="given-name" value="{{name}}" onChange="{{onName}}" placeholder="{{L.namePh}}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid rgba(35,33,28,0.28); border-radius: 14px; background: #EFE9DF; color: #23211C; font: 400 15px/1 'Instrument Sans', sans-serif">
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="{{hp}}" onChange="{{onHp}}" style="position: absolute; left: -9999px; width: 1px; height: 1px">
@@ -155,7 +159,7 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state || {};
     const T = knT;
-    const L = { title: T('Notes from around the world'), lead: T('Leave a note about your Shabbat table: who came, what you ate, what you talked about. We add your city.'), leave: T('Leave a note'), boardAria: T('Notes board. Drag notes to move them.'), close: T('Close'), yourNote: T('Your note'), ph: T('Tell us about your Shabbat or dinner…'), shuffle: T('Another handwriting'), idea: T('Need an idea?'), paper: T('Paper'), colour: T('Sticker colour'), signed: T('Signed as · optional'), namePh: T('First name, or leave empty') };
+    const L = { title: T('Notes from around the world'), lead: T('Leave a note about your Shabbat table: who came, what you ate, what you talked about. We add your city.'), leave: T('Leave a note'), placeLbl: T('Your city'), placePh: T('City, country'), boardAria: T('Notes board. Drag notes to move them.'), close: T('Close'), yourNote: T('Your note'), ph: T('Tell us about your Shabbat or dinner…'), shuffle: T('Another handwriting'), idea: T('Need an idea?'), paper: T('Paper'), colour: T('Sticker colour'), signed: T('Signed as · optional'), namePh: T('First name, or leave empty') };
     const W = s.w || 1142;
     const narrow = W < 560;
     const noteW = narrow ? Math.min(250, W - 56) : 250;
@@ -207,7 +211,7 @@ class Component extends DCLogic {
     const empty = !text.trim();
     const me = s.me || {};
     const closeDlg = () => { this.setState({ dialogOpen: false, msg: '' }); setTimeout(() => { const b = document.getElementById('kn-open'); if (b) b.focus(); }, 30); };
-    const err = { empty: 'Write something first.', links: 'Links aren’t allowed in notes.', slow: 'You’ve left a few notes already. Try again in a few minutes.', net: 'Couldn’t post your note. Check your connection and try again.' };
+    const err = { empty: 'Write something first.', links: 'Links aren’t allowed in notes.', slow: 'You’ve left a few notes already. Try again in a few minutes.', place: 'Write just the city and country, like “Jerusalem, Israel”.', net: 'Couldn’t post your note. Check your connection and try again.' };
     return {
       L, notes, noteW: noteW + 'px', boardH: Math.max(narrow ? 260 : 320, 36 + rows * rowH + 60) + 'px',
       showEmpty: !!s.loaded && !list.length, emptyText: T('No notes yet. Be the first to leave one.'),
@@ -230,11 +234,13 @@ class Component extends DCLogic {
         }
       },
       p, text, name: s.name || '', hp: s.hp || '',
-      myPlace: [me.city, me.country].filter(Boolean).join(', ') || T('Your city is added automatically'),
+      myPlace: (s.place != null && s.place.trim() ? s.place.trim() : [me.city, me.country].filter(Boolean).join(', ')) || T('Your city is added automatically'),
       left: T((140 - text.length) + ' left'),
       isSticker: paper === 'sticker',
       onText: (e) => this.setState({ text: e.target.value.slice(0, 140), msg: '' }),
       onName: (e) => this.setState({ name: e.target.value.slice(0, 40) }),
+      placeVal: s.place != null ? s.place : [me.city, me.country].filter(Boolean).join(', '),
+      onPlace: (e) => this.setState({ place: e.target.value.slice(0, 60) }),
       onHp: (e) => this.setState({ hp: e.target.value }),
       shuffle: () => this.setState({ font: font + 1 }),
       ideas: KN_IDEAS.map((t) => ({ text: T(t), pick: () => this.setState({ text: T(t), msg: '' }) })),
@@ -251,11 +257,11 @@ class Component extends DCLogic {
         if (!t) { this.setState({ msg: 'empty' }); const a = document.getElementById('kn-text'); if (a) a.focus(); return; }
         if (st.sending) return;
         this.setState({ sending: true, msg: '' });
-        const body = { text: t, name: (st.name || '').trim(), paper, color: paper === 'sticker' ? color : '', font, website: st.hp || '' };
+        const body = { text: t, name: (st.name || '').trim(), paper, color: paper === 'sticker' ? color : '', font, website: st.hp || '', place: st.place != null ? st.place.trim() : '' };
         fetch('/api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
           .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
           .then(({ ok, d }) => {
-            if (!ok || !d.ok) { this.setState({ sending: false, msg: d && d.error === 'links' ? 'links' : d && d.error === 'slow' ? 'slow' : d && d.error === 'empty' ? 'empty' : 'net' }); return; }
+            if (!ok || !d.ok) { this.setState({ sending: false, msg: d && d.error === 'links' ? 'links' : d && d.error === 'place' ? 'place' : d && d.error === 'slow' ? 'slow' : d && d.error === 'empty' ? 'empty' : 'net' }); return; }
             const note = Object.assign({ id: d.id || ('me' + Date.now()), city: d.city, country: d.country }, body);
             try { if (window.__ktTrack) window.__ktTrack('Left a note', { paper }); } catch (e) {}
             this.setState({ sending: false, text: '', mine: [note].concat((this.state || {}).mine || []), dialogOpen: false });

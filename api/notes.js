@@ -53,8 +53,16 @@ export default async function handler(req, res) {
 
   const h = req.headers || {};
   const decode = (v) => { try { return decodeURIComponent(String(v || '')); } catch (e) { return String(v || ''); } };
-  const city = decode(h['x-vercel-ip-city']).slice(0, 60);
-  const country = countryName(String(h['x-vercel-ip-country'] || '').slice(0, 2)).slice(0, 60);
+  let city = decode(h['x-vercel-ip-city']).slice(0, 60);
+  let country = countryName(String(h['x-vercel-ip-country'] || '').slice(0, 2)).slice(0, 60);
+  // The visitor may correct the place by hand ("City, Country"); no links or digits, so it stays a place name
+  const place = String(body.place || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+  if (place) {
+    if (/https?:|www\.|[<>@\d]/i.test(place)) return res.status(400).json({ ok: false, error: 'place' });
+    const i = place.lastIndexOf(',');
+    city = (i > 0 ? place.slice(0, i) : place).trim().slice(0, 60);
+    country = i > 0 ? place.slice(i + 1).trim().slice(0, 60) : '';
+  }
   const ip = String(h['x-forwarded-for'] || '').split(',')[0].trim();
   const client = ip ? crypto.createHash('sha256').update(ip + secret).digest('hex').slice(0, 16) : '';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App.jsx';
+import './cardFit.js';
 import { inject, track } from '@vercel/analytics';
 
 // Cookie-free visit counts + a few funnel events (no card content is ever sent)

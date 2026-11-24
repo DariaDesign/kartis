@@ -18,7 +18,9 @@ export const PATCHES = {
       to: "    const lp = (typeof window !== 'undefined' && window.__kt && window.__kt.lp) || '';\n    return {\n      lp,\n      t,\n      themes,"
     },
     // Waitlist: a failed save says so instead of showing "You're on the list"
-    { from: "      emailInvalid: s.emailError ? 'true' : 'false',\n      emailBorder: s.emailError ? '#B4232C' : t.lineStrong,\n      emailMsg: s.emailError ? 'That email looks off. Check it and try again.' : '',", to: "      emailInvalid: s.emailError === true ? 'true' : 'false',\n      emailBorder: s.emailError === true ? '#B4232C' : t.lineStrong,\n      emailMsg: s.emailError === 'net' ? \"We couldn't save your email just now. Check your connection and try again.\" : s.emailError ? 'That email looks off. Check it and try again.' : ''," }
+    { from: "      emailInvalid: s.emailError ? 'true' : 'false',\n      emailBorder: s.emailError ? '#B4232C' : t.lineStrong,\n      emailMsg: s.emailError ? 'That email looks off. Check it and try again.' : '',", to: "      emailInvalid: s.emailError === true ? 'true' : 'false',\n      emailBorder: s.emailError === true ? '#B4232C' : t.lineStrong,\n      emailMsg: s.emailError === 'net' ? \"We couldn't save your email just now. Check your connection and try again.\" : s.emailError ? 'That email looks off. Check it and try again.' : ''," },
+    // The floating "Take a journey" pill mirrors to the right on Hebrew and Arabic pages
+    { from: "@media (max-width:720px){.k-journey-float{left:16px !important;bottom:16px !important}}", to: "@media (max-width:720px){.k-journey-float{left:16px !important;bottom:16px !important}}\n[dir=rtl] .k-journey-float{left:auto !important;right:24px !important}\n@media (max-width:720px){[dir=rtl] .k-journey-float{right:16px !important}}" }
   ],
   EditorSimple: [
     // Cards are laid out left to right, also on Hebrew pages

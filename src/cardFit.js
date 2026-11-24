@@ -36,12 +36,14 @@ function fitCard(card) {
 
   // Undo the previous pass, so the fit follows the current text
   els.forEach((el) => {
-    if (el.dataset.ktFs) { el.style.fontSize = el.dataset.ktFs; delete el.dataset.ktFs; }
+    if (el.dataset.ktFs !== undefined) { el.style.fontSize = el.dataset.ktFs; delete el.dataset.ktFs; }
+    if (el.dataset.ktWrap !== undefined) { el.style.overflowWrap = ''; delete el.dataset.ktWrap; }
   });
   card.removeAttribute('data-kt-overflow');
 
   // Direction from the words people typed (the name, greeting, line), not from handles or numbers
-  const words = els.map((el) => el.textContent).filter((t) => !/@|^[\d\s+()\-.]+$/.test(t.trim())).join(' ');
+  const words = els.filter((el) => !el.closest('[data-kt-detail]')).map((el) => el.textContent)
+    .filter((t) => !/@|^[\d\s+()\-.]+$/.test(t.trim())).join(' ');
   const rtl = (words.match(RTL) || []).length > (words.match(LATIN) || []).length;
   const dir = rtl ? 'rtl' : 'ltr';
   if (card.getAttribute('dir') !== dir) card.setAttribute('dir', dir);
@@ -52,8 +54,7 @@ function fitCard(card) {
     el.style.fontSize = Math.max(px, minPx).toFixed(2) + 'px';
   };
 
-  // 1. A line that is too wide for its box (one long word cannot wrap): shrink just that line
-  els.forEach((el) => {
+  const shrinkLines = () => els.forEach((el) => {
     for (let i = 0; i < 12; i++) {
       const r = textRect(el);
       const over = el.scrollWidth > el.clientWidth + 1 || r.left < box.left + safe - 0.5 || r.right > box.right - safe + 0.5;
@@ -61,12 +62,30 @@ function fitCard(card) {
       setSize(el, size(el) * 0.93);
     }
   });
+  const restore = () => els.forEach((el) => { if (el.dataset.ktFs !== undefined) { el.style.fontSize = el.dataset.ktFs; delete el.dataset.ktFs; } });
 
-  // 2. Anything outside the safe area: shrink all text together, step by step
+  // The QR code is a block that must stay whole, inside the safe area and clear of text
+  const qrs = Array.from(card.querySelectorAll('svg[aria-label^="QR"]')).map((svg) => svg.parentElement || svg);
+  // Decorative frames (a thin line inset from the edge): text must stay inside the line, never cross it
+  const frames = Array.from(card.querySelectorAll('div')).filter((el) => {
+    const st = getComputedStyle(el);
+    if (!(parseFloat(st.borderTopWidth) > 0 && parseFloat(st.borderLeftWidth) > 0 && st.borderTopStyle !== 'none')) return false;
+    const r = el.getBoundingClientRect();
+    return r.width > box.width * 0.6 && r.height > box.height * 0.6;
+  });
   const outside = () => {
     const rs = els.map(textRect).filter((r) => r.width > 0);
-    if (rs.some((r) => r.top < box.top + safe - 0.5 || r.bottom > box.bottom - safe + 0.5 ||
+    const blocks = rs.concat(qrs.map((q) => q.getBoundingClientRect()).filter((r) => r.width > 0));
+    if (blocks.some((r) => r.top < box.top + safe - 0.5 || r.bottom > box.bottom - safe + 0.5 ||
       r.left < box.left + safe - 0.5 || r.right > box.right - safe + 0.5)) return true;
+    for (const f of frames) {
+      const fr = f.getBoundingClientRect(), b = parseFloat(getComputedStyle(f).borderTopWidth) * k + 1;
+      if (rs.some((r) => r.left < fr.left + b || r.right > fr.right - b || r.top < fr.top + b || r.bottom > fr.bottom - b)) return true;
+    }
+    for (const q of qrs) {
+      const a = q.getBoundingClientRect();
+      if (rs.some((b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1)) return true;
+    }
     // two blocks of text running into each other (e.g. a long line pushed onto the name)
     for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++) {
       const a = rs[i], b = rs[j];
@@ -74,15 +93,28 @@ function fitCard(card) {
     }
     return false;
   };
-  for (let i = 0; i < 10 && outside(); i++) {
-    if (els.every((el) => size(el) <= minPx + 0.01)) break;
-    els.forEach((el) => setSize(el, size(el) * 0.94));
+  // 1. A line that is too wide for its box (one long word cannot wrap): shrink just that line
+  // 2. Anything outside the safe area: shrink all text together, step by step
+  const fit = () => {
+    shrinkLines();
+    for (let i = 0; i < 10 && outside(); i++) {
+      if (els.every((el) => size(el) <= minPx + 0.01)) break;
+      els.forEach((el) => setSize(el, size(el) * 0.94));
+    }
+    return !outside();
+  };
+  if (fit()) return;
+  // 3. A long email or handle that cannot get small enough on one line may break onto a second line
+  restore();
+  const wide = els.filter((el) => el.closest('[data-kt-detail]') && /\S{18,}/.test(el.textContent));
+  if (wide.length) {
+    wide.forEach((el) => { el.dataset.ktWrap = ''; el.style.overflowWrap = 'anywhere'; });
+    if (fit()) return;
+    restore();
+    wide.forEach((el) => { el.style.overflowWrap = ''; delete el.dataset.ktWrap; });
   }
-  if (outside()) {
-    // Shrinking cannot save it: keep the design at its normal size and let the editor ask for less text
-    els.forEach((el) => { if (el.dataset.ktFs !== undefined) { el.style.fontSize = el.dataset.ktFs; delete el.dataset.ktFs; } });
-    card.setAttribute('data-kt-overflow', '1');
-  }
+  // Nothing saves it: keep the design at its normal size and let the editor ask for less text
+  card.setAttribute('data-kt-overflow', '1');
 }
 
 let busy = false;

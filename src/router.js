@@ -14,6 +14,8 @@ export function navigate(to) {
   history.pushState({}, '', to);
   window.scrollTo(0, 0);
   subs.forEach((f) => f());
+  const hash = to.split('#')[1];
+  if (hash) { let n = 0; const go = () => { const el = document.getElementById(hash); if (el) el.scrollIntoView(); else if (n++ < 20) setTimeout(go, 50); }; setTimeout(go, 30); }
 }
 export function onRoute(f) { subs.add(f); window.addEventListener('popstate', f); return () => { subs.delete(f); window.removeEventListener('popstate', f); }; }
 export function currentPage() {

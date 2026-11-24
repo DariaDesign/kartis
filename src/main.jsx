@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './cardFit.js';
+import './previewPeek.js';
 import { inject, track } from '@vercel/analytics';
 import { translate } from './i18n.js';
 

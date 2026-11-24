@@ -155,7 +155,7 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state || {};
     const T = knT;
-    const L = { title: T('Notes from around the world'), lead: T('Leave a note about your Shabbat table: who came, what you ate, what you talked about. We add your city.'), leave: T('Leave a note'), boardAria: T('Notes board. Drag notes to move them.'), close: T('Close'), yourNote: T('Your note'), ph: T('Tell us about your table…'), shuffle: T('Another handwriting'), idea: T('Need an idea?'), paper: T('Paper'), colour: T('Sticker colour'), signed: T('Signed as · optional'), namePh: T('First name, or leave empty') };
+    const L = { title: T('Notes from around the world'), lead: T('Leave a note about your Shabbat table: who came, what you ate, what you talked about. We add your city.'), leave: T('Leave a note'), boardAria: T('Notes board. Drag notes to move them.'), close: T('Close'), yourNote: T('Your note'), ph: T('Tell us about your Shabbat or dinner…'), shuffle: T('Another handwriting'), idea: T('Need an idea?'), paper: T('Paper'), colour: T('Sticker colour'), signed: T('Signed as · optional'), namePh: T('First name, or leave empty') };
     const W = s.w || 1142;
     const narrow = W < 560;
     const noteW = narrow ? Math.min(250, W - 56) : 250;

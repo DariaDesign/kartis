@@ -11,7 +11,7 @@ export const PATCHES = {
     // Footer: legal pages in the visitor's language (the language switch sits in the header)
     {
       from: 'Created by <a href="mailto:daria.dxns@gmail.com" style="color: {{t.ink}}; text-underline-offset: 3px">Daria</a></span>',
-      to: 'Created by <a href="mailto:daria.dxns@gmail.com" style="color: {{t.ink}}; text-underline-offset: 3px">Daria</a></span>\n<nav aria-label="Site" style="display: flex; flex-wrap: wrap; gap: 6px 18px; width: 100%; font-size: 13px; color: {{t.muted}}"><a href="{{lp}}/privacy" style="color: inherit">Privacy</a><a href="{{lp}}/terms" style="color: inherit">Terms</a><a href="{{lp}}/accessibility" style="color: inherit">Accessibility</a></nav>'
+      to: 'Created with love \u2665</span>\n<nav aria-label="Site" style="display: flex; flex-wrap: wrap; gap: 6px 18px; width: 100%; font-size: 13px; color: {{t.muted}}"><a href="{{lp}}/privacy" style="color: inherit">Privacy</a><a href="{{lp}}/terms" style="color: inherit">Terms</a><a href="{{lp}}/accessibility" style="color: inherit">Accessibility</a></nav>'
     },
     {
       from: '    return {\n      t,\n      themes,',

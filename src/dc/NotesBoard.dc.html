@@ -34,7 +34,7 @@
 <button type="button" id="kn-open" onClick="{{open}}" aria-haspopup="dialog" style="min-height: 52px; padding: 0 28px; border: 0; border-radius: 999px; background: #2F3C7E; color: #F7F2E9; font: 500 16px/1 'Instrument Sans', sans-serif; cursor: pointer">{{L.leave}}</button>
 </div>
 
-<div id="kn-board" aria-label="{{L.boardAria}}" style="position: relative; margin-top: 32px; height: {{boardH}}; border-radius: 28px; background: #E5DCCD; box-shadow: inset 0 0 0 1px rgba(35,33,28,0.08); overflow: hidden">
+<div id="kn-board" aria-label="{{L.boardAria}}" style="position: relative; margin-top: 32px; height: {{boardH}}; border-radius: 28px; background: #E5DCCD; box-shadow: inset 0 0 0 1px rgba(35,33,28,0.08); overflow: hidden; isolation: isolate">
 <sc-if value="{{showEmpty}}" hint-placeholder-val="{{ false }}">
 <p style="position: absolute; left: 0; right: 0; top: 50%; margin: -12px 0 0; text-align: center; font-size: 16px; color: #665F52">{{emptyText}}</p>
 </sc-if>
@@ -55,7 +55,7 @@
 </div>
 
 <sc-if value="{{dialogOpen}}" hint-placeholder-val="{{ false }}">
-<div onClick="{{close}}" style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(24,22,34,.38); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px)">
+<div onClick="{{close}}" style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(24,22,34,.38); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px)">
 <div id="kn-dialog" role="dialog" aria-modal="true" tabindex="-1" aria-labelledby="kn-dh" onClick="{{stop}}" onKeyDown="{{dialogKey}}" style="position: relative; width: min(440px, 100%); max-height: calc(100vh - 32px); overflow: auto; box-sizing: border-box; padding: 28px 24px 24px; border-radius: 24px; background: #F7F2E9; box-shadow: 0 30px 80px -30px rgba(20,20,40,.55), 0 0 0 1px rgba(35,33,28,0.12); outline: none; display: flex; flex-direction: column; gap: 18px">
 <button type="button" onClick="{{close}}" aria-label="{{L.close}}" style="position: absolute; top: 10px; inset-inline-end: 10px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: #665F52; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14"></path></svg></button>
 <h3 id="kn-dh" style="margin: 0; padding-inline-end: 40px; font-family: Gloock, serif; font-weight: 400; font-size: 28px; line-height: 1.15">{{L.leave}}</h3>

@@ -29,7 +29,9 @@ export default async function handler(req, res) {
       const text = await r.text();
       const list = JSON.parse(text);
       if (!Array.isArray(list)) throw new Error('bad list');
-      res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=300');
+      // The browser always asks again; Vercel's edge keeps the list for 30 s so the sheet is not hit on every visit
+      res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+      res.setHeader('Vercel-CDN-Cache-Control', 'max-age=30, stale-while-revalidate=30');
       return res.status(200).json({ ok: true, notes: list });
     } catch (e) {
       return res.status(502).json({ ok: false, notes: [] });

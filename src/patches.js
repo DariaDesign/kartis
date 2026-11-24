@@ -20,7 +20,9 @@ export const PATCHES = {
     // Waitlist: a failed save says so instead of showing "You're on the list"
     { from: "      emailInvalid: s.emailError ? 'true' : 'false',\n      emailBorder: s.emailError ? '#B4232C' : t.lineStrong,\n      emailMsg: s.emailError ? 'That email looks off. Check it and try again.' : '',", to: "      emailInvalid: s.emailError === true ? 'true' : 'false',\n      emailBorder: s.emailError === true ? '#B4232C' : t.lineStrong,\n      emailMsg: s.emailError === 'net' ? \"We couldn't save your email just now. Check your connection and try again.\" : s.emailError ? 'That email looks off. Check it and try again.' : ''," },
     // The floating "Take a journey" pill mirrors to the right on Hebrew and Arabic pages
-    { from: "@media (max-width:720px){.k-journey-float{left:16px !important;bottom:16px !important}}", to: "@media (max-width:720px){.k-journey-float{left:16px !important;bottom:16px !important}}\n[dir=rtl] .k-journey-float{left:auto !important;right:24px !important}\n@media (max-width:720px){[dir=rtl] .k-journey-float{right:16px !important}}" }
+    { from: "@media (max-width:720px){.k-journey-float{left:16px !important;bottom:16px !important}}", to: "@media (max-width:720px){.k-journey-float{left:16px !important;bottom:16px !important}}\n[dir=rtl] .k-journey-float{left:auto !important;right:24px !important}\n@media (max-width:720px){[dir=rtl] .k-journey-float{right:16px !important}}" },
+    // Journey panel opens to the scene's full height (the scene keeps fixed proportions)
+    { from: ".k-journey.k-open{max-height:92vh;", to: ".k-journey.k-open{max-height:1100px;" }
   ],
   EditorSimple: [
     // Cards are laid out left to right, also on Hebrew pages
@@ -67,6 +69,14 @@ export const PATCHES = {
     { from: "if (d.lang && ktKnown(d.lang)) this.setState({ lang: d.lang });", to: '' },
     { from: "    try { if (this._bc) this._bc.postMessage({ lang: code }); } catch (e) {}\n    this.setState({ lang: code, open: false });", to: "    this.setState({ open: false });\n    try { if (window.__kt && window.__kt.go) window.__kt.go(code); } catch (e) {}" },
     { from: "const lang = s.lang || 'en';", to: "const lang = (typeof window !== 'undefined' && window.__kt && window.__kt.lang) || s.lang || 'en';" }
+  ],
+  // White Ship scene: fixed-proportion artboard scaled to the screen (viewport units become artboard units in App.jsx)
+  WhiteShip: [
+    { from: "@media (prefers-reduced-motion:reduce){*{animation:none !important}}", to: "@media (prefers-reduced-motion:reduce){*{animation:none !important}}\n.ws-scene{--ws-w:1400px;--ws-h:788px;aspect-ratio:1400/788}\n@media (max-width:760px),(max-aspect-ratio:1/1){.ws-scene{--ws-w:600px;--ws-h:800px;aspect-ratio:3/4}.ws-scene .ws-credit>div:first-child{font-size:16px !important}.ws-scene .ws-credit p:first-of-type{font-size:44px !important}.ws-scene .ws-credit p:last-of-type{font-size:22px !important}}" },
+    { from: "<div role=\"img\" aria-label=\"A white sailboat", to: "<div class=\"ws-scene\" style=\"position: relative; width: 100%; overflow: hidden\">\n<div role=\"img\" aria-label=\"A white sailboat" },
+    { from: "style=\"position: relative; height: 100vh; min-height: 620px; overflow: hidden; background: #DCEBF4\">", to: "class=\"ws-art\" style=\"position: absolute; left: 0; top: 0; width: var(--ws-w); height: var(--ws-h); transform: scale(var(--ws-s, 1)); transform-origin: 0 0; container-type: size; overflow: hidden; background: #DCEBF4\">" },
+    { from: "</div>\n</div>\n</div>\n</x-dc>", to: "</div>\n</div>\n</div>\n</div>\n</x-dc>" },
+    { from: "class Component extends DCLogic {\n  renderVals() {", to: "class Component extends DCLogic {\n  // The scene is drawn on a fixed artboard (1400x788, or 600x800 on phones) and scaled to the screen width,\n  // so it keeps the same proportions on every screen\n  componentDidMount() {\n    const fit = () => document.querySelectorAll('.ws-scene').forEach((el) => {\n      const art = el.querySelector('.ws-art'); if (!art) return;\n      el.style.setProperty('--ws-s', String(el.clientWidth / art.offsetWidth));\n    });\n    this._wsFit = fit; fit();\n    try { this._wsRo = new ResizeObserver(fit); document.querySelectorAll('.ws-scene').forEach((el) => this._wsRo.observe(el)); } catch (e) { window.addEventListener('resize', fit); }\n  }\n  componentWillUnmount() {\n    if (this._wsRo) this._wsRo.disconnect(); else if (this._wsFit) window.removeEventListener('resize', this._wsFit);\n  }\n  renderVals() {" }
   ],
   ShabbatMode: [
     { from: '[HAVDALAH TIME] · [CITY]', to: '{{whenText}}' },

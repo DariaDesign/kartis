@@ -18,7 +18,8 @@ import shabbatSrc from './dc/ShabbatMode.dc.html?raw';
 
 defineDC('Card', X(applyPatches('Card', cardSrc)), { translate: false, dir: 'ltr' });
 defineDC('MusicPill', X(pillSrc));
-defineDC('WhiteShip', X(shipSrc));
+// vw/vh inside the scene follow its artboard (container units), not the browser window
+defineDC('WhiteShip', X(applyPatches('WhiteShip', shipSrc).replace(/(\d)vw\b/g, '$1cqw').replace(/(\d)vh\b/g, '$1cqh')));
 // The canvas file carries its own copy of the strings; here they come from locales.js
 const KEYS = Object.keys(LOCALES.he);
 const DICT = JSON.stringify({ keys: KEYS, L: Object.fromEntries(Object.keys(LOCALES).map((l) => [l, KEYS.map((k) => LOCALES[l][k])])) });

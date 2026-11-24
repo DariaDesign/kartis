@@ -6,7 +6,7 @@ export const PATCHES = {
     // Save "Draft with AI" sign-ups to the Google Sheet through /api/subscribe
     {
       from: "if (/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(v)) this.setState({ aiDone: true, emailError: false });",
-      to: "if (/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(v)) { if (this._sending) return; this._sending = true; this.setState({ emailError: false }); const done = (ok) => { this._sending = false; this.setState(ok ? { aiDone: true, emailError: false } : { emailError: 'net' }); }; try { fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: v, lang: document.documentElement.lang || 'en', source: 'draft-with-ai' }), signal: (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(12000) : undefined }).then((r) => done(r.ok), () => done(false)); } catch (err) { done(false); } }"
+      to: "if (/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(v)) { if (this._sending) return; this._sending = true; this.setState({ emailError: false }); const done = (ok) => { this._sending = false; this.setState(ok ? { aiDone: true, emailError: false } : { emailError: 'net' }); if (ok && window.__ktTrack) window.__ktTrack('Joined AI waitlist', { lang: document.documentElement.lang || 'en' }); }; try { fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: v, lang: document.documentElement.lang || 'en', source: 'draft-with-ai' }), signal: (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(12000) : undefined }).then((r) => done(r.ok), () => done(false)); } catch (err) { done(false); } }"
     },
     // Footer: legal pages in the visitor's language (the language switch sits in the header)
     {
@@ -38,7 +38,11 @@ export const PATCHES = {
     },
     // Copy request: say "Copied" only when the text really is on the clipboard
     { from: "        try { navigator.clipboard.writeText(slipText); } catch (e) {}\n        this.setState({ copied: true });\n        clearTimeout(this._ct); this._ct = setTimeout(() => this.setState({ copied: false }), 1600);", to: "        const mark = (ok) => { this.setState({ copied: ok ? true : 'fail' }); clearTimeout(this._ct); this._ct = setTimeout(() => this.setState({ copied: false }), ok ? 1600 : 3200); };\n        const legacy = () => { try { const ta = document.createElement('textarea'); ta.value = slipText; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;opacity:0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok; } catch (e) { return false; } };\n        try { navigator.clipboard.writeText(slipText).then(() => mark(true), () => mark(legacy())); } catch (e) { mark(legacy()); }" },
-    { from: "      copyLabel: s.copied ? 'Copied' : 'Copy request',", to: "      copyLabel: s.copied === 'fail' ? \"Couldn't copy\" : s.copied ? 'Copied' : 'Copy request'," }
+    { from: "      copyLabel: s.copied ? 'Copied' : 'Copy request',", to: "      copyLabel: s.copied === 'fail' ? \"Couldn't copy\" : s.copied ? 'Copied' : 'Copy request'," },
+    // Analytics: funnel steps (Vercel Web Analytics custom events; nothing typed on the card is sent)
+    { from: "      this.setState(blocked ? { step: 2, tried: true } : { step: 3 });", to: "      this.setState(blocked ? { step: 2, tried: true } : { step: 3 }); if (!blocked && typeof window !== 'undefined' && window.__ktTrack) window.__ktTrack('Reached print', { lang: document.documentElement.lang || 'en' });" },
+    { from: "      goStep2: () => this.setState({ step: 2 }),", to: "      goStep2: () => { this.setState({ step: 2 }); if (window.__ktTrack) window.__ktTrack('Reached words', { lang: document.documentElement.lang || 'en' }); }," },
+    { from: "          this.setState({ pdf: 'done' });", to: "          this.setState({ pdf: 'done' }); if (window.__ktTrack) window.__ktTrack('PDF downloaded', { lang: document.documentElement.lang || 'en', tpl: String((typeof baseTpl !== 'undefined' && baseTpl && (baseTpl.name || baseTpl.id)) || '') });" }
   ],
   // Card: Hebrew, Cyrillic and Arabic letters in the downloaded PDF use the same fonts as the screen (public/assets/fonts-intl.css)
   Card: [

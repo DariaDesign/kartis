@@ -1,3 +1,18 @@
+/* Latin fonts of the site and the card templates, served from this site (no Google Fonts request).
+ * The PDF export embeds these same files, so the screen and the printed card always match. */
+@font-face{font-family:'Gloock';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/Gloock-Regular.woff2) format('woff2')}
+@font-face{font-family:'Mrs Saint Delafield';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/MrsSaintDelafield-Regular.woff2) format('woff2')}
+@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/assets/InstrumentSerif-Regular.woff2) format('woff2')}
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(/assets/InstrumentSerif-Italic.woff2) format('woff2')}
+@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400 700;font-stretch:75% 100%;font-display:swap;src:url(/assets/InstrumentSans-VF.woff2) format('woff2')}
+@font-face{font-family:'Bodoni Moda';font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/BodoniModa-VF.woff2) format('woff2')}
+@font-face{font-family:'Bodoni Moda';font-style:italic;font-weight:400 900;font-display:swap;src:url(/assets/BodoniModa-Italic-VF.woff2) format('woff2')}
+@font-face{font-family:'Geist';font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/Geist-VF.woff2) format('woff2')}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/assets/Manrope-VF.woff2) format('woff2')}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/Fraunces-VF.woff2) format('woff2')}
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/Fraunces-Italic-VF.woff2) format('woff2')}
+@font-face{font-family:'Jost';font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/Jost-VF.woff2) format('woff2')}
+
 /* Hebrew, Cyrillic and Arabic letters for the Latin fonts of the site and the card templates.
  * Each Latin family F gets a companion family "KT F" that holds only other scripts (unicode-range).
  * The app adds "KT F" right after F in every font stack (src/fontStacks.js), so the browser falls back

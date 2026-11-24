@@ -163,6 +163,8 @@ export function defineDC(name, source, opts = {}) {
   source = fixBlobs(source);
   const body = source.split('<x-dc>')[1].split('</x-dc>')[0];
   const helmet = (body.match(/<helmet>([\s\S]*?)<\/helmet>/) || [])[1] || '';
+  // Fonts come from /assets/fonts-intl.css (self-hosted), so the canvas's Google Fonts links are dropped
+  const helmetLocal = helmet.replace(/<link[^>]*fonts\.(googleapis|gstatic)\.com[^>]*>\s*/g, '');
   const markup = body.replace(/<helmet>[\s\S]*?<\/helmet>/, '');
   const scriptMatch = source.match(/<script type="text\/x-dc"[^>]*data-dc-script[^>]*>([\s\S]*?)<\/script>/);
   const code = scriptMatch ? scriptMatch[1] : 'class Component extends DCLogic { renderVals() { return {}; } }';
@@ -178,7 +180,7 @@ export function defineDC(name, source, opts = {}) {
   class DCLogic extends React.Component {
     constructor(p) { super(p); this.state = {}; }
     render() {
-      injectHelmet(name, helmet);
+      injectHelmet(name, helmetLocal);
       const vals = this.renderVals ? this.renderVals() : {};
       const prev = tr; tr = opts.translate === false ? (x) => x : translate;
       try {

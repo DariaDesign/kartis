@@ -15,7 +15,9 @@ export default async function handler(req, res) {
       body: JSON.stringify({ secret: process.env.SHEETS_SECRET || '', email, lang: String(body.lang || 'en').slice(0, 5), source: String(body.source || '').slice(0, 40) }),
       redirect: 'follow'
     });
-    return res.status(r.ok ? 200 : 502).json({ ok: r.ok });
+    const text = r.ok ? (await r.text()).trim() : '';
+    const ok = text === 'ok'; // the script answers 'forbidden' (still HTTP 200) when the secret is wrong
+    return res.status(ok ? 200 : 502).json({ ok });
   } catch (e) {
     return res.status(502).json({ ok: false });
   }

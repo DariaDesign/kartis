@@ -31,6 +31,7 @@ export const PATCHES = {
     { from: "padding: 32px 16px 48px; border-top: 1px solid {{t.line}};", to: "padding: 32px 16px 112px; border-top: 1px solid {{t.line}};" },
     { from: "padding: 8px 8px 8px 28px;", to: "padding-block: 8px; padding-inline: 28px 8px;" },
     // Notes from around the world: a board at the bottom of the home page (src/dc/NotesBoard.dc.html)
+    { from: "<a href=\"#ai\" style=\"text-decoration: none\">Draft with AI</a>\n</div>", to: "<a href=\"#ai\" style=\"text-decoration: none\">Draft with AI</a>\n<a href=\"#notes\" style=\"text-decoration: none\">Notes</a>\n</div>" },
     { from: "</section>\n\n</main>", to: "</section>\n\n<dc-import name=\"NotesBoard\" hint-size=\"100%,600px\"></dc-import>\n\n</main>" }
   ],
   EditorSimple: [

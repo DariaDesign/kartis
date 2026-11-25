@@ -35,11 +35,10 @@ export const PATCHES = {
     { from: "</section>\n\n</main>", to: "</section>\n\n<dc-import name=\"NotesBoard\" hint-size=\"100%,600px\"></dc-import>\n\n</main>" }
   ],
   EditorSimple: [
-    { from: "printBg: !paper.hex || !!paper.dark, label", to: "printBg: !paper.hex || !!paper.dark, printColour: !paper.hex, label" },
     // Print PDF is fully vector (text and QR outlined, no background), see src/pdfVector.js
     { from: "          const eng = window.KT_PRINT;", to: "          const eng = window.KT_VECTOR || window.KT_PRINT;" },
     { from: "mm with 3 mm bleed and crop marks, 400 dpi. Print shops take it as is.'", to: "mm with 3 mm bleed and crop marks. Vector file: text and QR code are outlined, ready for the print shop.'" },
-    { from: "        + (paper.hex && !paper.dark ? ' The background is left blank: your ' + paper.name.toLowerCase() + ' card gives the colour.' : '')\n        + (paper.dark ? ' Dark card: the file is a colour proof; the shop prints it in white ink or foil.' : ''),", to: "        + (paper.hex ? ' The background is left out: your card stock gives the colour.' : ' The background colour is printed on white card.')\n        + (paper.dark ? ' Dark card: the light text is for white ink or foil.' : '')," },
+    { from: "        + (paper.hex && !paper.dark ? ' The background is left blank: your ' + paper.name.toLowerCase() + ' card gives the colour.' : '')\n        + (paper.dark ? ' Dark card: the file is a colour proof; the shop prints it in white ink or foil.' : ''),", to: "        + ' The background is left out: your card stock gives the colour.'\n        + (paper.dark ? ' Dark card: the light text is for white ink or foil.' : '')," },
     // Cards are laid out left to right, also on Hebrew pages
     { from: '<span style="position: relative; display: block; width: {{thumbW}};', to: '<span dir="ltr" style="position: relative; display: block; width: {{thumbW}};' },
     { from: '<div class="k-prevwrap">', to: '<div class="k-prevwrap" dir="ltr">' },

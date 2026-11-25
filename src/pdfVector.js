@@ -335,12 +335,12 @@ function gradient(doc, res, grad, shape) {
 }
 
 // ---------- walk the card ----------
-async function collect(root, doc, B, printColour) {
+async function collect(root, doc, B) {
   const rr = root.getBoundingClientRect();
   const W = root.offsetWidth, H = root.offsetHeight;
   const k = rr.width / W || 1;
   const box = (r) => ({ x: (r.left - rr.left) / k, y: (r.top - rr.top) / k, w: r.width / k, h: r.height / k });
-  const L = { bg: [], art: [], qr: [], text: [] };
+  const L = { art: [], qr: [], text: [] };
   const qrSvg = root.querySelector('svg[aria-label^="QR"]');
   const opacityOf = (el) => { let o = 1; for (let e = el; e && e !== root.parentNode; e = e.parentElement) o *= parseFloat(getComputedStyle(e).opacity || '1'); return o; };
   const fill = (c, a) => { const g = a < 0.999 ? '/' + doc.alpha(a, a) + ' gs ' : ''; return g + f(c[0]) + ' ' + f(c[1]) + ' ' + f(c[2]) + ' rg'; };
@@ -422,11 +422,6 @@ async function collect(root, doc, B, printColour) {
     const layer = isQr ? 'qr' : 'art';
     if (tag === 'svg') { svgOut(el, b, layer, el.parentElement ? opacityOf(el.parentElement) : 1); return; }
     if (tag === 'img') return; // no raster images on cards
-    if (el === root && printColour) {
-      // "Printed colour on white" paper: the design colour is ink, so it goes in, out to the bleed
-      const bg = rgba(cs.backgroundColor);
-      if (bg && bg[3] > 0.001) L.bg.push('q ' + fill(bg, bg[3] * op) + ' ' + roundRect(-B, -B, W + 2 * B, H + 2 * B, 0) + ' f Q');
-    }
     if (el !== root) {
       const sh = cs.boxShadow;
       if (sh && sh !== 'none') {
@@ -638,10 +633,10 @@ async function make(root, o) {
   const doc = new Doc();
   this_alpha = (a) => doc.alpha(a, a);
   missing.length = 0;
-  const card = await collect(root, doc, B, !!o.printColour);
+  const card = await collect(root, doc, B);
 
   // layers
-  const layerNames = [['bg', 'Background colour (printed)'], ['art', 'Illustration'], ['qr', 'QR code (vector)'], ['text', 'Text (outlined)'], ['marks', 'Crop marks']].filter(([k2]) => k2 !== 'bg' || card.L.bg.length);
+  const layerNames = [['art', 'Illustration'], ['qr', 'QR code (vector)'], ['text', 'Text (outlined)'], ['marks', 'Crop marks']];
   const catalog = doc.reserve(), pages = doc.reserve(), page = doc.reserve();
   const ocg = {};
   layerNames.forEach(([k2, name]) => { ocg[k2] = doc.add('<< /Type /OCG /Name (' + name + ') >>'); });
@@ -649,7 +644,7 @@ async function make(root, o) {
   const inLayer = (k2, s) => (s && s.trim() ? '/OC /L_' + k2 + ' BDC\n' + s + '\nEMC\n' : '');
 
   // the card: one form in card px (y down), clipped to the bleed
-  const cardStream = inLayer('bg', card.L.bg.join('\n')) + inLayer('art', card.L.art.join('\n')) + inLayer('qr', card.L.qr.join('\n')) + inLayer('text', card.L.text.join('\n'));
+  const cardStream = inLayer('art', card.L.art.join('\n')) + inLayer('qr', card.L.qr.join('\n')) + inLayer('text', card.L.text.join('\n'));
   const cardForm = doc.reserve();
 
   const tw = S.w * MM, th = S.h * MM, bl = BLEED * MM, s = tw / W;

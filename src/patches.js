@@ -36,7 +36,7 @@ export const PATCHES = {
   ],
   EditorSimple: [
     // Print PDF is fully vector (text and QR outlined, no background), see src/pdfVector.js
-    { from: "          const eng = window.KT_PRINT;", to: "          const eng = window.KT_VECTOR || window.KT_PRINT;" },
+    { from: "          const eng = window.KT_PRINT;", to: "          const eng = window.KT_VECTOR; // vector only: never fall back to the old image PDF" },
     { from: "mm with 3 mm bleed and crop marks, 400 dpi. Print shops take it as is.'", to: "mm with 3 mm bleed and crop marks. Vector file: text and QR code are outlined, ready for the print shop.'" },
     { from: "        + (paper.hex && !paper.dark ? ' The background is left blank: your ' + paper.name.toLowerCase() + ' card gives the colour.' : '')\n        + (paper.dark ? ' Dark card: the file is a colour proof; the shop prints it in white ink or foil.' : ''),", to: "        + ' The background is left out: your card stock gives the colour.'\n        + (paper.dark ? ' Dark card: the light text is for white ink or foil.' : '')," },
     // Cards are laid out left to right, also on Hebrew pages

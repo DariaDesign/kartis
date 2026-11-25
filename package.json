@@ -15,6 +15,7 @@
   "dependencies": {
     "@hebcal/core": "^6.16.1",
     "@vercel/analytics": "^2.0.1",
+    "fontkit": "^2.0.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
